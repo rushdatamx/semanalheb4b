@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ShoppingCart, AlertTriangle, HelpCircle, TrendingUp } from "lucide-react";
+import { ShoppingCart, AlertTriangle, TrendingUp } from "lucide-react";
 
 const secciones = [
   {
@@ -33,17 +33,6 @@ const secciones = [
     nota: "Tienen inventario pero $0 venta en 15 dias. Producto no exhibido o sin precio visible.",
   },
   {
-    icon: HelpCircle,
-    titulo: "SKUs Inactivos",
-    subtitulo: "2 productos",
-    color: "orange",
-    items: [
-      "Spicy Chia: 0 inventario, 0 venta, 0 OC",
-      "Classic Sweet: 0 inventario, 0 venta, 0 OC",
-    ],
-    nota: "Preguntar al comprador: ¿dados de baja o pendientes de reactivacion?",
-  },
-  {
     icon: TrendingUp,
     titulo: "OC para esta semana",
     subtitulo: "Enfoque en SKUs 25g",
@@ -61,7 +50,6 @@ const secciones = [
 const colorMap: Record<string, { border: string; bg: string; text: string; iconBg: string }> = {
   red: { border: "border-red-200", bg: "bg-red-50", text: "text-red-800", iconBg: "bg-red-100" },
   amber: { border: "border-amber-200", bg: "bg-amber-50", text: "text-amber-800", iconBg: "bg-amber-100" },
-  orange: { border: "border-orange-200", bg: "bg-orange-50", text: "text-orange-800", iconBg: "bg-orange-100" },
   green: { border: "border-green-200", bg: "bg-green-50", text: "text-green-800", iconBg: "bg-green-100" },
 };
 
@@ -76,7 +64,7 @@ export default function Slide7Recomendaciones() {
         </div>
       </div>
 
-      <div className="flex-1 grid grid-cols-2 gap-3">
+      <div className="flex-1 grid grid-cols-3 gap-3">
         {secciones.map((s) => {
           const Icon = s.icon;
           const c = colorMap[s.color];
