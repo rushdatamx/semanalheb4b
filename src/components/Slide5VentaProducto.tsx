@@ -1,90 +1,116 @@
 "use client";
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import Image from "next/image";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 const ventaProd = [
-  { nombre: "Chicharron Natural", p04: 48917, p03: 47500, pct: 19.6 },
-  { nombre: "Rodajitas Spicy Limon", p04: 38200, p03: 37800, pct: 15.3 },
-  { nombre: "Classic White 125g", p04: 36500, p03: 35200, pct: 14.6 },
-  { nombre: "Street Elote 125g", p04: 31400, p03: 30900, pct: 12.6 },
-  { nombre: "Street Elote 25g", p04: 24100, p03: 25300, pct: 9.7 },
-  { nombre: "Cheddar Jalapeno 125g", p04: 22800, p03: 24100, pct: 9.1 },
-  { nombre: "Cheddar Jalapeno 25g", p04: 17900, p03: 18700, pct: 7.2 },
-  { nombre: "Classic White 25g", p04: 14500, p03: 15200, pct: 5.8 },
-  { nombre: "Chile Piquin", p04: 14962, p03: 15538, pct: 6.0 },
+  { nombre: "Chicharron Natural", monto: 58187, pct: 23.3, uds: 1173 },
+  { nombre: "Classic White 125g", monto: 51486, pct: 20.7, uds: 2211 },
+  { nombre: "Cheddar Jalapeno 125g", monto: 40281, pct: 16.2, uds: 1696 },
+  { nombre: "Street Elote 25g", monto: 32524, pct: 13.0, uds: 1048 },
+  { nombre: "Rodajitas Spicy Limon", monto: 31549, pct: 12.7, uds: 1515 },
+  { nombre: "Street Elote 125g", monto: 24732, pct: 9.9, uds: 1341 },
+  { nombre: "Chile Piquin", monto: 10522, pct: 4.2, uds: 583 },
 ];
+
+const COLORS = ["#ea580c", "#f97316", "#fb923c", "#fdba74", "#fed7aa", "#ffedd5", "#fff7ed"];
 
 export default function Slide5VentaProducto() {
   return (
-    <div className="w-full h-full bg-gray-900 p-10 flex flex-col">
-      <h2 className="text-2xl font-bold text-white mb-1">Venta por Producto</h2>
-      <p className="text-sm text-gray-400 mb-4">
-        P04-2026 &middot; $249,279 total &middot; Ranking por monto de venta
-      </p>
+    <div className="w-full h-full bg-gradient-to-br from-orange-50 to-orange-100 p-8 flex flex-col">
+      <div className="flex items-center gap-3 mb-4">
+        <Image src="/4buddies-logo.jpeg" alt="4B" width={36} height={36} className="rounded-lg" />
+        <div>
+          <h2 className="text-xl font-bold text-orange-900">Venta por Producto</h2>
+          <p className="text-xs text-orange-600">
+            P04-2026 (26 Ene &ndash; 22 Feb 2026) &middot; $249,279 total &middot; 7 SKUs activos
+          </p>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-2 gap-6 flex-1">
-        <div className="flex flex-col">
-          <h3 className="text-xs text-gray-400 uppercase tracking-wider mb-3 font-medium">
-            Venta P04-2026 vs P03-2026 ($)
+      <div className="flex-1 grid grid-cols-2 gap-4">
+        {/* Pie Chart */}
+        <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-4 flex flex-col items-center justify-center">
+          <h3 className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-2 self-start">
+            Participacion por producto ($)
           </h3>
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={ventaProd}
-                layout="vertical"
-                margin={{ top: 5, right: 30, bottom: 5, left: 120 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-                <XAxis type="number" tick={{ fill: "#9ca3af", fontSize: 10 }} tickFormatter={(v) => `$${(v/1000).toFixed(0)}K`} />
-                <YAxis type="category" dataKey="nombre" tick={{ fill: "#d1d5db", fontSize: 11 }} width={120} />
+              <PieChart>
+                <Pie
+                  data={ventaProd}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  innerRadius={50}
+                  dataKey="monto"
+                  nameKey="nombre"
+                  label={(props) => `${String(props.name ?? "").split(" ")[0]} ${((props.percent ?? 0) * 100).toFixed(0)}%`}
+                  labelLine={true}
+                  fontSize={10}
+                >
+                  {ventaProd.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i]} stroke="#fff" strokeWidth={2} />
+                  ))}
+                </Pie>
                 <Tooltip
-                  contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px" }}
-                  labelStyle={{ color: "#fff" }}
-                  formatter={(value) => [`$${Number(value).toLocaleString()}`, ""]}
+                  contentStyle={{ backgroundColor: "#fff7ed", border: "1px solid #fb923c", borderRadius: "8px" }}
+                  formatter={(value) => [`$${Number(value).toLocaleString()}`, "Venta"]}
                 />
-                <Bar dataKey="p03" fill="#4b5563" name="P03-2026" radius={[0, 4, 4, 0]} barSize={10} />
-                <Bar dataKey="p04" fill="#3b82f6" name="P04-2026" radius={[0, 4, 4, 0]} barSize={10} />
-              </BarChart>
+              </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="flex flex-col">
-          <h3 className="text-xs text-gray-400 uppercase tracking-wider mb-3 font-medium">
-            Participacion y variacion
+        {/* Tabla detalle */}
+        <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-4 flex flex-col">
+          <h3 className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-2">
+            Detalle por producto
           </h3>
           <div className="flex-1 overflow-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left py-2 text-gray-400 font-medium">Producto</th>
-                  <th className="text-right py-2 text-gray-400 font-medium">P04</th>
-                  <th className="text-right py-2 text-gray-400 font-medium">% Part.</th>
-                  <th className="text-right py-2 text-gray-400 font-medium">Var.</th>
+                <tr className="border-b-2 border-orange-200">
+                  <th className="text-left py-1.5 text-orange-800 font-semibold text-xs"></th>
+                  <th className="text-left py-1.5 text-orange-800 font-semibold text-xs">Producto</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold text-xs">Monto</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold text-xs">Uds</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold text-xs">% Part.</th>
                 </tr>
               </thead>
               <tbody>
-                {ventaProd.map((p) => {
-                  const varPct = ((p.p04 / p.p03 - 1) * 100).toFixed(1);
-                  const isPos = p.p04 >= p.p03;
-                  return (
-                    <tr key={p.nombre} className="border-b border-gray-800/50">
-                      <td className="py-2 text-white text-xs">{p.nombre}</td>
-                      <td className="py-2 text-right text-gray-300 text-xs">${(p.p04/1000).toFixed(1)}K</td>
-                      <td className="py-2 text-right text-blue-400 text-xs">{p.pct}%</td>
-                      <td className={`py-2 text-right text-xs ${isPos ? "text-green-400" : "text-red-400"}`}>
-                        {isPos ? "+" : ""}{varPct}%
-                      </td>
-                    </tr>
-                  );
-                })}
+                {ventaProd.map((p, i) => (
+                  <tr key={p.nombre} className="border-b border-orange-100">
+                    <td className="py-2">
+                      <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: COLORS[i] }} />
+                    </td>
+                    <td className="py-2 text-orange-900 font-medium text-xs">{p.nombre}</td>
+                    <td className="py-2 text-right text-orange-800 text-xs">${(p.monto / 1000).toFixed(1)}K</td>
+                    <td className="py-2 text-right text-orange-600 text-xs">{p.uds.toLocaleString()}</td>
+                    <td className="py-2 text-right">
+                      <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-800">
+                        {p.pct}%
+                      </span>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
+              <tfoot>
+                <tr className="border-t-2 border-orange-300">
+                  <td></td>
+                  <td className="py-2 font-bold text-orange-900 text-xs">TOTAL</td>
+                  <td className="py-2 text-right font-bold text-orange-900 text-xs">$249K</td>
+                  <td className="py-2 text-right font-bold text-orange-900 text-xs">9,567</td>
+                  <td className="py-2 text-right font-bold text-orange-900 text-xs">100%</td>
+                </tr>
+              </tfoot>
             </table>
           </div>
-          <div className="mt-2 p-2 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-            <p className="text-xs text-blue-300">
-              Chicharron Natural es el #1 en ventas (19.6%) seguido de Rodajitas (15.3%) y Classic White 125g (14.6%).
-              Las presentaciones de 125g dominan el mix.
+
+          <div className="mt-2 p-2 bg-orange-50 border border-orange-200 rounded-lg">
+            <p className="text-[10px] text-orange-700">
+              Chicharron Natural lidera en ingreso (23.3%). Classic White 125g es #1 en unidades (2,211).
+              Las presentaciones de 125g representan ~47% del ingreso total.
             </p>
           </div>
         </div>

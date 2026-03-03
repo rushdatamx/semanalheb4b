@@ -1,88 +1,110 @@
 "use client";
 
-import { AlertTriangle, Package, Eye, HelpCircle } from "lucide-react";
+import Image from "next/image";
+import { ShoppingCart, AlertTriangle, HelpCircle, TrendingUp } from "lucide-react";
 
-const acciones = [
+const secciones = [
   {
-    tipo: "Vigilar",
-    icon: Eye,
-    color: "yellow",
-    items: [
-      { producto: "Chicharron Natural", detalle: "3.6 sem de inventario. Vta semanal 308 uds. Incluir en OC ~310 uds." },
-      { producto: "Street Elote 25g", detalle: "3.8 sem de inventario. Vta semanal 265 uds. Incluir en OC ~270 uds." },
-      { producto: "Cheddar Jalapeno 25g", detalle: "4.2 sem de inventario. OC25Feb solo trajo 10 uds. Incluir ~200 uds." },
-      { producto: "Classic White 25g", detalle: "4.7 sem de inventario. Vta semanal 164 uds. Incluir ~170 uds." },
-    ],
-  },
-  {
-    tipo: "Preguntar al comprador",
-    icon: HelpCircle,
+    icon: ShoppingCart,
+    titulo: "Restock Urgente",
+    subtitulo: "78 combinaciones tienda-producto",
     color: "red",
     items: [
-      { producto: "Spicy Chia", detalle: "0% cobertura, sin inventario, sin OC. ¿Dado de baja o se reactiva?" },
-      { producto: "Classic Sweet", detalle: "0% cobertura, sin inventario, sin OC. ¿Dado de baja o se reactiva?" },
+      "MTY Tec: Classic White 125g (1 dia de inv)",
+      "TOR Senderos: Chicharron Natural (1 dia)",
+      "MTY San Pedro: Rodajitas (2 dias)",
+      "MTY Contry: Cheddar Jalapeno 125g (2 dias)",
+      "MTY Puerta de Hierro: Street Elote 125g (2 dias)",
     ],
+    nota: "Inventario actual no cubre 15 dias de venta. Priorizar tiendas AA y A con alto sell-out.",
   },
   {
-    tipo: "Inventario holgado",
-    icon: Package,
+    icon: AlertTriangle,
+    titulo: "Problema de Anaquel",
+    subtitulo: "25 combinaciones tienda-producto",
+    color: "amber",
+    items: [
+      "NVO Nuevo Laredo: Street Elote 125g (107 uds sin venta)",
+      "QRO San Juan del Rio: Rodajitas (45 uds sin venta)",
+      "MTY Cumbres: Cheddar Jalapeno 125g (40 uds sin venta)",
+      "SAL Republica / La Nogalera: Street Elote 125g",
+      "VIC Campestre: Rodajitas + Cheddar Jalapeno",
+    ],
+    nota: "Tienen inventario pero $0 venta en 15 dias. Producto no exhibido o sin precio visible.",
+  },
+  {
+    icon: HelpCircle,
+    titulo: "SKUs Inactivos",
+    subtitulo: "2 productos",
+    color: "orange",
+    items: [
+      "Spicy Chia: 0 inventario, 0 venta, 0 OC",
+      "Classic Sweet: 0 inventario, 0 venta, 0 OC",
+    ],
+    nota: "Preguntar al comprador: ¿dados de baja o pendientes de reactivacion?",
+  },
+  {
+    icon: TrendingUp,
+    titulo: "OC para esta semana",
+    subtitulo: "Enfoque en SKUs 25g",
     color: "green",
     items: [
-      { producto: "Presentaciones 125g", detalle: "6-10 semanas de inventario. No requieren OC urgente." },
-      { producto: "Chile Piquin", detalle: "10.6 semanas. Salio de OC25Feb por inventario suficiente." },
-      { producto: "Rodajitas Spicy Limon", detalle: "5.1 semanas. Nivel adecuado, monitorear siguiente semana." },
+      "Chicharron Natural: 3.6 sem inv, pedir ~310 uds",
+      "Street Elote 25g: 3.8 sem inv, pedir ~270 uds",
+      "Cheddar Jalapeno 25g: 4.2 sem inv, pedir ~200 uds",
+      "Classic White 25g: 4.7 sem inv, pedir ~170 uds",
     ],
+    nota: "Las presentaciones 125g y Chile Piquin tienen inventario holgado (6-10+ sem). No requieren OC urgente.",
   },
 ];
 
-const colorMap: Record<string, { bg: string; border: string; text: string; badge: string }> = {
-  yellow: { bg: "bg-yellow-500/5", border: "border-yellow-500/20", text: "text-yellow-300", badge: "bg-yellow-500/20" },
-  red: { bg: "bg-red-500/5", border: "border-red-500/20", text: "text-red-300", badge: "bg-red-500/20" },
-  green: { bg: "bg-green-500/5", border: "border-green-500/20", text: "text-green-300", badge: "bg-green-500/20" },
+const colorMap: Record<string, { border: string; bg: string; text: string; iconBg: string }> = {
+  red: { border: "border-red-200", bg: "bg-red-50", text: "text-red-800", iconBg: "bg-red-100" },
+  amber: { border: "border-amber-200", bg: "bg-amber-50", text: "text-amber-800", iconBg: "bg-amber-100" },
+  orange: { border: "border-orange-200", bg: "bg-orange-50", text: "text-orange-800", iconBg: "bg-orange-100" },
+  green: { border: "border-green-200", bg: "bg-green-50", text: "text-green-800", iconBg: "bg-green-100" },
 };
 
 export default function Slide7Recomendaciones() {
   return (
-    <div className="w-full h-full bg-gray-900 p-10 flex flex-col">
-      <h2 className="text-2xl font-bold text-white mb-1">Recomendaciones</h2>
-      <p className="text-sm text-gray-400 mb-4">
-        Acciones para la OC del 4 de marzo 2026 &middot; Inventarios en niveles razonables, sin emergencias
-      </p>
+    <div className="w-full h-full bg-gradient-to-br from-orange-50 to-orange-100 p-8 flex flex-col">
+      <div className="flex items-center gap-3 mb-4">
+        <Image src="/4buddies-logo.jpeg" alt="4B" width={36} height={36} className="rounded-lg" />
+        <div>
+          <h2 className="text-xl font-bold text-orange-900">Recomendaciones</h2>
+          <p className="text-xs text-orange-600">Acciones para la semana del 3 de marzo 2026</p>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-3 gap-4 flex-1">
-        {acciones.map((grupo) => {
-          const Icon = grupo.icon;
-          const c = colorMap[grupo.color];
+      <div className="flex-1 grid grid-cols-2 gap-3">
+        {secciones.map((s) => {
+          const Icon = s.icon;
+          const c = colorMap[s.color];
           return (
-            <div key={grupo.tipo} className={`${c.bg} ${c.border} border rounded-xl p-4 flex flex-col`}>
-              <div className="flex items-center gap-2 mb-3">
-                <div className={`p-1.5 ${c.badge} rounded-lg`}>
+            <div key={s.titulo} className={`bg-white rounded-xl shadow-sm ${c.border} border p-3 flex flex-col`}>
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`p-1.5 ${c.iconBg} rounded-lg`}>
                   <Icon className={`w-4 h-4 ${c.text}`} />
                 </div>
-                <h3 className={`text-sm font-bold ${c.text}`}>{grupo.tipo}</h3>
+                <div>
+                  <h3 className={`text-sm font-bold ${c.text}`}>{s.titulo}</h3>
+                  <p className="text-[10px] text-gray-500">{s.subtitulo}</p>
+                </div>
               </div>
-              <div className="space-y-2.5 flex-1">
-                {grupo.items.map((item) => (
-                  <div key={item.producto} className="bg-gray-900/50 rounded-lg p-2.5">
-                    <div className="text-white text-xs font-medium mb-0.5">{item.producto}</div>
-                    <div className="text-gray-400 text-xs leading-relaxed">{item.detalle}</div>
-                  </div>
+              <ul className="space-y-1 flex-1">
+                {s.items.map((item, i) => (
+                  <li key={i} className="text-[11px] text-gray-700 flex items-start gap-1.5">
+                    <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${c.iconBg}`} />
+                    {item}
+                  </li>
                 ))}
+              </ul>
+              <div className={`mt-2 p-1.5 ${c.bg} ${c.border} border rounded-lg`}>
+                <p className={`text-[10px] ${c.text}`}>{s.nota}</p>
               </div>
             </div>
           );
         })}
-      </div>
-
-      <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
-          <p className="text-xs text-blue-300 leading-relaxed">
-            <strong>Contexto OC:</strong> Las 3 OC de febrero sumaron 7,078 uds (la del 25Feb fue complementaria).
-            El inventario total se mantiene estable en ~13,700 uds. No hay emergencia, pero los 4 SKUs de 25g
-            necesitan incluirse en la OC de manana para no caer por debajo de 3 semanas.
-          </p>
-        </div>
       </div>
     </div>
   );

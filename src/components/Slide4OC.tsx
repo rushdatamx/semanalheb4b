@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 const ocTrend = [
@@ -21,83 +22,84 @@ const ocPorSKU = [
 
 export default function Slide4OC() {
   return (
-    <div className="w-full h-full bg-gray-900 p-10 flex flex-col">
-      <h2 className="text-2xl font-bold text-white mb-1">Ordenes de Compra</h2>
-      <p className="text-sm text-gray-400 mb-4">
-        3 OC en febrero &middot; Total acumulado: 7,078 uds &middot; OC 25Feb fue complementaria
-      </p>
+    <div className="w-full h-full bg-gradient-to-br from-orange-50 to-orange-100 p-8 flex flex-col">
+      <div className="flex items-center gap-3 mb-4">
+        <Image src="/4buddies-logo.jpeg" alt="4B" width={36} height={36} className="rounded-lg" />
+        <div>
+          <h2 className="text-xl font-bold text-orange-900">Ordenes de Compra</h2>
+          <p className="text-xs text-orange-600">3 OC en febrero &middot; Total acumulado: 7,078 uds &middot; OC 25Feb fue complementaria</p>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-5 gap-6 flex-1">
-        <div className="col-span-2 flex flex-col">
-          <h3 className="text-xs text-gray-400 uppercase tracking-wider mb-3 font-medium">Tendencia semanal</h3>
+      <div className="grid grid-cols-5 gap-4 flex-1">
+        <div className="col-span-2 bg-white rounded-xl shadow-sm border border-orange-200 p-4 flex flex-col">
+          <h3 className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-2">Tendencia semanal</h3>
           <div className="flex-1">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={ocTrend} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-                <XAxis dataKey="semana" tick={{ fill: "#9ca3af", fontSize: 11 }} />
-                <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#fed7aa" />
+                <XAxis dataKey="semana" tick={{ fill: "#9a3412", fontSize: 11 }} />
+                <YAxis tick={{ fill: "#9a3412", fontSize: 11 }} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px" }}
-                  labelStyle={{ color: "#fff" }}
-                  itemStyle={{ color: "#60a5fa" }}
+                  contentStyle={{ backgroundColor: "#fff7ed", border: "1px solid #fb923c", borderRadius: "8px" }}
+                  labelStyle={{ color: "#9a3412", fontWeight: "bold" }}
                 />
                 <Bar dataKey="total" radius={[6, 6, 0, 0]}>
-                  {ocTrend.map((entry, i) => (
-                    <Cell key={i} fill={i === 2 ? "#f59e0b" : "#3b82f6"} />
+                  {ocTrend.map((_, i) => (
+                    <Cell key={i} fill={i === 2 ? "#f59e0b" : "#ea580c"} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="mt-2 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-            <p className="text-xs text-yellow-300">
-              La OC del 25Feb (934 uds) fue un complemento a las OC anteriores.
-              Los inventarios actuales se mantienen en niveles razonables gracias al resurtido acumulado.
+          <div className="mt-2 p-2 bg-orange-50 border border-orange-200 rounded-lg">
+            <p className="text-[10px] text-orange-700">
+              La OC del 25Feb (934 uds) fue un complemento. Los inventarios se mantienen estables gracias al resurtido acumulado de las 3 OC.
             </p>
           </div>
         </div>
 
-        <div className="col-span-3 flex flex-col">
-          <h3 className="text-xs text-gray-400 uppercase tracking-wider mb-3 font-medium">Detalle por SKU</h3>
+        <div className="col-span-3 bg-white rounded-xl shadow-sm border border-orange-200 p-4 flex flex-col">
+          <h3 className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-2">Detalle por SKU</h3>
           <div className="flex-1 overflow-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left py-1.5 text-gray-400">SKU</th>
-                  <th className="text-right py-1.5 text-gray-400">11Feb</th>
-                  <th className="text-right py-1.5 text-gray-400">18Feb</th>
-                  <th className="text-right py-1.5 text-gray-400">25Feb</th>
-                  <th className="text-right py-1.5 text-gray-400">Acum.</th>
-                  <th className="text-right py-1.5 text-gray-400">Vta/Sem</th>
+                <tr className="border-b-2 border-orange-200">
+                  <th className="text-left py-1.5 text-orange-800 font-semibold">SKU</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold">11Feb</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold">18Feb</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold">25Feb</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold">Acum.</th>
+                  <th className="text-right py-1.5 text-orange-800 font-semibold">Vta/Sem</th>
                 </tr>
               </thead>
               <tbody>
                 {ocPorSKU.map((r) => {
                   const acum = r.oc11 + r.oc18 + r.oc25;
                   return (
-                    <tr key={r.sku} className="border-b border-gray-800/50">
-                      <td className="py-1.5 text-white">{r.sku}</td>
-                      <td className="py-1.5 text-right text-gray-300">{r.oc11}</td>
-                      <td className="py-1.5 text-right text-gray-300">{r.oc18}</td>
+                    <tr key={r.sku} className="border-b border-orange-100">
+                      <td className="py-1.5 text-orange-900 font-medium">{r.sku}</td>
+                      <td className="py-1.5 text-right text-orange-700">{r.oc11}</td>
+                      <td className="py-1.5 text-right text-orange-700">{r.oc18}</td>
                       <td className="py-1.5 text-right">
-                        <span className={r.oc25 === 0 ? "text-red-400" : r.oc25 < 100 ? "text-yellow-400" : "text-gray-300"}>
+                        <span className={r.oc25 === 0 ? "text-red-600 font-bold" : r.oc25 < 100 ? "text-amber-600 font-medium" : "text-orange-700"}>
                           {r.oc25}
                         </span>
                       </td>
-                      <td className="py-1.5 text-right text-blue-400 font-medium">{acum.toLocaleString()}</td>
-                      <td className="py-1.5 text-right text-gray-400">{r.vtaSem}</td>
+                      <td className="py-1.5 text-right text-orange-900 font-bold">{acum.toLocaleString()}</td>
+                      <td className="py-1.5 text-right text-orange-500">{r.vtaSem}</td>
                     </tr>
                   );
                 })}
               </tbody>
               <tfoot>
-                <tr className="border-t border-gray-700">
-                  <td className="py-1.5 text-white font-medium">TOTAL</td>
-                  <td className="py-1.5 text-right text-white font-medium">3,210</td>
-                  <td className="py-1.5 text-right text-white font-medium">2,934</td>
-                  <td className="py-1.5 text-right text-yellow-400 font-medium">934</td>
-                  <td className="py-1.5 text-right text-blue-400 font-bold">7,078</td>
-                  <td className="py-1.5 text-right text-gray-400">2,373</td>
+                <tr className="border-t-2 border-orange-300">
+                  <td className="py-1.5 text-orange-900 font-bold">TOTAL</td>
+                  <td className="py-1.5 text-right text-orange-900 font-bold">3,210</td>
+                  <td className="py-1.5 text-right text-orange-900 font-bold">2,934</td>
+                  <td className="py-1.5 text-right text-amber-600 font-bold">934</td>
+                  <td className="py-1.5 text-right text-orange-900 font-extrabold">7,078</td>
+                  <td className="py-1.5 text-right text-orange-500">2,373</td>
                 </tr>
               </tfoot>
             </table>

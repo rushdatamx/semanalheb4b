@@ -1,110 +1,156 @@
 "use client";
 
-import { DollarSign, Package, ShoppingCart, Store, TrendingDown, AlertTriangle } from "lucide-react";
+import Image from "next/image";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
-const kpis = [
-  {
-    label: "Venta P04-2026",
-    value: "$249,279",
-    change: "-0.4%",
-    vs: "vs P03-2026",
-    positive: false,
-    icon: DollarSign,
-    color: "blue",
-  },
-  {
-    label: "Unidades P04-2026",
-    value: "9,567",
-    change: "-9.2%",
-    vs: "vs P04-2025",
-    positive: false,
-    icon: Package,
-    color: "cyan",
-  },
-  {
-    label: "P05-2026 (parcial)",
-    value: "$78,097",
-    change: "en curso",
-    vs: "Periodo abierto",
-    positive: true,
-    icon: TrendingDown,
-    color: "purple",
-  },
-  {
-    label: "Inventario Total",
-    value: "13,696",
-    change: "uds",
-    vs: "Al 2 de marzo",
-    positive: true,
-    icon: ShoppingCart,
-    color: "green",
-  },
-  {
-    label: "Cobertura Promedio",
-    value: "92%",
-    change: "7 de 9 SKUs activos",
-    vs: "62 tiendas",
-    positive: true,
-    icon: Store,
-    color: "emerald",
-  },
-  {
-    label: "DDI Promedio",
-    value: "84 dias",
-    change: "62 tienda-SKU < 15d",
-    vs: "5 quiebres",
-    positive: false,
-    icon: AlertTriangle,
-    color: "yellow",
-  },
+const ingresosData = [
+  { mes: "Ene", y2025: 288186, y2026: 278968 },
+  { mes: "Feb", y2025: 273691, y2026: 254380 },
+  { mes: "Mar", y2025: 332287, y2026: 24240 },
+  { mes: "Abr", y2025: 275895, y2026: 0 },
+  { mes: "May", y2025: 283374, y2026: 0 },
+  { mes: "Jun", y2025: 265082, y2026: 0 },
+  { mes: "Jul", y2025: 254187, y2026: 0 },
+  { mes: "Ago", y2025: 275189, y2026: 0 },
+  { mes: "Sep", y2025: 278113, y2026: 0 },
+  { mes: "Oct", y2025: 267868, y2026: 0 },
+  { mes: "Nov", y2025: 241504, y2026: 0 },
+  { mes: "Dic", y2025: 206822, y2026: 0 },
 ];
 
-const colorMap: Record<string, string> = {
-  blue: "from-blue-500/20 to-blue-500/5 border-blue-500/20 text-blue-400",
-  cyan: "from-cyan-500/20 to-cyan-500/5 border-cyan-500/20 text-cyan-400",
-  purple: "from-purple-500/20 to-purple-500/5 border-purple-500/20 text-purple-400",
-  green: "from-green-500/20 to-green-500/5 border-green-500/20 text-green-400",
-  emerald: "from-emerald-500/20 to-emerald-500/5 border-emerald-500/20 text-emerald-400",
-  yellow: "from-yellow-500/20 to-yellow-500/5 border-yellow-500/20 text-yellow-400",
-};
+const ingresoRows = [
+  { mes: "Ene", y2025: 288186, y2026: 278968, var: -3.2 },
+  { mes: "Feb", y2025: 273691, y2026: 254380, var: -7.1 },
+  { mes: "Mar", y2025: 332287, y2026: 24240, var: null },
+];
+
+const unidadesRows = [
+  { mes: "Ene", y2025: 11459, y2026: 10516, var: -8.2 },
+  { mes: "Feb", y2025: 11223, y2026: 9938, var: -11.4 },
+  { mes: "Mar", y2025: 13553, y2026: 1000, var: null },
+];
+
+function fmtMoney(v: number) {
+  if (v === 0) return "-";
+  return `$${(v / 1000).toFixed(0)}K`;
+}
+
+function fmtNum(v: number) {
+  if (v === 0) return "-";
+  return v.toLocaleString();
+}
 
 export default function Slide2KPIs() {
   return (
-    <div className="w-full h-full bg-gray-900 p-10 flex flex-col">
-      <h2 className="text-2xl font-bold text-white mb-1">Resumen KPIs</h2>
-      <p className="text-sm text-gray-400 mb-6">
-        Periodo fiscal P04-2026 (completo) &middot; Inventario al 2 de marzo 2026
-      </p>
+    <div className="w-full h-full bg-gradient-to-br from-orange-50 to-orange-100 p-8 flex flex-col">
+      <div className="flex items-center gap-3 mb-4">
+        <Image src="/4buddies-logo.jpeg" alt="4B" width={36} height={36} className="rounded-lg" />
+        <div>
+          <h2 className="text-xl font-bold text-orange-900">Sell-Out Mensual — 2025 vs 2026</h2>
+          <p className="text-xs text-orange-600">Ingresos y unidades por mes calendario. Marzo 2026 en curso (parcial).</p>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-3 gap-4 flex-1">
-        {kpis.map((kpi) => {
-          const Icon = kpi.icon;
-          const colors = colorMap[kpi.color];
-          return (
-            <div
-              key={kpi.label}
-              className={`rounded-xl bg-gradient-to-br ${colors} border p-5 flex flex-col justify-between`}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">
-                  {kpi.label}
-                </span>
-                <Icon className="w-4 h-4 opacity-60" />
-              </div>
-              <div className="text-3xl font-bold text-white mb-1">{kpi.value}</div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`text-sm font-medium ${
-                    kpi.positive ? "text-green-400" : "text-yellow-400"
-                  }`}
-                >
-                  {kpi.change}
-                </span>
-                <span className="text-xs text-gray-500">{kpi.vs}</span>
-              </div>
-            </div>
-          );
-        })}
+      <div className="flex-1 grid grid-cols-2 gap-5">
+        {/* Gráfica de barras */}
+        <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-4 flex flex-col">
+          <h3 className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-2">Ingresos mensuales ($)</h3>
+          <div className="flex-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={ingresosData} margin={{ top: 5, right: 10, bottom: 5, left: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#fed7aa" />
+                <XAxis dataKey="mes" tick={{ fill: "#9a3412", fontSize: 10 }} />
+                <YAxis tick={{ fill: "#9a3412", fontSize: 10 }} tickFormatter={(v) => `$${(v/1000).toFixed(0)}K`} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "#fff7ed", border: "1px solid #fb923c", borderRadius: "8px" }}
+                  labelStyle={{ color: "#9a3412", fontWeight: "bold" }}
+                  formatter={(value) => [`$${Number(value).toLocaleString()}`, ""]}
+                />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Bar dataKey="y2025" name="2025" fill="#fb923c" radius={[4, 4, 0, 0]} barSize={14} />
+                <Bar dataKey="y2026" name="2026" fill="#9a3412" radius={[4, 4, 0, 0]} barSize={14} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Tablas */}
+        <div className="flex flex-col gap-4">
+          {/* Tabla Ingresos */}
+          <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-4 flex-1">
+            <h3 className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-2">Ingresos ($)</h3>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b-2 border-orange-200">
+                  <th className="text-left py-1 text-orange-800 font-semibold text-xs">Mes</th>
+                  <th className="text-right py-1 text-orange-800 font-semibold text-xs">2025</th>
+                  <th className="text-right py-1 text-orange-800 font-semibold text-xs">2026</th>
+                  <th className="text-right py-1 text-orange-800 font-semibold text-xs">Var %</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ingresoRows.map((r) => (
+                  <tr key={r.mes} className="border-b border-orange-100">
+                    <td className="py-1.5 font-medium text-orange-900 text-xs">{r.mes}</td>
+                    <td className="py-1.5 text-right text-orange-700 text-xs">{fmtMoney(r.y2025)}</td>
+                    <td className="py-1.5 text-right text-orange-900 font-semibold text-xs">{fmtMoney(r.y2026)}</td>
+                    <td className={`py-1.5 text-right font-semibold text-xs ${r.var !== null ? (r.var >= 0 ? "text-green-600" : "text-red-600") : "text-orange-400"}`}>
+                      {r.var !== null ? `${r.var > 0 ? "+" : ""}${r.var}%` : "parcial"}
+                    </td>
+                  </tr>
+                ))}
+                <tr className="border-t-2 border-orange-300">
+                  <td className="py-1.5 font-bold text-orange-900 text-xs">YTD</td>
+                  <td className="py-1.5 text-right font-bold text-orange-700 text-xs">$894K</td>
+                  <td className="py-1.5 text-right font-bold text-orange-900 text-xs">$558K</td>
+                  <td className="py-1.5 text-right font-bold text-red-600 text-xs">-37.6%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Tabla Unidades */}
+          <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-4 flex-1">
+            <h3 className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-2">Unidades</h3>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b-2 border-orange-200">
+                  <th className="text-left py-1 text-orange-800 font-semibold text-xs">Mes</th>
+                  <th className="text-right py-1 text-orange-800 font-semibold text-xs">2025</th>
+                  <th className="text-right py-1 text-orange-800 font-semibold text-xs">2026</th>
+                  <th className="text-right py-1 text-orange-800 font-semibold text-xs">Var %</th>
+                </tr>
+              </thead>
+              <tbody>
+                {unidadesRows.map((r) => (
+                  <tr key={r.mes} className="border-b border-orange-100">
+                    <td className="py-1.5 font-medium text-orange-900 text-xs">{r.mes}</td>
+                    <td className="py-1.5 text-right text-orange-700 text-xs">{fmtNum(r.y2025)}</td>
+                    <td className="py-1.5 text-right text-orange-900 font-semibold text-xs">{fmtNum(r.y2026)}</td>
+                    <td className={`py-1.5 text-right font-semibold text-xs ${r.var !== null ? (r.var >= 0 ? "text-green-600" : "text-red-600") : "text-orange-400"}`}>
+                      {r.var !== null ? `${r.var > 0 ? "+" : ""}${r.var}%` : "parcial"}
+                    </td>
+                  </tr>
+                ))}
+                <tr className="border-t-2 border-orange-300">
+                  <td className="py-1.5 font-bold text-orange-900 text-xs">YTD</td>
+                  <td className="py-1.5 text-right font-bold text-orange-700 text-xs">36,235</td>
+                  <td className="py-1.5 text-right font-bold text-orange-900 text-xs">21,454</td>
+                  <td className="py-1.5 text-right font-bold text-red-600 text-xs">-40.8%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
