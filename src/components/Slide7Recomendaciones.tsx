@@ -7,43 +7,44 @@ const secciones = [
   {
     icon: ShoppingCart,
     titulo: "Restock Urgente",
-    subtitulo: "78 combinaciones tienda-producto",
+    subtitulo: "112 combinaciones tienda-producto",
     color: "red",
     items: [
-      "MTY Tec: Classic White 125g (1 dia de inv)",
-      "TOR Senderos: Chicharron Natural (1 dia)",
-      "MTY San Pedro: Rodajitas (2 dias)",
-      "MTY Contry: Cheddar Jalapeno 125g (2 dias)",
-      "MTY Puerta de Hierro: Street Elote 125g (2 dias)",
+      "LEO Lopez Mateos: Rodajitas (0.5 dias de inv)",
+      "VIC Campestre: Classic White 25g (1.1 dias)",
+      "MTY San Nicolas: Cheddar Jalapeno 25g (1.2 dias)",
+      "MTY San Pedro: Cheddar Jalapeno 25g (1.3 dias)",
+      "MTY Valle Oriente: Chile Piquin (1.3 dias)",
     ],
-    nota: "Inventario actual no cubre 15 dias de venta. Priorizar tiendas AA y A con alto sell-out.",
+    nota: "Inventario no cubre 15 dias de venta. Priorizar tiendas AA y A con mayor sell-out.",
   },
   {
     icon: AlertTriangle,
     titulo: "Problema de Anaquel",
-    subtitulo: "25 combinaciones tienda-producto",
+    subtitulo: "20 combinaciones tienda-producto",
     color: "amber",
     items: [
       "NVO Nuevo Laredo: Street Elote 125g (107 uds sin venta)",
+      "MTY La Puerta: Cheddar Jalapeno 125g (56 uds sin venta)",
+      "VIC Campestre: Classic White 125g (51 uds sin venta)",
+      "SLP Los Pinos: Street Elote 125g (51 uds sin venta)",
       "QRO San Juan del Rio: Rodajitas (45 uds sin venta)",
-      "MTY Cumbres: Cheddar Jalapeno 125g (40 uds sin venta)",
-      "SAL Republica / La Nogalera: Street Elote 125g",
-      "VIC Campestre: Rodajitas + Cheddar Jalapeno",
     ],
-    nota: "Tienen inventario pero $0 venta en 15 dias. Producto no exhibido o sin precio visible.",
+    nota: "Tienen inventario pero $0 venta en 15 dias. Revisar exhibicion con el comprador.",
   },
   {
     icon: TrendingUp,
-    titulo: "OC para esta semana",
-    subtitulo: "Enfoque en SKUs 25g",
+    titulo: "OC Sugerida",
+    subtitulo: "5 SKUs necesitan resurtido",
     color: "green",
     items: [
-      "Chicharron Natural: 3.6 sem inv, pedir ~310 uds",
-      "Street Elote 25g: 3.8 sem inv, pedir ~270 uds",
-      "Cheddar Jalapeno 25g: 4.2 sem inv, pedir ~200 uds",
-      "Classic White 25g: 4.7 sem inv, pedir ~170 uds",
+      "Chicharron Natural: 3.0 sem inv — pedir ~300 uds",
+      "Rodajitas Spicy Limon: 3.3 sem inv — pedir ~500 uds",
+      "Street Elote 25g: 3.3 sem inv — pedir ~270 uds",
+      "Cheddar Jalapeno 25g: 3.4 sem inv — pedir ~190 uds",
+      "Classic White 25g: 3.9 sem inv — pedir ~170 uds",
     ],
-    nota: "Las presentaciones 125g y Chile Piquin tienen inventario holgado (6-10+ sem). No requieren OC urgente.",
+    nota: "SKUs 125g y Chile Piquin estan holgados (4.5-8.4 sem). No requieren OC inmediata.",
   },
 ];
 
@@ -60,7 +61,7 @@ export default function Slide7Recomendaciones() {
         <Image src="/4buddies-logo.jpeg" alt="4B" width={36} height={36} className="rounded-lg" />
         <div>
           <h2 className="text-xl font-bold text-orange-900">Recomendaciones</h2>
-          <p className="text-xs text-orange-600">Acciones para la semana del 3 de marzo 2026</p>
+          <p className="text-xs text-orange-600">Acciones para la semana del 10 de marzo 2026</p>
         </div>
       </div>
 
@@ -79,7 +80,7 @@ export default function Slide7Recomendaciones() {
                   <p className="text-[10px] text-gray-500">{s.subtitulo}</p>
                 </div>
               </div>
-              <ul className="space-y-1 flex-1">
+              <ul className="space-y-1.5 flex-1">
                 {s.items.map((item, i) => (
                   <li key={i} className="text-[11px] text-gray-700 flex items-start gap-1.5">
                     <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${c.iconBg}`} />

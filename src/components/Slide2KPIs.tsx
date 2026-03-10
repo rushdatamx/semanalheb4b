@@ -13,30 +13,30 @@ import {
 } from "recharts";
 
 const ingresosData = [
-  { mes: "Ene", y2025: 288186, y2026: 278968 },
-  { mes: "Feb", y2025: 273691, y2026: 254380 },
-  { mes: "Mar", y2025: 332287, y2026: 24240 },
-  { mes: "Abr", y2025: 275895, y2026: 0 },
-  { mes: "May", y2025: 283374, y2026: 0 },
-  { mes: "Jun", y2025: 265082, y2026: 0 },
-  { mes: "Jul", y2025: 254187, y2026: 0 },
-  { mes: "Ago", y2025: 275189, y2026: 0 },
-  { mes: "Sep", y2025: 278113, y2026: 0 },
+  { mes: "Ene", y2025: 282960, y2026: 278968 },
+  { mes: "Feb", y2025: 269925, y2026: 254380 },
+  { mes: "Mar", y2025: 330215, y2026: 88768 },
+  { mes: "Abr", y2025: 275427, y2026: 0 },
+  { mes: "May", y2025: 283242, y2026: 0 },
+  { mes: "Jun", y2025: 265012, y2026: 0 },
+  { mes: "Jul", y2025: 254151, y2026: 0 },
+  { mes: "Ago", y2025: 275097, y2026: 0 },
+  { mes: "Sep", y2025: 278023, y2026: 0 },
   { mes: "Oct", y2025: 267868, y2026: 0 },
   { mes: "Nov", y2025: 241504, y2026: 0 },
   { mes: "Dic", y2025: 206822, y2026: 0 },
 ];
 
 const ingresoRows = [
-  { mes: "Ene", y2025: 288186, y2026: 278968, var: -3.2 },
-  { mes: "Feb", y2025: 273691, y2026: 254380, var: -7.1 },
-  { mes: "Mar", y2025: 332287, y2026: 24240, var: null },
+  { mes: "Ene", y2025: 282960, y2026: 278968, var: -1.4 },
+  { mes: "Feb", y2025: 269925, y2026: 254380, var: -5.8 },
+  { mes: "Mar", y2025: 330215, y2026: 88768, var: null },
 ];
 
 const unidadesRows = [
-  { mes: "Ene", y2025: 11459, y2026: 10516, var: -8.2 },
-  { mes: "Feb", y2025: 11223, y2026: 9938, var: -11.4 },
-  { mes: "Mar", y2025: 13553, y2026: 1000, var: null },
+  { mes: "Ene", y2025: 11158, y2026: 10516, var: -5.8 },
+  { mes: "Feb", y2025: 10993, y2026: 9938, var: -9.6 },
+  { mes: "Mar", y2025: 13380, y2026: 3742, var: null },
 ];
 
 function fmtMoney(v: number) {
@@ -56,7 +56,7 @@ export default function Slide2KPIs() {
         <Image src="/4buddies-logo.jpeg" alt="4B" width={36} height={36} className="rounded-lg" />
         <div>
           <h2 className="text-xl font-bold text-orange-900">Sell-Out Mensual — 2025 vs 2026</h2>
-          <p className="text-xs text-orange-600">Ingresos y unidades por mes calendario. Marzo 2026 en curso (parcial).</p>
+          <p className="text-xs text-orange-600">Ingresos y unidades por mes calendario. Marzo 2026 en curso (parcial al 9 Mar).</p>
         </div>
       </div>
 
@@ -110,9 +110,9 @@ export default function Slide2KPIs() {
                 ))}
                 <tr className="border-t-2 border-orange-300">
                   <td className="py-1.5 font-bold text-orange-900 text-xs">YTD</td>
-                  <td className="py-1.5 text-right font-bold text-orange-700 text-xs">$894K</td>
-                  <td className="py-1.5 text-right font-bold text-orange-900 text-xs">$558K</td>
-                  <td className="py-1.5 text-right font-bold text-red-600 text-xs">-37.6%</td>
+                  <td className="py-1.5 text-right font-bold text-orange-700 text-xs">$883K</td>
+                  <td className="py-1.5 text-right font-bold text-orange-900 text-xs">$622K</td>
+                  <td className="py-1.5 text-right font-bold text-red-600 text-xs">-29.6%</td>
                 </tr>
               </tbody>
             </table>
@@ -143,9 +143,9 @@ export default function Slide2KPIs() {
                 ))}
                 <tr className="border-t-2 border-orange-300">
                   <td className="py-1.5 font-bold text-orange-900 text-xs">YTD</td>
-                  <td className="py-1.5 text-right font-bold text-orange-700 text-xs">36,235</td>
-                  <td className="py-1.5 text-right font-bold text-orange-900 text-xs">21,454</td>
-                  <td className="py-1.5 text-right font-bold text-red-600 text-xs">-40.8%</td>
+                  <td className="py-1.5 text-right font-bold text-orange-700 text-xs">35,531</td>
+                  <td className="py-1.5 text-right font-bold text-orange-900 text-xs">24,196</td>
+                  <td className="py-1.5 text-right font-bold text-red-600 text-xs">-31.9%</td>
                 </tr>
               </tbody>
             </table>

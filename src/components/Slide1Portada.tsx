@@ -27,20 +27,20 @@ export default function Slide1Portada() {
           <span className="text-2xl font-bold text-white/90">HEB</span>
         </div>
         <p className="text-lg text-white/80">
-          P04-2026 (26 Ene &ndash; 22 Feb) &middot; P05-2026 en curso
+          P05-2026 (23 Feb &ndash; 22 Mar) &middot; Periodo en curso
         </p>
         <p className="text-sm text-white/60">
-          Datos de sell-out e inventario al 2 de marzo 2026
+          Datos de sell-out e inventario al 9 de marzo 2026
         </p>
 
         <div className="flex items-center justify-center gap-4 mt-8">
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <Package className="w-4 h-4 text-yellow-200" />
-            <span className="text-white text-sm font-medium">78 alertas de restock</span>
+            <span className="text-white text-sm font-medium">112 alertas de restock</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <AlertTriangle className="w-4 h-4 text-yellow-200" />
-            <span className="text-white text-sm font-medium">25 problemas de anaquel</span>
+            <span className="text-white text-sm font-medium">20 problemas de anaquel</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <Store className="w-4 h-4 text-yellow-200" />
@@ -50,7 +50,7 @@ export default function Slide1Portada() {
       </div>
 
       <div className="absolute bottom-12 text-xs text-white/40">
-        Preparado por Mario Pena &middot; KAM 4BUDDIES &middot; 3 de marzo 2026
+        Preparado por Mario Pena &middot; KAM 4BUDDIES &middot; 10 de marzo 2026
       </div>
     </div>
   );
