@@ -36,7 +36,7 @@ export default function Slide1Portada() {
         <div className="flex items-center justify-center gap-4 mt-8">
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <Package className="w-4 h-4 text-yellow-200" />
-            <span className="text-white text-sm font-medium">112 alertas de restock</span>
+            <span className="text-white text-sm font-medium">23 alertas de restock</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <AlertTriangle className="w-4 h-4 text-yellow-200" />

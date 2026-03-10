@@ -7,16 +7,16 @@ const secciones = [
   {
     icon: ShoppingCart,
     titulo: "Restock Urgente",
-    subtitulo: "112 combinaciones tienda-producto",
+    subtitulo: "23 alertas (ajustado con OC)",
     color: "red",
     items: [
-      "LEO Lopez Mateos: Rodajitas (0.5 dias de inv)",
-      "VIC Campestre: Classic White 25g (1.1 dias)",
-      "MTY San Nicolas: Cheddar Jalapeno 25g (1.2 dias)",
-      "MTY San Pedro: Cheddar Jalapeno 25g (1.3 dias)",
-      "MTY Valle Oriente: Chile Piquin (1.3 dias)",
+      "LEO Torres Landa: Rodajitas (1.8d, sin OC)",
+      "AGS Santa Monica: Street Elote 125g (4.1d, sin OC)",
+      "MTY Valle Oriente: Cheddar Jalapeno 25g (8.8d, sin OC)",
+      "MTY San Nicolas: Chicharron (+20 OC, aun 9.1d)",
+      "MTY El Uro: Chile Piquin (9.8d, sin OC)",
     ],
-    nota: "Inventario no cubre 15 dias de venta. Priorizar tiendas AA y A con mayor sell-out.",
+    nota: "Inventario + OC en transito no cubre 15 dias de venta. 89 alertas se resolvieron con la OC 4Mar.",
   },
   {
     icon: AlertTriangle,

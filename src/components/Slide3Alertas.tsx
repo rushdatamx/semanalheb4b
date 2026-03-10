@@ -4,21 +4,19 @@ import Image from "next/image";
 import { AlertTriangle, ShoppingCart } from "lucide-react";
 
 const alertasRestock = [
-  { tienda: "HEB LEO LOPEZ MATEOS", producto: "Rodajitas Spicy Limon", inv: 1, vtaDia: 2.13, cob: 0.5 },
-  { tienda: "HEB VIC CAMPESTRE", producto: "Classic White 25g", inv: 1, vtaDia: 0.93, cob: 1.1 },
-  { tienda: "HEB MTY SAN NICOLAS", producto: "Cheddar Jalapeno 25g", inv: 2, vtaDia: 1.60, cob: 1.2 },
-  { tienda: "HEB MTY SAN PEDRO", producto: "Cheddar Jalapeno 25g", inv: 5, vtaDia: 3.93, cob: 1.3 },
-  { tienda: "HEB MTY VALLE ORIENTE", producto: "Chile Piquin", inv: 3, vtaDia: 2.27, cob: 1.3 },
-  { tienda: "HEB MTY TEC", producto: "Cheddar Jalapeno 125g", inv: 4, vtaDia: 2.53, cob: 1.6 },
-  { tienda: "HEB MTY CHIPINQUE", producto: "Cheddar Jalapeno 25g", inv: 4, vtaDia: 2.27, cob: 1.8 },
-  { tienda: "HEB MTY CONTRY", producto: "Rodajitas Spicy Limon", inv: 5, vtaDia: 2.73, cob: 1.8 },
-  { tienda: "HEB SAL SAN PATRICIO", producto: "Chicharron Natural", inv: 3, vtaDia: 1.53, cob: 2.0 },
-  { tienda: "HEB MTY PUERTA DE HIERRO", producto: "Street Elote 25g", inv: 4, vtaDia: 1.87, cob: 2.1 },
-  { tienda: "HEB MTY VALLE ALTO", producto: "Classic White 25g", inv: 5, vtaDia: 2.20, cob: 2.3 },
-  { tienda: "HEB LEO CERRO GORDO", producto: "Classic White 125g", inv: 7, vtaDia: 2.87, cob: 2.4 },
-  { tienda: "HEB MTY SAN PEDRO", producto: "Rodajitas Spicy Limon", inv: 9, vtaDia: 3.53, cob: 2.5 },
-  { tienda: "HEB MTY CONTRY", producto: "Street Elote 125g", inv: 8, vtaDia: 2.93, cob: 2.7 },
-  { tienda: "HEB MTY CHIPINQUE", producto: "Street Elote 25g", inv: 5, vtaDia: 1.80, cob: 2.8 },
+  { tienda: "HEB LEO TORRES LANDA", producto: "Rodajitas Spicy Limon", inv: 3, oc: 0, ajust: 3, vtaDia: 1.67, cob: 1.8 },
+  { tienda: "HEB AGS SANTA MONICA", producto: "Street Elote 125g", inv: 9, oc: 0, ajust: 9, vtaDia: 2.20, cob: 4.1 },
+  { tienda: "HEB MTY VALLE ORIENTE", producto: "Cheddar Jalapeno 25g", inv: 10, oc: 0, ajust: 10, vtaDia: 1.13, cob: 8.8 },
+  { tienda: "HEB MTY SAN NICOLAS", producto: "Chicharron Natural", inv: 0, oc: 20, ajust: 20, vtaDia: 2.20, cob: 9.1 },
+  { tienda: "HEB MTY SAN PEDRO", producto: "Cheddar Jalapeno 25g", inv: 5, oc: 32, ajust: 37, vtaDia: 3.93, cob: 9.4 },
+  { tienda: "HEB MTY EL URO", producto: "Chile Piquin", inv: 21, oc: 0, ajust: 21, vtaDia: 2.13, cob: 9.8 },
+  { tienda: "HEB VIC CAMPESTRE", producto: "Classic White 25g", inv: 1, oc: 10, ajust: 11, vtaDia: 0.93, cob: 11.8 },
+  { tienda: "HEB MTY ESCOBEDO", producto: "Classic White 125g", inv: 15, oc: 0, ajust: 15, vtaDia: 1.27, cob: 11.8 },
+  { tienda: "HEB MTY SAN NICOLAS", producto: "Chile Piquin", inv: 14, oc: 0, ajust: 14, vtaDia: 1.13, cob: 12.4 },
+  { tienda: "HEB MTY PUERTA HIERRO", producto: "Chicharron Natural", inv: 9, oc: 10, ajust: 19, vtaDia: 1.53, cob: 12.4 },
+  { tienda: "HEB MTY CHIPINQUE", producto: "Cheddar Jalapeno 25g", inv: 4, oc: 24, ajust: 28, vtaDia: 2.27, cob: 12.3 },
+  { tienda: "HEB MTY CONTRY", producto: "Rodajitas Spicy Limon", inv: 5, oc: 32, ajust: 37, vtaDia: 2.73, cob: 13.5 },
+  { tienda: "HEB MTY TEC", producto: "Classic White 125g", inv: 15, oc: 0, ajust: 15, vtaDia: 1.13, cob: 13.3 },
 ];
 
 const alertasAnaquel = [
@@ -45,7 +43,7 @@ export default function Slide3Alertas() {
         <div>
           <h2 className="text-xl font-bold text-orange-900">Alertas por Tienda</h2>
           <p className="text-xs text-orange-600">
-            Basado en venta diaria de los ultimos 15 dias vs inventario actual al 9 de marzo 2026
+            Inventario ajustado con OC 4Mar en transito. Venta diaria ultimos 15 dias al 9 de marzo 2026.
           </p>
         </div>
       </div>
@@ -59,7 +57,7 @@ export default function Slide3Alertas() {
             </div>
             <div>
               <h3 className="text-sm font-bold text-red-800">Restock Urgente</h3>
-              <p className="text-[10px] text-red-600">Inventario no alcanza para 15 dias de venta &middot; 112 alertas totales</p>
+              <p className="text-[10px] text-red-600">Inv + OC en transito &lt; 15 dias de venta &middot; 23 alertas (ajustado)</p>
             </div>
           </div>
           <div className="flex-1 overflow-auto">
@@ -69,20 +67,20 @@ export default function Slide3Alertas() {
                   <th className="text-left py-1 text-red-800 font-semibold">Tienda</th>
                   <th className="text-left py-1 text-red-800 font-semibold">Producto</th>
                   <th className="text-right py-1 text-red-800 font-semibold">Inv</th>
-                  <th className="text-right py-1 text-red-800 font-semibold">Vta/dia</th>
+                  <th className="text-right py-1 text-red-800 font-semibold">+OC</th>
                   <th className="text-right py-1 text-red-800 font-semibold">Dias</th>
                 </tr>
               </thead>
               <tbody>
                 {alertasRestock.map((r, i) => (
-                  <tr key={i} className={`border-b border-red-50 ${r.cob <= 2 ? "bg-red-50" : ""}`}>
+                  <tr key={i} className={`border-b border-red-50 ${r.cob <= 5 ? "bg-red-50" : ""}`}>
                     <td className="py-1 text-orange-900">{r.tienda.replace("HEB ", "")}</td>
                     <td className="py-1 text-orange-700">{r.producto}</td>
                     <td className="py-1 text-right font-medium text-red-700">{r.inv}</td>
-                    <td className="py-1 text-right text-orange-600">{r.vtaDia.toFixed(1)}</td>
+                    <td className="py-1 text-right text-green-600 font-medium">{r.oc > 0 ? `+${r.oc}` : "-"}</td>
                     <td className="py-1 text-right">
                       <span className={`px-1.5 py-0.5 rounded-full font-bold ${
-                        r.cob <= 2 ? "bg-red-600 text-white" : r.cob <= 7 ? "bg-red-100 text-red-700" : "bg-orange-100 text-orange-700"
+                        r.cob <= 5 ? "bg-red-600 text-white" : r.cob <= 10 ? "bg-red-100 text-red-700" : "bg-orange-100 text-orange-700"
                       }`}>
                         {r.cob}d
                       </span>
