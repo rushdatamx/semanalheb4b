@@ -11,10 +11,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-    "dependencies": {
+  "dependencies": {
     "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "^25.3.3",
     "@types/react": "^19.2.14",
+    "html2canvas-pro": "^2.0.2",
+    "jspdf": "^4.2.0",
     "lucide-react": "^0.576.0",
     "next": "^16.1.6",
     "postcss": "^8.5.8",
