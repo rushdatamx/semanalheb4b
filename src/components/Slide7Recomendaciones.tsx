@@ -7,44 +7,44 @@ const secciones = [
   {
     icon: ShoppingCart,
     titulo: "Restock Urgente",
-    subtitulo: "23 alertas (ajustado con OC)",
+    subtitulo: "27 alertas (ajustado con OC 11Mar)",
     color: "red",
     items: [
-      "LEO Torres Landa: Rodajitas (1.8d, sin OC)",
-      "AGS Santa Monica: Street Elote 125g (4.1d, sin OC)",
-      "MTY Valle Oriente: Cheddar Jalapeno 25g (8.8d, sin OC)",
-      "MTY San Nicolas: Chicharron (+20 OC, aun 9.1d)",
-      "MTY El Uro: Chile Piquin (9.8d, sin OC)",
+      "TOR Revolucion: Street Elote 125g (1.7d, sin OC)",
+      "QRO San Juan del Rio: Chicharron (4.3d, sin OC)",
+      "MTY El Uro: Street Elote 125g (9.3d, +10 OC)",
+      "QRO Juriquilla: Chicharron (9.4d, +10 OC)",
+      "MTY Chipinque: Chicharron (9.9d, sin OC)",
     ],
-    nota: "Inventario + OC en transito no cubre 15 dias de venta. 89 alertas se resolvieron con la OC 4Mar.",
+    nota: "Inventario + OC en transito no cubre 15 dias de venta. Street Elote 125g y Chicharron son los mas afectados.",
   },
   {
     icon: AlertTriangle,
     titulo: "Problema de Anaquel",
-    subtitulo: "20 combinaciones tienda-producto",
+    subtitulo: "22 combinaciones tienda-producto",
     color: "amber",
     items: [
       "NVO Nuevo Laredo: Street Elote 125g (107 uds sin venta)",
-      "MTY La Puerta: Cheddar Jalapeno 125g (56 uds sin venta)",
       "VIC Campestre: Classic White 125g (51 uds sin venta)",
-      "SLP Los Pinos: Street Elote 125g (51 uds sin venta)",
       "QRO San Juan del Rio: Rodajitas (45 uds sin venta)",
+      "SAL Republica: Street Elote 125g (34 uds sin venta)",
+      "VIC Campestre: Rodajitas (33 uds sin venta)",
     ],
-    nota: "Tienen inventario pero $0 venta en 15 dias. Revisar exhibicion con el comprador.",
+    nota: "Tienen inventario pero $0 venta en 15 dias. VIC Campestre tiene 5 SKUs sin venta. Revisar exhibicion con el comprador.",
   },
   {
     icon: TrendingUp,
     titulo: "OC Sugerida",
-    subtitulo: "5 SKUs necesitan resurtido",
+    subtitulo: "2 SKUs necesitan resurtido urgente",
     color: "green",
     items: [
-      "Chicharron Natural: 3.0 sem inv — pedir ~300 uds",
-      "Rodajitas Spicy Limon: 3.3 sem inv — pedir ~500 uds",
-      "Street Elote 25g: 3.3 sem inv — pedir ~270 uds",
-      "Cheddar Jalapeno 25g: 3.4 sem inv — pedir ~190 uds",
-      "Classic White 25g: 3.9 sem inv — pedir ~170 uds",
+      "Street Elote 125g: 3.6 sem inv — pedir ~546 uds",
+      "Chicharron Natural: 3.8 sem inv — pedir ~592 uds",
+      "Rodajitas Spicy Limon: 4.1 sem — OK por ahora",
+      "Cheddar Jalapeno 125g: 4.2 sem — OK por ahora",
+      "Chile Piquin: 9.5 sem — Holgado, no requiere OC",
     ],
-    nota: "SKUs 125g y Chile Piquin estan holgados (4.5-8.4 sem). No requieren OC inmediata.",
+    nota: "Los demas SKUs estan entre 4-10 semanas de inventario. Priorizar Street Elote 125g y Chicharron en la proxima OC.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function Slide7Recomendaciones() {
         <Image src="/4buddies-logo.jpeg" alt="4B" width={36} height={36} className="rounded-lg" />
         <div>
           <h2 className="text-xl font-bold text-orange-900">Recomendaciones</h2>
-          <p className="text-xs text-orange-600">Acciones para la semana del 10 de marzo 2026</p>
+          <p className="text-xs text-orange-600">Acciones para la semana del 17 de marzo 2026</p>
         </div>
       </div>
 

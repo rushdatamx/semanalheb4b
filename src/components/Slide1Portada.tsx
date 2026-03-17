@@ -30,17 +30,17 @@ export default function Slide1Portada() {
           P05-2026 (23 Feb &ndash; 22 Mar) &middot; Periodo en curso
         </p>
         <p className="text-sm text-white/60">
-          Datos de sell-out e inventario al 9 de marzo 2026
+          Datos de sell-out e inventario al 16 de marzo 2026
         </p>
 
         <div className="flex items-center justify-center gap-4 mt-8">
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <Package className="w-4 h-4 text-yellow-200" />
-            <span className="text-white text-sm font-medium">23 alertas de restock</span>
+            <span className="text-white text-sm font-medium">27 alertas de restock</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <AlertTriangle className="w-4 h-4 text-yellow-200" />
-            <span className="text-white text-sm font-medium">20 problemas de anaquel</span>
+            <span className="text-white text-sm font-medium">22 problemas de anaquel</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
             <Store className="w-4 h-4 text-yellow-200" />
@@ -50,7 +50,7 @@ export default function Slide1Portada() {
       </div>
 
       <div className="absolute bottom-12 text-xs text-white/40">
-        Preparado por Mario Pena &middot; KAM 4BUDDIES &middot; 10 de marzo 2026
+        Preparado por Mario Pena &middot; KAM 4BUDDIES &middot; 17 de marzo 2026
       </div>
     </div>
   );

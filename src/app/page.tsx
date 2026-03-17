@@ -69,7 +69,7 @@ export default function Home() {
         pdf.addImage(imgData, "PNG", 0, 0, 1280, 720);
       }
 
-      pdf.save("Reporte_Semanal_4BUDDIES_HEB_2026-03-10.pdf");
+      pdf.save("Reporte_Semanal_4BUDDIES_HEB_2026-03-17.pdf");
       setCurrent(savedSlide);
     } catch (err) {
       console.error(err);

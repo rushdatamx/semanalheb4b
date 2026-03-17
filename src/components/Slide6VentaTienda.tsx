@@ -3,26 +3,26 @@
 import Image from "next/image";
 
 const topTiendas = [
-  { pos: 1, tienda: "HEB Valle Oriente", cluster: "AA", ciudad: "Monterrey", monto: 8148, uds: 331 },
-  { pos: 2, tienda: "HEB Chipinque", cluster: "AA", ciudad: "Monterrey", monto: 7720, uds: 334 },
-  { pos: 3, tienda: "HEB San Pedro", cluster: "AA", ciudad: "Monterrey", monto: 6924, uds: 316 },
-  { pos: 4, tienda: "HEB Contry", cluster: "A", ciudad: "Monterrey", monto: 5936, uds: 260 },
-  { pos: 5, tienda: "HEB San Nicolas", cluster: "A", ciudad: "Monterrey", monto: 5092, uds: 204 },
-  { pos: 6, tienda: "HEB Tec", cluster: "A", ciudad: "Monterrey", monto: 4973, uds: 229 },
-  { pos: 7, tienda: "HEB Valle Alto", cluster: "AA Light", ciudad: "Monterrey", monto: 4959, uds: 215 },
-  { pos: 8, tienda: "HEB Puerta de Hierro", cluster: "A", ciudad: "Monterrey", monto: 4451, uds: 181 },
-  { pos: 9, tienda: "HEB El Uro", cluster: "AA Light", ciudad: "Monterrey", monto: 4171, uds: 192 },
-  { pos: 10, tienda: "HEB Cerro Gordo", cluster: "AA Light", ciudad: "Leon", monto: 3995, uds: 190 },
-  { pos: 11, tienda: "HEB Cumbres", cluster: "AA Light", ciudad: "Monterrey", monto: 3545, uds: 152 },
-  { pos: 12, tienda: "HEB Los Morales", cluster: "B", ciudad: "Monterrey", monto: 3419, uds: 144 },
-  { pos: 13, tienda: "HEB Bosques Lomas", cluster: "A", ciudad: "Monterrey", monto: 3213, uds: 145 },
-  { pos: 14, tienda: "HEB San Patricio", cluster: "AA Light", ciudad: "Saltillo", monto: 3026, uds: 121 },
-  { pos: 15, tienda: "HEB Santa Catarina", cluster: "B", ciudad: "Monterrey", monto: 3024, uds: 116 },
-  { pos: 16, tienda: "HEB Concordia", cluster: "B", ciudad: "Monterrey", monto: 2923, uds: 122 },
-  { pos: 17, tienda: "HEB Sendero", cluster: "B", ciudad: "Monterrey", monto: 2795, uds: 121 },
-  { pos: 18, tienda: "HEB Juriquilla", cluster: "AA Light", ciudad: "Queretaro", monto: 2639, uds: 96 },
-  { pos: 19, tienda: "HEB Linda Vista", cluster: "B", ciudad: "Monterrey", monto: 2490, uds: 93 },
-  { pos: 20, tienda: "HEB Chapultepec", cluster: "C", ciudad: "Monterrey", monto: 2263, uds: 94 },
+  { pos: 1, tienda: "HEB Valle Oriente", cluster: "AA", ciudad: "Monterrey", monto: 11543, uds: 454 },
+  { pos: 2, tienda: "HEB Chipinque", cluster: "AA", ciudad: "Monterrey", monto: 10951, uds: 460 },
+  { pos: 3, tienda: "HEB San Pedro", cluster: "AA", ciudad: "Monterrey", monto: 9341, uds: 436 },
+  { pos: 4, tienda: "HEB Contry", cluster: "A", ciudad: "Monterrey", monto: 8958, uds: 396 },
+  { pos: 5, tienda: "HEB Valle Alto", cluster: "AA Light", ciudad: "Monterrey", monto: 7873, uds: 340 },
+  { pos: 6, tienda: "HEB Tec", cluster: "A", ciudad: "Monterrey", monto: 7494, uds: 335 },
+  { pos: 7, tienda: "HEB San Nicolas", cluster: "A", ciudad: "Monterrey", monto: 7036, uds: 290 },
+  { pos: 8, tienda: "HEB Puerta de Hierro", cluster: "A", ciudad: "Monterrey", monto: 6115, uds: 251 },
+  { pos: 9, tienda: "HEB Cerro Gordo", cluster: "AA Light", ciudad: "Leon", monto: 6026, uds: 296 },
+  { pos: 10, tienda: "HEB El Uro", cluster: "AA Light", ciudad: "Monterrey", monto: 5664, uds: 264 },
+  { pos: 11, tienda: "HEB Cumbres", cluster: "AA Light", ciudad: "Monterrey", monto: 5253, uds: 219 },
+  { pos: 12, tienda: "HEB Santa Catarina", cluster: "B", ciudad: "Monterrey", monto: 4599, uds: 175 },
+  { pos: 13, tienda: "HEB Concordia", cluster: "B", ciudad: "Monterrey", monto: 4576, uds: 191 },
+  { pos: 14, tienda: "HEB Los Morales", cluster: "B", ciudad: "Monterrey", monto: 4548, uds: 192 },
+  { pos: 15, tienda: "HEB Bosques Lomas", cluster: "A", ciudad: "Monterrey", monto: 4475, uds: 200 },
+  { pos: 16, tienda: "HEB Sendero", cluster: "B", ciudad: "Monterrey", monto: 4321, uds: 183 },
+  { pos: 17, tienda: "HEB San Patricio", cluster: "AA Light", ciudad: "Saltillo", monto: 3841, uds: 157 },
+  { pos: 18, tienda: "HEB Linda Vista", cluster: "B", ciudad: "Monterrey", monto: 3746, uds: 144 },
+  { pos: 19, tienda: "HEB Ejercito", cluster: "B", ciudad: "Tampico", monto: 3538, uds: 142 },
+  { pos: 20, tienda: "HEB Juriquilla", cluster: "AA Light", ciudad: "Queretaro", monto: 3479, uds: 130 },
 ];
 
 const maxMonto = topTiendas[0].monto;
@@ -50,7 +50,7 @@ export default function Slide6VentaTienda() {
         <div>
           <h2 className="text-xl font-bold text-orange-900">Venta por Tienda — Top 20</h2>
           <p className="text-xs text-orange-600">
-            P05-2026 (23 Feb &ndash; 9 Mar 2026, parcial) &middot; 62 tiendas operativas
+            P05-2026 (23 Feb &ndash; 16 Mar 2026, parcial) &middot; 62 tiendas operativas
           </p>
         </div>
       </div>

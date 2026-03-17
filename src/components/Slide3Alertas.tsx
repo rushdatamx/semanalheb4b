@@ -4,35 +4,39 @@ import Image from "next/image";
 import { AlertTriangle, ShoppingCart } from "lucide-react";
 
 const alertasRestock = [
-  { tienda: "HEB LEO TORRES LANDA", producto: "Rodajitas Spicy Limon", inv: 3, oc: 0, ajust: 3, vtaDia: 1.67, cob: 1.8 },
-  { tienda: "HEB AGS SANTA MONICA", producto: "Street Elote 125g", inv: 9, oc: 0, ajust: 9, vtaDia: 2.20, cob: 4.1 },
-  { tienda: "HEB MTY VALLE ORIENTE", producto: "Cheddar Jalapeno 25g", inv: 10, oc: 0, ajust: 10, vtaDia: 1.13, cob: 8.8 },
-  { tienda: "HEB MTY SAN NICOLAS", producto: "Chicharron Natural", inv: 0, oc: 20, ajust: 20, vtaDia: 2.20, cob: 9.1 },
-  { tienda: "HEB MTY SAN PEDRO", producto: "Cheddar Jalapeno 25g", inv: 5, oc: 32, ajust: 37, vtaDia: 3.93, cob: 9.4 },
-  { tienda: "HEB MTY EL URO", producto: "Chile Piquin", inv: 21, oc: 0, ajust: 21, vtaDia: 2.13, cob: 9.8 },
-  { tienda: "HEB VIC CAMPESTRE", producto: "Classic White 25g", inv: 1, oc: 10, ajust: 11, vtaDia: 0.93, cob: 11.8 },
-  { tienda: "HEB MTY ESCOBEDO", producto: "Classic White 125g", inv: 15, oc: 0, ajust: 15, vtaDia: 1.27, cob: 11.8 },
-  { tienda: "HEB MTY SAN NICOLAS", producto: "Chile Piquin", inv: 14, oc: 0, ajust: 14, vtaDia: 1.13, cob: 12.4 },
-  { tienda: "HEB MTY PUERTA HIERRO", producto: "Chicharron Natural", inv: 9, oc: 10, ajust: 19, vtaDia: 1.53, cob: 12.4 },
-  { tienda: "HEB MTY CHIPINQUE", producto: "Cheddar Jalapeno 25g", inv: 4, oc: 24, ajust: 28, vtaDia: 2.27, cob: 12.3 },
-  { tienda: "HEB MTY CONTRY", producto: "Rodajitas Spicy Limon", inv: 5, oc: 32, ajust: 37, vtaDia: 2.73, cob: 13.5 },
-  { tienda: "HEB MTY TEC", producto: "Classic White 125g", inv: 15, oc: 0, ajust: 15, vtaDia: 1.13, cob: 13.3 },
+  { tienda: "TOR REVOLUCION", producto: "Street Elote 125g", inv: 2, oc: 0, ajust: 2, vtaDia: 1.2, cob: 1.7 },
+  { tienda: "QRO SAN JUAN DEL RIO", producto: "Chicharron Natural", inv: 4, oc: 0, ajust: 4, vtaDia: 0.93, cob: 4.3 },
+  { tienda: "MTY EL URO", producto: "Street Elote 125g", inv: 3, oc: 10, ajust: 13, vtaDia: 1.4, cob: 9.3 },
+  { tienda: "QRO JURIQUILLA", producto: "Chicharron Natural", inv: 0, oc: 10, ajust: 10, vtaDia: 1.07, cob: 9.4 },
+  { tienda: "MTY CHIPINQUE", producto: "Chicharron Natural", inv: 23, oc: 0, ajust: 23, vtaDia: 2.33, cob: 9.9 },
+  { tienda: "MTY CONTRY", producto: "Rodajitas Spicy Limon", inv: 48, oc: 0, ajust: 48, vtaDia: 4.87, cob: 9.9 },
+  { tienda: "MTY CONCORDIA", producto: "Cheddar Jalapeno 125g", inv: 14, oc: 0, ajust: 14, vtaDia: 1.27, cob: 11.1 },
+  { tienda: "MTY SAN PEDRO", producto: "Street Elote 125g", inv: 68, oc: 0, ajust: 68, vtaDia: 6.13, cob: 11.1 },
+  { tienda: "MTY TEC", producto: "Rodajitas Spicy Limon", inv: 36, oc: 0, ajust: 36, vtaDia: 3.2, cob: 11.2 },
+  { tienda: "MTY TEC", producto: "Classic White 125g", inv: 38, oc: 0, ajust: 38, vtaDia: 3.27, cob: 11.6 },
+  { tienda: "TAM MADERO", producto: "Street Elote 125g", inv: 12, oc: 0, ajust: 12, vtaDia: 1.0, cob: 12.0 },
+  { tienda: "MTY SANTA CATARINA", producto: "Street Elote 125g", inv: 3, oc: 10, ajust: 13, vtaDia: 1.07, cob: 12.2 },
+  { tienda: "MTY CUMBRES", producto: "Street Elote 125g", inv: 9, oc: 0, ajust: 9, vtaDia: 0.73, cob: 12.3 },
+  { tienda: "MTY CONTRY", producto: "Street Elote 125g", inv: 33, oc: 0, ajust: 33, vtaDia: 2.67, cob: 12.4 },
+  { tienda: "MTY CUMBRES", producto: "Cheddar Jalapeno 125g", inv: 5, oc: 10, ajust: 15, vtaDia: 1.2, cob: 12.5 },
 ];
 
 const alertasAnaquel = [
-  { tienda: "HEB NVO NUEVO LAREDO", producto: "Street Elote 125g", inv: 107 },
-  { tienda: "HEB MTY LA PUERTA", producto: "Cheddar Jalapeno 125g", inv: 56 },
-  { tienda: "HEB VIC CAMPESTRE", producto: "Classic White 125g", inv: 51 },
-  { tienda: "HEB SLP LOS PINOS", producto: "Street Elote 125g", inv: 51 },
-  { tienda: "HEB QRO SAN JUAN DEL RIO", producto: "Rodajitas Spicy Limon", inv: 45 },
-  { tienda: "HEB SAL REPUBLICA", producto: "Classic White 125g", inv: 42 },
-  { tienda: "HEB MTY CUMBRES", producto: "Cheddar Jalapeno 125g", inv: 40 },
-  { tienda: "HEB SAL LA NOGALERA", producto: "Street Elote 125g", inv: 33 },
-  { tienda: "HEB QRO ZIBATA", producto: "Street Elote 125g", inv: 33 },
-  { tienda: "HEB VIC CAMPESTRE", producto: "Rodajitas Spicy Limon", inv: 33 },
-  { tienda: "HEB IRA IRAPUATO", producto: "Rodajitas Spicy Limon", inv: 32 },
-  { tienda: "HEB MAT MATAMOROS", producto: "Street Elote 125g", inv: 32 },
-  { tienda: "HEB TOR INDEPENDENCIA", producto: "Chile Piquin", inv: 32 },
+  { tienda: "NVO NUEVO LAREDO", producto: "Street Elote 125g", inv: 107 },
+  { tienda: "VIC CAMPESTRE", producto: "Classic White 125g", inv: 51 },
+  { tienda: "QRO SAN JUAN DEL RIO", producto: "Rodajitas Spicy Limon", inv: 45 },
+  { tienda: "SAL REPUBLICA", producto: "Street Elote 125g", inv: 34 },
+  { tienda: "VIC CAMPESTRE", producto: "Rodajitas Spicy Limon", inv: 33 },
+  { tienda: "TOR SENDEROS", producto: "Chile Piquin", inv: 32 },
+  { tienda: "IRA IRAPUATO", producto: "Rodajitas Spicy Limon", inv: 32 },
+  { tienda: "TOR SENDEROS", producto: "Street Elote 125g", inv: 32 },
+  { tienda: "SAL REPUBLICA", producto: "Cheddar Jalapeno 125g", inv: 31 },
+  { tienda: "VIC CAMPESTRE", producto: "Cheddar Jalapeno 125g", inv: 31 },
+  { tienda: "MAT LAURO VILLAR", producto: "Chile Piquin", inv: 29 },
+  { tienda: "VIC CAMPESTRE", producto: "Chile Piquin", inv: 29 },
+  { tienda: "SLP LOS PINOS", producto: "Cheddar Jalapeno 125g", inv: 25 },
+  { tienda: "NVO NUEVO LAREDO", producto: "Classic White 125g", inv: 24 },
+  { tienda: "VIC CAMPESTRE", producto: "Street Elote 125g", inv: 21 },
 ];
 
 export default function Slide3Alertas() {
@@ -43,7 +47,7 @@ export default function Slide3Alertas() {
         <div>
           <h2 className="text-xl font-bold text-orange-900">Alertas por Tienda</h2>
           <p className="text-xs text-orange-600">
-            Inventario ajustado con OC 4Mar en transito. Venta diaria ultimos 15 dias al 9 de marzo 2026.
+            Inventario ajustado con OC 11Mar en transito. Venta diaria ultimos 15 dias al 16 de marzo 2026.
           </p>
         </div>
       </div>
@@ -57,7 +61,7 @@ export default function Slide3Alertas() {
             </div>
             <div>
               <h3 className="text-sm font-bold text-red-800">Restock Urgente</h3>
-              <p className="text-[10px] text-red-600">Inv + OC en transito &lt; 15 dias de venta &middot; 23 alertas (ajustado)</p>
+              <p className="text-[10px] text-red-600">Inv + OC en transito &lt; 15 dias de venta &middot; 27 alertas (ajustado)</p>
             </div>
           </div>
           <div className="flex-1 overflow-auto">
@@ -74,7 +78,7 @@ export default function Slide3Alertas() {
               <tbody>
                 {alertasRestock.map((r, i) => (
                   <tr key={i} className={`border-b border-red-50 ${r.cob <= 5 ? "bg-red-50" : ""}`}>
-                    <td className="py-1 text-orange-900">{r.tienda.replace("HEB ", "")}</td>
+                    <td className="py-1 text-orange-900">{r.tienda}</td>
                     <td className="py-1 text-orange-700">{r.producto}</td>
                     <td className="py-1 text-right font-medium text-red-700">{r.inv}</td>
                     <td className="py-1 text-right text-green-600 font-medium">{r.oc > 0 ? `+${r.oc}` : "-"}</td>
@@ -100,7 +104,7 @@ export default function Slide3Alertas() {
             </div>
             <div>
               <h3 className="text-sm font-bold text-amber-800">Problema de Anaquel</h3>
-              <p className="text-[10px] text-amber-600">Tiene inventario pero $0 venta en 15 dias &middot; 20 alertas totales</p>
+              <p className="text-[10px] text-amber-600">Tiene inventario pero $0 venta en 15 dias &middot; 22 alertas totales</p>
             </div>
           </div>
           <div className="flex-1 overflow-auto">
@@ -115,7 +119,7 @@ export default function Slide3Alertas() {
               <tbody>
                 {alertasAnaquel.map((r, i) => (
                   <tr key={i} className="border-b border-amber-50">
-                    <td className="py-1 text-orange-900">{r.tienda.replace("HEB ", "")}</td>
+                    <td className="py-1 text-orange-900">{r.tienda}</td>
                     <td className="py-1 text-orange-700">{r.producto}</td>
                     <td className="py-1 text-right font-medium text-amber-700">{r.inv}</td>
                   </tr>
