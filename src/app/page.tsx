@@ -4,20 +4,16 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight, FileDown, Loader2 } from "lucide-react";
 import Slide1Portada from "@/components/Slide1Portada";
 import Slide2KPIs from "@/components/Slide2KPIs";
-import Slide3Alertas from "@/components/Slide3Alertas";
-import Slide4OC from "@/components/Slide4OC";
-import Slide5VentaProducto from "@/components/Slide5VentaProducto";
-import Slide6VentaTienda from "@/components/Slide6VentaTienda";
-import Slide7Recomendaciones from "@/components/Slide7Recomendaciones";
+import Slide3Productos from "@/components/Slide3Alertas";
+import Slide4Marzo from "@/components/Slide4OC";
+import Slide5Alertas from "@/components/Slide5VentaProducto";
 
 const slideComponents = [
   Slide1Portada,
   Slide2KPIs,
-  Slide3Alertas,
-  Slide4OC,
-  Slide5VentaProducto,
-  Slide6VentaTienda,
-  Slide7Recomendaciones,
+  Slide3Productos,
+  Slide4Marzo,
+  Slide5Alertas,
 ];
 
 function sleep(ms: number) {
@@ -53,7 +49,7 @@ export default function Home() {
 
       for (let i = 0; i < slideComponents.length; i++) {
         setCurrent(i);
-        await sleep(500); // esperar render completo (gráficas)
+        await sleep(500);
 
         if (!slideRef.current) continue;
 
@@ -69,7 +65,7 @@ export default function Home() {
         pdf.addImage(imgData, "PNG", 0, 0, 1280, 720);
       }
 
-      pdf.save("Reporte_Semanal_4BUDDIES_HEB_2026-03-17.pdf");
+      pdf.save("Salud_Negocio_4BUDDIES_HEB_2026-03-17.pdf");
       setCurrent(savedSlide);
     } catch (err) {
       console.error(err);

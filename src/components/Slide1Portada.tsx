@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Package, AlertTriangle, Store } from "lucide-react";
+import { TrendingUp, BarChart3, Target } from "lucide-react";
 
 export default function Slide1Portada() {
   return (
@@ -19,7 +19,7 @@ export default function Slide1Portada() {
         />
 
         <h1 className="text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
-          Reporte Semanal
+          Salud del Negocio 2026
         </h1>
         <div className="flex items-center justify-center gap-3">
           <span className="text-2xl font-bold text-white/90">4BUDDIES</span>
@@ -27,23 +27,20 @@ export default function Slide1Portada() {
           <span className="text-2xl font-bold text-white/90">HEB</span>
         </div>
         <p className="text-lg text-white/80">
-          P05-2026 (23 Feb &ndash; 22 Mar) &middot; Periodo en curso
-        </p>
-        <p className="text-sm text-white/60">
-          Datos de sell-out e inventario al 16 de marzo 2026
+          Enero &ndash; Marzo 2026 &middot; Datos al 16 de marzo
         </p>
 
         <div className="flex items-center justify-center gap-4 mt-8">
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
-            <Package className="w-4 h-4 text-yellow-200" />
-            <span className="text-white text-sm font-medium">27 alertas de restock</span>
+            <BarChart3 className="w-4 h-4 text-yellow-200" />
+            <span className="text-white text-sm font-medium">$686K vendidos YTD</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
-            <AlertTriangle className="w-4 h-4 text-yellow-200" />
-            <span className="text-white text-sm font-medium">22 problemas de anaquel</span>
+            <TrendingUp className="w-4 h-4 text-yellow-200" />
+            <span className="text-white text-sm font-medium">-4.4% vs 2025 (mismos dias)</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 bg-white/15 backdrop-blur rounded-lg border border-white/20">
-            <Store className="w-4 h-4 text-yellow-200" />
+            <Target className="w-4 h-4 text-yellow-200" />
             <span className="text-white text-sm font-medium">62 tiendas activas</span>
           </div>
         </div>
