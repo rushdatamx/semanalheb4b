@@ -297,8 +297,25 @@ function Slide1() {
         </div>
       </div>
 
-      <p className="mt-5 text-xs text-orange-700 italic text-center max-w-[700px]">
-        Mayo es el primer mes con variacion positiva del ano. Sostener el surtido y atender 48 alertas de restock es clave para cerrar la brecha YTD.
+      <div className="mt-4 bg-green-50 border-2 border-green-300 rounded-xl px-5 py-3 max-w-[780px]">
+        <p className="text-center text-[11px] font-bold text-green-800 uppercase tracking-wider mb-2">Mayo vs Abril (mismos 17 dias)</p>
+        <div className="flex justify-center gap-8 text-sm">
+          <div className="text-center">
+            <span className="text-green-700 font-extrabold text-xl">+7.6%</span>
+            <span className="text-green-700 text-xs ml-1">monto</span>
+          </div>
+          <div className="text-center">
+            <span className="text-green-700 font-extrabold text-xl">+9.5%</span>
+            <span className="text-green-700 text-xs ml-1">unidades</span>
+          </div>
+          <div className="text-center">
+            <span className="text-green-700 font-extrabold text-xl">8 de 9</span>
+            <span className="text-green-700 text-xs ml-1">SKUs creciendo</span>
+          </div>
+        </div>
+      </div>
+      <p className="mt-3 text-xs text-orange-700 italic text-center max-w-[760px]">
+        Mayo no solo rompe la racha negativa vs 2025, tambien crece +7.6% vs abril. El piso de venta diaria subio de ~$8K a ~$9K desde mediados de abril.
       </p>
     </div>
   );
