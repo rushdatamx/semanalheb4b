@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Salud del Negocio — 4BUDDIES x HEB",
-  description: "Vista estrategica YTD 2026 vs 2025",
+  title: "Reporte Sell-Out — 4BUDDIES x HEB",
+  description: "Reporte de venta sell-out YTD 2026 vs 2025",
 };
 
 export default function RootLayout({
