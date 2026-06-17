@@ -10,14 +10,14 @@ import {
   TrendingUp, Store, Target, Tag,
 } from "lucide-react";
 
-// ===================== DATOS (corte al 16 Jun 2026, YTD Ene–May) =====================
-const CORTE = "Al 16 Jun 2026 · YTD comparado Ene–May";
+// ===================== DATOS (corte al 16 Jun 2026, YTD Ene–Jun*16) =====================
+const CORTE = "Al 16 Jun 2026 · YTD Ene–Jun (jun = mismos 16 días ambos años)";
 
 const YTD = {
-  monto25: 1441768, monto26: 1356260, varMonto: -5.9,
-  uds25: 58166, uds26: 53457, varUds: -8.1,
+  monto25: 1586318, monto26: 1491513, varMonto: -6.0,
+  uds25: 64127, uds26: 58552, varUds: -8.7,
   tiendas: 64,
-  ticket25: 24.79, ticket26: 25.37, varTicket: 2.4,
+  ticket25: 24.74, ticket26: 25.47, varTicket: 3.0,
 };
 
 const VENTAS_MES = [
@@ -26,58 +26,56 @@ const VENTAS_MES = [
   { mes: "Mar", y2025: 330215, y2026: 276116, u2025: 13380, u2026: 11340, varM: -16.4, varU: -15.2 },
   { mes: "Abr", y2025: 275427, y2026: 266481, u2025: 10841, u2026: 10380, varM: -3.2, varU: -4.3 },
   { mes: "May", y2025: 283242, y2026: 280316, u2025: 11794, u2026: 11283, varM: -1.0, varU: -4.3 },
+  { mes: "Jun*", y2025: 144550, y2026: 135253, u2025: 5961, u2026: 5095, varM: -6.4, varU: -14.5 },
 ];
 
 const YTD_ROW = {
-  mes: "YTD", y2025: 1441768, y2026: 1356260, u2025: 58166, u2026: 53457, varM: -5.9, varU: -8.1,
+  mes: "YTD", y2025: 1586318, y2026: 1491513, u2025: 64127, u2026: 58552, varM: -6.0, varU: -8.7,
 };
 
-// Junio parcial (1–16) vs mismos 16 días 2025 — solo referencia en la nota del slide 2
-const JUN_PARCIAL = { m25: 144550, m26: 135253, varM: -6.4, u25: 5961, u26: 5095, varU: -14.5 };
-
 const PRODUCTOS = [
-  { corto: "Chicharrón Natural", m25: 275610, m26: 324680, var: 17.8, u26: 6521, part: 23.9, tend: "Crece" },
-  { corto: "Rodajitas Spicy Limón", m25: 181148, m26: 180966, var: -0.1, u26: 9318, part: 13.3, tend: "Estable" },
-  { corto: "Street Elote 125g", m25: 215408, m26: 176286, var: -18.2, u26: 5712, part: 13.0, tend: "Cae" },
-  { corto: "Classic White 25g", m25: 175266, m26: 145304, var: -17.1, u26: 8343, part: 10.7, tend: "Cae" },
-  { corto: "Classic White 125g", m25: 135887, m26: 130614, var: -3.9, u26: 3699, part: 9.6, tend: "Estable" },
-  { corto: "Street Elote 25g", m25: 156936, m26: 127673, var: -18.6, u26: 7391, part: 9.4, tend: "Cae" },
-  { corto: "Cheddar Jalapeño 125g", m25: 129120, m26: 126281, var: -2.2, u26: 4113, part: 9.3, tend: "Estable" },
-  { corto: "Cheddar Jalapeño 25g", m25: 96468, m26: 84499, var: -12.4, u26: 4943, part: 6.2, tend: "Cae" },
-  { corto: "Chile Piquín 25g", m25: 75925, m26: 59957, var: -21.0, u26: 3417, part: 4.4, tend: "Cae" },
+  { corto: "Chicharrón Natural", m25: 302897, m26: 361346, var: 19.3, u26: 7255, part: 24.2, tend: "Crece" },
+  { corto: "Rodajitas Spicy Limón", m25: 201780, m26: 198027, var: -1.9, u26: 10167, part: 13.3, tend: "Estable" },
+  { corto: "Street Elote 125g", m25: 234450, m26: 194687, var: -17.0, u26: 6307, part: 13.1, tend: "Cae" },
+  { corto: "Classic White 25g", m25: 193279, m26: 157326, var: -18.6, u26: 9060, part: 10.5, tend: "Cae" },
+  { corto: "Classic White 125g", m25: 149613, m26: 144567, var: -3.4, u26: 4097, part: 9.7, tend: "Estable" },
+  { corto: "Cheddar Jalapeño 125g", m25: 140929, m26: 140430, var: -0.4, u26: 4571, part: 9.4, tend: "Estable" },
+  { corto: "Street Elote 25g", m25: 172924, m26: 137506, var: -20.5, u26: 7975, part: 9.2, tend: "Cae" },
+  { corto: "Cheddar Jalapeño 25g", m25: 106477, m26: 92018, var: -13.6, u26: 5386, part: 6.2, tend: "Cae" },
+  { corto: "Chile Piquín 25g", m25: 83968, m26: 65607, var: -21.9, u26: 3734, part: 4.4, tend: "Cae" },
 ];
 
 const PIE_DATA = PRODUCTOS.map((p) => ({ name: p.corto, value: p.m26 }));
 const PIE_COLORS = ["#ea580c", "#f97316", "#fb923c", "#fdba74", "#fed7aa", "#c2410c", "#9a3412", "#7c2d12", "#431407"];
 
 const TOP_TIENDAS = [
-  { tienda: "MTY Chipinque", ciudad: "Monterrey", cluster: "AA", monto: 66464, uds: 2736 },
-  { tienda: "MTY Valle Oriente", ciudad: "Monterrey", cluster: "AA", monto: 66226, uds: 2530 },
-  { tienda: "MTY San Pedro", ciudad: "Monterrey", cluster: "AA", monto: 63687, uds: 2796 },
-  { tienda: "MTY Contry", ciudad: "Monterrey", cluster: "A", monto: 54478, uds: 2287 },
-  { tienda: "MTY Valle Alto", ciudad: "Monterrey", cluster: "AA Light", monto: 52938, uds: 2183 },
-  { tienda: "MTY Tec", ciudad: "Monterrey", cluster: "A", monto: 48332, uds: 1931 },
-  { tienda: "MTY El Uro", ciudad: "Monterrey", cluster: "AA Light", monto: 41764, uds: 1875 },
-  { tienda: "MTY San Nicolás", ciudad: "Monterrey", cluster: "A", monto: 41325, uds: 1560 },
-  { tienda: "León Cerro Gordo", ciudad: "León", cluster: "AA Light", monto: 39836, uds: 1825 },
-  { tienda: "MTY Cumbres", ciudad: "Monterrey", cluster: "AA Light", monto: 36666, uds: 1430 },
-  { tienda: "MTY Puerta de Hierro", ciudad: "Monterrey", cluster: "A", monto: 32866, uds: 1283 },
-  { tienda: "MTY Bosques de las Lomas", ciudad: "Monterrey", cluster: "A", monto: 31657, uds: 1264 },
-  { tienda: "MTY Concordia", ciudad: "Monterrey", cluster: "B", monto: 29471, uds: 1172 },
-  { tienda: "MTY Santa Catarina", ciudad: "Monterrey", cluster: "B", monto: 29460, uds: 1128 },
-  { tienda: "MTY Los Morales", ciudad: "Monterrey", cluster: "B", monto: 28279, uds: 1095 },
+  { tienda: "MTY Valle Oriente", ciudad: "Monterrey", cluster: "AA", monto: 72627, uds: 2757 },
+  { tienda: "MTY Chipinque", ciudad: "Monterrey", cluster: "AA", monto: 71622, uds: 2930 },
+  { tienda: "MTY San Pedro", ciudad: "Monterrey", cluster: "AA", monto: 68827, uds: 3010 },
+  { tienda: "MTY Contry", ciudad: "Monterrey", cluster: "A", monto: 59248, uds: 2475 },
+  { tienda: "MTY Valle Alto", ciudad: "Monterrey", cluster: "AA Light", monto: 58188, uds: 2385 },
+  { tienda: "MTY Tec", ciudad: "Monterrey", cluster: "A", monto: 52970, uds: 2105 },
+  { tienda: "MTY San Nicolás", ciudad: "Monterrey", cluster: "A", monto: 45309, uds: 1703 },
+  { tienda: "León Cerro Gordo", ciudad: "León", cluster: "AA Light", monto: 44567, uds: 2037 },
+  { tienda: "MTY El Uro", ciudad: "Monterrey", cluster: "AA Light", monto: 44488, uds: 1981 },
+  { tienda: "MTY Cumbres", ciudad: "Monterrey", cluster: "AA Light", monto: 39433, uds: 1567 },
+  { tienda: "MTY Puerta de Hierro", ciudad: "Monterrey", cluster: "A", monto: 35696, uds: 1378 },
+  { tienda: "MTY Bosques de las Lomas", ciudad: "Monterrey", cluster: "A", monto: 35530, uds: 1418 },
+  { tienda: "MTY Concordia", ciudad: "Monterrey", cluster: "B", monto: 32097, uds: 1264 },
+  { tienda: "MTY Santa Catarina", ciudad: "Monterrey", cluster: "B", monto: 31840, uds: 1218 },
+  { tienda: "MTY Los Morales", ciudad: "Monterrey", cluster: "B", monto: 30838, uds: 1188 },
 ];
 
 const CLUSTERS = [
-  { cluster: "B", tiendas: 15, monto: 285994, uds: 11113, part: 21.2 },
-  { cluster: "A", tiendas: 10, monto: 283792, uds: 10848, part: 21.1 },
-  { cluster: "AA Light", tiendas: 8, monto: 255055, uds: 10342, part: 18.9 },
-  { cluster: "AA", tiendas: 3, monto: 196377, uds: 8062, part: 14.6 },
-  { cluster: "C", tiendas: 10, monto: 164194, uds: 6234, part: 12.2 },
-  { cluster: "B Bajío", tiendas: 5, monto: 57423, uds: 2191, part: 4.3 },
-  { cluster: "B Frontera", tiendas: 6, monto: 51905, uds: 2090, part: 3.9 },
-  { cluster: "C Bajío", tiendas: 4, monto: 38552, uds: 1537, part: 2.9 },
-  { cluster: "EAA", tiendas: 1, monto: 12941, uds: 657, part: 1.0 },
+  { cluster: "B", tiendas: 15, monto: 314025, uds: 12177, part: 21.2 },
+  { cluster: "A", tiendas: 10, monto: 312797, uds: 11950, part: 21.1 },
+  { cluster: "AA Light", tiendas: 8, monto: 278987, uds: 11293, part: 18.9 },
+  { cluster: "AA", tiendas: 3, monto: 213076, uds: 8697, part: 14.4 },
+  { cluster: "C", tiendas: 10, monto: 181712, uds: 6856, part: 12.3 },
+  { cluster: "B Bajío", tiendas: 5, monto: 64379, uds: 2415, part: 4.4 },
+  { cluster: "B Frontera", tiendas: 6, monto: 58164, uds: 2326, part: 3.9 },
+  { cluster: "C Bajío", tiendas: 4, monto: 42952, uds: 1709, part: 2.9 },
+  { cluster: "EAA", tiendas: 1, monto: 13557, uds: 684, part: 0.9 },
 ];
 
 // --- Impacto promoción Mayo 2026 (vigencia 08/05 – 04/06) ---
@@ -102,11 +100,11 @@ const PROMO = [
 const PROMO_BAR = PROMO.map((p) => ({ name: p.corto, Abril: p.udsAbr, Mayo: p.udsMay }));
 
 const HALLAZGOS = [
-  "La venta YTD (Ene–May) cae −5.9% en monto y −8.1% en unidades vs 2025. El ticket promedio sube +2.4% ($25.37), lo que amortigua parte de la caída en valor.",
+  "La venta YTD (Ene–Jun 16) cae −6.0% en monto y −8.7% en unidades vs 2025. El ticket promedio sube +3.0% ($25.47), lo que amortigua parte de la caída en valor.",
   "Marzo fue el peor mes (−16.4% monto, −15.2% uds) y arrastra todo el YTD; Ene, Abr y May ya están casi planos (−1% a −3%), señal de estabilización.",
-  "Chicharrón Natural es el motor del negocio: +17.8% y 23.9% del monto. Compensa casi por completo las caídas del resto del portafolio.",
-  "Tres SKUs concentran el riesgo: Street Elote 125g (−18.2%), Street Elote 25g (−18.6%) y Chile Piquín 25g (−21.0%). Entre los tres explican la mayor parte de la baja.",
-  "La promo de mayo movió volumen donde la rebaja fue directa: Classic White 125g +18% vs abril y +22% vs may'25. El 2x$34 solo frenó la caída.",
+  "Junio (mismos 16 días vs 2025) viene en −6.4% monto y −14.5% uds. Hay que vigilarlo: la caída en unidades se acentúa, aunque el mes aún no cierra.",
+  "Chicharrón Natural es el motor del negocio: +19.3% y 24.2% del monto. Compensa casi por completo las caídas del resto del portafolio.",
+  "Tres SKUs concentran el riesgo: Street Elote 25g (−20.5%), Chile Piquín 25g (−21.9%) y Street Elote 125g (−17.0%). Entre los tres explican la mayor parte de la baja.",
   "El negocio es 100% regiomontano: 14 de las 15 top tiendas están en Monterrey y los clusters A/AA/AA Light concentran ~54% del monto.",
 ];
 
@@ -159,7 +157,7 @@ function Slide1() {
         <div>
           <h1 className="text-3xl font-bold text-orange-900">Reporte de Sell-Out</h1>
           <h2 className="text-xl text-orange-700">4BUDDIES × HEB</h2>
-          <p className="text-orange-600">YTD 2026 vs 2025 · Enero – Mayo</p>
+          <p className="text-orange-600">YTD 2026 vs 2025 · Enero – Junio (corte día 16)</p>
         </div>
       </div>
 
@@ -187,7 +185,7 @@ function Slide1() {
       </div>
 
       <div className="bg-white rounded-xl shadow p-4 border border-orange-200 flex-1">
-        <h3 className="text-sm font-semibold text-orange-700 mb-2">Venta por mes — 2025 vs 2026 (Ene–May)</h3>
+        <h3 className="text-sm font-semibold text-orange-700 mb-2">Venta por mes — 2025 vs 2026 (Ene–Jun*)</h3>
         <table className="w-full text-xs">
           <thead>
             <tr className="bg-orange-700 text-white">
@@ -228,7 +226,7 @@ function Slide1() {
           </tbody>
         </table>
         <p className="text-xs text-orange-500 mt-3">
-          Excluye junio (mes en curso, corte al 16), SKUs discontinuados y CEDIS. Comparación directa Ene–May ambos años.
+          *Jun = mismos 16 días en ambos años (1–16), por eso es comparable. Excluye SKUs discontinuados y CEDIS.
         </p>
       </div>
     </div>
@@ -244,7 +242,7 @@ function Slide2() {
           <h2 className="text-xl font-bold text-orange-900">Venta Mensual — 2025 vs 2026</h2>
         </div>
         <p className="text-xs text-orange-500 text-right">
-          Jun 2026 parcial (1–16): {fmtK(JUN_PARCIAL.m26)} vs {fmtK(JUN_PARCIAL.m25)} mismos días ({JUN_PARCIAL.varM}%)<br />No incluido en YTD
+          *Jun = mismos 16 días en ambos años<br />(1–16), comparación justa
         </p>
       </div>
 
@@ -314,7 +312,7 @@ function Slide2() {
       </div>
 
       <div className="mt-3 bg-white/80 rounded-lg p-2 text-xs text-orange-800 border border-orange-200">
-        <strong>Lectura:</strong> La caída se concentra en marzo (−16.4%). Ene, Abr y May ya están casi planos (−1% a −3%) → el negocio se está estabilizando tras el bache de Q1. Junio parcial (−6.4% en mismos 16 días) hay que vigilarlo, pero aún no es comparable a mes completo.
+        <strong>Lectura:</strong> La caída se concentra en marzo (−16.4%). Ene, Abr y May ya están casi planos (−1% a −3%) → el negocio se estabilizó tras el bache de Q1. Junio (mismos 16 días, comparación justa) vuelve a abrir en −6.4% monto y −14.5% uds: hay que vigilar el cierre del mes.
       </div>
     </div>
   );
@@ -326,7 +324,7 @@ function Slide3() {
       <div className="flex items-center gap-3 mb-3">
         <img src="/4buddies-logo.jpeg" className="h-8 rounded" alt="" />
         <h2 className="text-xl font-bold text-orange-900">Desempeño por Producto — YTD 2026 vs 2025</h2>
-        <span className="text-xs text-orange-500">Ene–May 2026</span>
+        <span className="text-xs text-orange-500">Ene–Jun 16 · 2026</span>
       </div>
 
       <div className="flex gap-4 flex-1">
@@ -341,7 +339,7 @@ function Slide3() {
             </PieChart>
           </ResponsiveContainer>
           <p className="text-xs text-orange-700 text-center mt-1">
-            <strong>Top 3 productos = 50.3%</strong> del monto YTD 2026 (Chicharrón, Rodajitas, Street Elote 125g)
+            <strong>Top 3 productos = 50.6%</strong> del monto YTD 2026 (Chicharrón, Rodajitas, Street Elote 125g)
           </p>
         </div>
 
@@ -369,7 +367,7 @@ function Slide3() {
       </div>
 
       <div className="mt-3 bg-white/80 rounded-lg p-2 text-xs text-orange-800 border border-orange-200">
-        <strong>Lectura:</strong> Chicharrón Natural es la estrella (+17.8%, 24% del monto) y sostiene el portafolio casi solo. Los que más caen: Chile Piquín (−21%), Street Elote 25g (−18.6%) y 125g (−18.2%). Rodajitas y los Cheddar aguantan estables.
+        <strong>Lectura:</strong> Chicharrón Natural es la estrella (+19.3%, 24% del monto) y sostiene el portafolio casi solo. Los que más caen: Chile Piquín (−21.9%), Street Elote 25g (−20.5%) y 125g (−17.0%). Rodajitas y los Cheddar aguantan estables.
       </div>
     </div>
   );
@@ -515,7 +513,7 @@ function Slide5() {
 function Slide6() {
   const acciones = [
     { n: 1, t: "Proteger al motor", d: "Asegurar abasto y exhibición de Chicharrón Natural — sostiene 24% del monto y es el único en alza clara." },
-    { n: 2, t: "Rescatar Street Elote y Chile Piquín", d: "Los 3 SKUs que más caen (−18% a −21%). Revisar precio, anaquel y rotación tienda por tienda en clusters A/AA." },
+    { n: 2, t: "Rescatar Street Elote y Chile Piquín", d: "Los 3 SKUs que más caen (−17% a −22%). Revisar precio, anaquel y rotación tienda por tienda en clusters A/AA." },
     { n: 3, t: "Repetir rebaja directa", d: "El formato 'rebajado a $X' (Classic White 125g, Rodajitas) movió volumen; el 2xN no. Aplicarlo en los SKUs a la baja." },
   ];
   return (
