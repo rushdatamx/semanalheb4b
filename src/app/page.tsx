@@ -2,416 +2,621 @@
 
 import { useState, useEffect } from "react";
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ResponsiveContainer, PieChart, Pie, Cell,
 } from "recharts";
 import {
-  ChevronLeft, ChevronRight, TrendingUp, Store, Package,
-  CalendarDays, Target, Info,
+  ChevronLeft, ChevronRight, ArrowUpRight, ArrowDownRight,
+  TrendingUp, Store, Package, Target,
 } from "lucide-react";
 
-// ============================================================
-//  DEGUSTACIÓN HEB 4BUDDIES · 27 jul – 9 ago 2026
-//  8 tiendas Monterrey · 48 asistencias
-//  Fuente: sell-out HEB al 9-ago-2026. Todo en UNIDADES.
-//  Baseline: mismos días de semana (dom/lun/mar) de las 4 semanas
-//  previas (29-jun al 26-jul), en las MISMAS 8 tiendas.
-// ============================================================
+/* ══════════════════════════════════════════════════════════════
+   DATOS — Sell-Out HEB · corte quincenal al 15-ago-2026
+   Rango YTD: 1 ene – 15 ago (mismo rango ambos años)
+   Excluye CEDIS (2160) y SKUs discontinuados
+   ══════════════════════════════════════════════════════════════ */
 
-const GLOBAL = {
-  antes: 27.8, durante: 38.3, crec: 37.7,
-  extra: 63, vendidas: 230, tiendas: 8, dias: 6, asistencias: 48,
+const CORTE = "Al 15 Ago 2026";
+
+const YTD = {
+  monto25: 2085306, monto26: 1944006, varMonto: -6.8,
+  uds25: 82881, uds26: 74747, varUds: -9.8,
+  tiendas: 65,
+  ticket25: 25.16, ticket26: 26.01, varTicket: 3.4,
 };
 
+const VENTAS_MES = [
+  { mes: "Ene",  y2025: 282960, y2026: 278968, u2025: 11158, u2026: 10516, varM: -1.4,  varU: -5.8 },
+  { mes: "Feb",  y2025: 269925, y2026: 254380, u2025: 10993, u2026: 9938,  varM: -5.8,  varU: -9.6 },
+  { mes: "Mar",  y2025: 330215, y2026: 276116, u2025: 13380, u2026: 11340, varM: -16.4, varU: -15.2 },
+  { mes: "Abr",  y2025: 275427, y2026: 266481, u2025: 10841, u2026: 10380, varM: -3.2,  varU: -4.3 },
+  { mes: "May",  y2025: 283242, y2026: 280316, u2025: 11794, u2026: 11283, varM: -1.0,  varU: -4.3 },
+  { mes: "Jun",  y2025: 265012, y2026: 245309, u2025: 10535, u2026: 9150,  varM: -7.4,  varU: -13.1 },
+  { mes: "Jul",  y2025: 254151, y2026: 226937, u2025: 9556,  u2026: 7974,  varM: -10.7, varU: -16.6 },
+  { mes: "Ago*", y2025: 124375, y2026: 115499, u2025: 4624,  u2026: 4166,  varM: -7.1,  varU: -9.9 },
+];
+
 const PRODUCTOS = [
-  { nombre: "Palomitas Classic White 25g", corto: "Classic White 25g", antes: 10.7, durante: 16.5, crec: 54.7, extra: 35, vend: 99 },
-  { nombre: "Palomitas Street Elote 25g", corto: "Street Elote 25g", antes: 12.3, durante: 15.5, crec: 25.7, extra: 19, vend: 93 },
-  { nombre: "Palomitas Chile Piquín 25g", corto: "Chile Piquín 25g", antes: 4.8, durante: 6.3, crec: 31.0, extra: 9, vend: 38 },
+  { corto: "Chicharrón Natural",    m25: 426690, m26: 492231, var: 15.4,  u26: 9877,  part: 25.3, tend: "Crece"   },
+  { corto: "Street Elote 125g",     m25: 301095, m26: 259283, var: -13.9, u26: 8397,  part: 13.3, tend: "Cae"     },
+  { corto: "Rodajitas Spicy Limón", m25: 262038, m26: 253222, var: -3.4,  u26: 12819, part: 13.0, tend: "Estable" },
+  { corto: "Classic White 125g",    m25: 194693, m26: 194877, var: 0.1,   u26: 5497,  part: 10.0, tend: "Estable" },
+  { corto: "Classic White 25g",     m25: 246908, m26: 193931, var: -21.5, u26: 11125, part: 10.0, tend: "Cae"     },
+  { corto: "Cheddar Jalapeño 125g", m25: 188509, m26: 187091, var: -0.8,  u26: 6085,  part: 9.6,  tend: "Estable" },
+  { corto: "Street Elote 25g",      m25: 217469, m26: 165093, var: -24.1, u26: 9555,  part: 8.5,  tend: "Cae"     },
+  { corto: "Cheddar Jalapeño 25g",  m25: 139566, m26: 114121, var: -18.2, u26: 6645,  part: 5.9,  tend: "Cae"     },
+  { corto: "Chile Piquín 25g",      m25: 108339, m26: 84157,  var: -22.3, u26: 4747,  part: 4.3,  tend: "Cae"     },
 ];
 
+const PIE_DATA = PRODUCTOS.map((p) => ({ name: p.corto, value: p.m26 }));
+const PIE_COLORS = ["#ea580c", "#f97316", "#fb923c", "#fdba74", "#fed7aa", "#c2410c", "#9a3412", "#7c2d12", "#431407"];
 
-const TIENDAS = [
-  { nombre: "San Pedro", cluster: "AA", antes: 5.2, durante: 8.0, crec: 54.8, extra: 17, vend: 48 },
-  { nombre: "Chipinque", cluster: "AA", antes: 4.2, durante: 6.8, crec: 64.0, extra: 16, vend: 41 },
-  { nombre: "Contry", cluster: "A", antes: 2.9, durante: 5.0, crec: 71.4, extra: 12, vend: 30 },
-  { nombre: "TEC", cluster: "A", antes: 2.5, durante: 4.3, crec: 73.3, extra: 11, vend: 26 },
-  { nombre: "El Uro", cluster: "AA Light", antes: 3.1, durante: 4.7, crec: 51.4, extra: 10, vend: 28 },
-  { nombre: "Valle Oriente", cluster: "AA", antes: 3.2, durante: 3.8, crec: 17.9, extra: 4, vend: 23 },
-  { nombre: "San Nicolás", cluster: "A", antes: 2.8, durante: 3.0, crec: 9.1, extra: 2, vend: 18 },
-  { nombre: "Valle Alto", cluster: "AA Light", antes: 4.0, durante: 2.7, crec: -33.3, extra: -8, vend: 16 },
+// Formato 125g vs 25g — la historia real del año
+const FORMATOS = [
+  { formato: "Familiar 125g + Chicharrón", m25: 1110986, m26: 1133482, var: 2.0,   u25: 29638, u26: 29856, varU: 0.7 },
+  { formato: "Individual 25g / 30g",       m25: 974320,  m26: 810524,  var: -16.8, u25: 53243, u26: 44891, varU: -15.7 },
 ];
 
-const DIAS = [
-  { fecha: "27 jul", dia: "Lunes", sem: "Semana 1", normal: 35.8, vend: 28, crec: -21.7, extra: -8 },
-  { fecha: "28 jul", dia: "Martes", sem: "Semana 1", normal: 24.0, vend: 43, crec: 79.2, extra: 19 },
-  { fecha: "2 ago", dia: "Domingo", sem: "Semana 1", normal: 23.8, vend: 39, crec: 64.2, extra: 15 },
-  { fecha: "3 ago", dia: "Lunes", sem: "Semana 2", normal: 35.8, vend: 50, crec: 39.9, extra: 14 },
-  { fecha: "4 ago", dia: "Martes", sem: "Semana 2", normal: 24.0, vend: 32, crec: 33.3, extra: 8 },
-  { fecha: "9 ago", dia: "Domingo", sem: "Semana 2", normal: 23.8, vend: 38, crec: 60.0, extra: 14 },
+const TOP_TIENDAS = [
+  { tienda: "MTY VALLE ORIENTE",        ciudad: "Monterrey", cluster: "AA",       monto: 92344, uds: 3434 },
+  { tienda: "MTY CHIPINQUE",            ciudad: "Monterrey", cluster: "AA",       monto: 87918, uds: 3574 },
+  { tienda: "MTY SAN PEDRO",            ciudad: "Monterrey", cluster: "AA",       monto: 85251, uds: 3650 },
+  { tienda: "MTY VALLE ALTO",           ciudad: "Monterrey", cluster: "AA Light", monto: 76869, uds: 3040 },
+  { tienda: "MTY CONTRY",               ciudad: "Monterrey", cluster: "A",        monto: 75907, uds: 3103 },
+  { tienda: "MTY TEC",                  ciudad: "Monterrey", cluster: "A",        monto: 70242, uds: 2712 },
+  { tienda: "MTY SAN NICOLAS",          ciudad: "Monterrey", cluster: "A",        monto: 59055, uds: 2191 },
+  { tienda: "MTY EL URO",               ciudad: "Monterrey", cluster: "AA Light", monto: 57510, uds: 2496 },
+  { tienda: "LEO CERRO GORDO",          ciudad: "León",      cluster: "AA Light", monto: 55542, uds: 2467 },
+  { tienda: "MTY CUMBRES",              ciudad: "Monterrey", cluster: "AA Light", monto: 48591, uds: 1890 },
+  { tienda: "MTY BOSQUES DE LAS LOMAS", ciudad: "Monterrey", cluster: "A",        monto: 47897, uds: 1871 },
+  { tienda: "MTY PUERTA DE HIERRO",     ciudad: "Monterrey", cluster: "A",        monto: 43771, uds: 1639 },
+  { tienda: "MTY SANTA CATARINA",       ciudad: "Monterrey", cluster: "B",        monto: 41778, uds: 1557 },
+  { tienda: "MTY CONCORDIA",            ciudad: "Monterrey", cluster: "B",        monto: 40778, uds: 1560 },
+  { tienda: "SAL SAN PATRICIO",         ciudad: "Saltillo",  cluster: "AA Light", monto: 39003, uds: 1557 },
 ];
 
-const NAR = "#F58220";
-const NAR_D = "#C25F0E";
-const GRIS = "#94A3B8";
+const CLUSTERS = [
+  { cluster: "A",          tiendas: 10, monto: 412716, uds: 15458, part: 21.2 },
+  { cluster: "B",          tiendas: 15, monto: 408744, uds: 15519, part: 21.0 },
+  { cluster: "AA Light",   tiendas: 8,  monto: 360245, uds: 14234, part: 18.5 },
+  { cluster: "AA",         tiendas: 3,  monto: 265514, uds: 10658, part: 13.7 },
+  { cluster: "C",          tiendas: 10, monto: 236564, uds: 8806,  part: 12.2 },
+  { cluster: "B Bajío",    tiendas: 5,  monto: 88199,  uds: 3237,  part: 4.5  },
+  { cluster: "B Frontera", tiendas: 6,  monto: 78509,  uds: 3078,  part: 4.0  },
+  { cluster: "C Bajío",    tiendas: 4,  monto: 57306,  uds: 2198,  part: 2.9  },
+  { cluster: "EAA",        tiendas: 1,  monto: 18123,  uds: 902,   part: 0.9  },
+  { cluster: "N/D",        tiendas: 3,  monto: 18085,  uds: 657,   part: 0.9  },
+];
 
-const fmt = (n: number, d = 1) => n.toFixed(d);
-const pct = (n: number) => `${n > 0 ? "+" : ""}${n.toFixed(1)}%`;
+const HALLAZGOS = [
+  "La venta YTD cae −6.8% en pesos ($1.94M vs $2.09M) y −9.8% en unidades. La caída es de volumen, no de precio: el precio promedio subió +3.4% a $26.01 y amortiguó el golpe.",
+  "El problema está concentrado en el formato individual (25g/30g): −16.8% en pesos y −15.7% en unidades. Aislando solo los cuatro SKUs de 25g, la caída es de −21.8% en pesos y −19.8% en unidades: caen entre −18% y −24% cada uno.",
+  "El formato familiar 125g + Chicharrón está plano/positivo (+2.0%). Ahí no hay problema de demanda — el consumidor sigue comprando, solo migró de tamaño.",
+  "Chicharrón Natural es el único SKU que crece (+15.4%) y ya es el #1 del portafolio con 25.3% de la venta. Solo cargaba 20.5% el año pasado.",
+  "La tendencia se deterioró en el segundo semestre: Jun −7.4%, Jul −10.7% en pesos. La quincena de agosto (−7.1%) frena la caída pero no la revierte.",
+  "Monterrey concentra 64% de la venta y los top 15 puntos valen 47.5%. Cluster A y B (25 tiendas) aportan 42% — el volumen no está solo en las AA.",
+];
 
-// ---------- UI helpers ----------
-function Pill({ children, tone = "nar" }: { children: React.ReactNode; tone?: "nar" | "ok" | "neu" }) {
-  const t = {
-    nar: "bg-orange-500/15 text-orange-700 ring-orange-500/30",
-    ok: "bg-emerald-500/15 text-emerald-700 ring-emerald-500/30",
-    neu: "bg-stone-200 text-stone-600 ring-stone-300",
-  }[tone];
-  return <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ring-1 ${t}`}>{children}</span>;
-}
+const ACCIONES = [
+  { n: 1, titulo: "Auditar anaquel del formato 25g", texto: "La caída de −19.3% en unidades del individual es demasiado pareja entre los 4 SKUs para ser demanda. Apunta a espacio, ubicación o quiebres. Revisar planograma y exhibición en los top 15 puntos antes de tocar precio." },
+  { n: 2, titulo: "Empujar Chicharrón Natural", texto: "Es el único que crece (+15.4%) y ya es el #1. Pedir frente adicional y asegurar que no falte en las 65 tiendas: es el motor que hoy sostiene el YTD." },
+  { n: 3, titulo: "Activación en Cluster A y B", texto: "25 tiendas que valen 42% de la venta y no reciben foco promocional. Es el pool con más upside para recuperar los ~$141K que faltan contra 2025." },
+];
 
-function Delta({ v, big = false }: { v: number; big?: boolean }) {
-  const pos = v >= 0;
-  return (
-    <span className={`font-bold tabular-nums ${big ? "text-3xl" : "text-base"} ${pos ? "text-emerald-600" : "text-rose-600"}`}>
-      {pct(v)}
-    </span>
-  );
-}
+/* ── Helpers ────────────────────────────────────────────────── */
+const fmt  = (n: number) => "$" + n.toLocaleString("es-MX", { maximumFractionDigits: 0 });
+const fmtK = (n: number) => "$" + (n / 1000).toFixed(0) + "K";
+const fmtU = (n: number) => n.toLocaleString("es-MX", { maximumFractionDigits: 0 });
 
-function Slide({ children, n, total }: { children: React.ReactNode; n: number; total: number }) {
-  return (
-    <div className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col px-6 py-8 sm:px-10 lg:px-16">
-      {children}
-      <div className="pointer-events-none absolute bottom-3 right-6 text-xs text-stone-300">{n} / {total}</div>
-    </div>
-  );
-}
-
-function TituloSlide({ icon, kicker, titulo, sub }: { icon: React.ReactNode; kicker: string; titulo: string; sub?: string }) {
-  return (
-    <div className="mb-6 shrink-0">
-      <div className="mb-2 flex items-center gap-2 text-orange-600">
-        {icon}<span className="text-xs font-semibold uppercase tracking-[0.18em]">{kicker}</span>
-      </div>
-      <h2 className="text-2xl font-bold leading-tight text-stone-900 sm:text-3xl lg:text-4xl">{titulo}</h2>
-      {sub && <p className="mt-2 max-w-4xl text-sm text-stone-500 sm:text-base">{sub}</p>}
-    </div>
-  );
-}
-
-const NotaBase = () => (
-  <p className="mt-5 flex items-start gap-2 text-xs leading-relaxed text-stone-400">
-    <Info size={14} className="mt-0.5 shrink-0" />
-    <span>
-      Comparación contra los mismos días de la semana (domingo, lunes y martes) de las 4 semanas previas,
-      en las mismas 8 tiendas de la degustación. Todo en unidades de sell-out.
-    </span>
-  </p>
+const VarBadge = ({ v }: { v: number }) => (
+  <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${v >= 0 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+    {v >= 0 ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
+    {v >= 0 ? "+" : ""}{v.toFixed(1)}%
+  </span>
 );
 
-// ============================================================
-//  SLIDE 1 — PORTADA
-// ============================================================
-function S1() {
+const TendBadge = ({ t }: { t: string }) => {
+  const colors: Record<string, string> = {
+    Crece: "bg-green-100 text-green-700 border-green-300",
+    Estable: "bg-blue-100 text-blue-700 border-blue-300",
+    Cae: "bg-red-100 text-red-700 border-red-300",
+  };
+  return <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border ${colors[t] || ""}`}>{t}</span>;
+};
+
+const ClusterBadge = ({ c }: { c: string }) => {
+  const map: Record<string, string> = {
+    AA: "bg-orange-600 text-white",
+    EAA: "bg-orange-700 text-white",
+    A: "bg-orange-200 text-orange-800",
+    "AA Light": "bg-orange-100 text-orange-700",
+  };
+  return <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${map[c] || "bg-gray-100 text-gray-700"}`}>{c}</span>;
+};
+
+const Logo = ({ h = "h-8" }: { h?: string }) => (
+  // eslint-disable-next-line @next/next/no-img-element
+  <img src="/4buddies-logo.jpeg" alt="4BUDDIES" className={`${h} rounded-lg shadow`} />
+);
+
+const Slide = ({ children }: { children: React.ReactNode }) => (
+  <div className="w-full h-full bg-gradient-to-br from-orange-50 to-orange-100 text-orange-900">{children}</div>
+);
+
+/* ── Slide 1 — Portada + Resumen YTD ────────────────────────── */
+function Slide1() {
   return (
-    <Slide n={1} total={4}>
-      <div className="flex flex-1 flex-col justify-center">
-        <div className="mb-8 flex items-center gap-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/4buddies-logo.jpeg" alt="4BUDDIES" className="h-14 w-14 rounded-xl object-cover ring-2 ring-orange-300" />
+    <Slide>
+      <div className="flex flex-col h-full p-8">
+        <div className="flex items-center gap-5 mb-5">
+          <Logo h="h-20" />
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">4BUDDIES × HEB</p>
-            <p className="text-sm text-stone-500">27 julio – 9 agosto 2026</p>
+            <h1 className="text-3xl font-bold text-orange-900">Reporte de Sell-Out</h1>
+            <h2 className="text-xl text-orange-700">4BUDDIES × HEB</h2>
+            <p className="text-orange-600 text-sm">YTD 2026 vs 2025 · Enero – 15 Agosto (corte quincenal)</p>
           </div>
         </div>
 
-        <h1 className="max-w-4xl text-4xl font-bold leading-[1.1] text-stone-900 sm:text-5xl lg:text-6xl">
-          Resultados de la<br />
-          <span className="text-orange-600">degustación en HEB</span>
-        </h1>
-
-        <div className="mt-8 flex flex-wrap gap-2">
-          <Pill><Store size={13} /> 8 tiendas Monterrey</Pill>
-          <Pill><CalendarDays size={13} /> 6 días de activación</Pill>
-          <Pill><Target size={13} /> 48 asistencias</Pill>
-        </div>
-
-        <div className="mt-10 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 shadow-lg shadow-orange-500/25">
-            <p className="text-xs font-semibold uppercase tracking-wider text-white/85">Crecimiento en venta</p>
-            <p className="mt-1 text-5xl font-bold tabular-nums text-white">+{fmt(GLOBAL.crec)}%</p>
-            <p className="mt-1 text-sm text-white/85">productos degustados</p>
-          </div>
-          <div className="rounded-2xl bg-white p-6 ring-1 ring-stone-200">
-            <p className="text-xs font-semibold uppercase tracking-wider text-stone-500">Unidades extra</p>
-            <p className="mt-1 text-5xl font-bold tabular-nums text-stone-900">{GLOBAL.extra}</p>
-            <p className="mt-1 text-sm text-stone-500">en los 6 días</p>
-          </div>
-          <div className="rounded-2xl bg-white p-6 ring-1 ring-stone-200">
-            <p className="text-xs font-semibold uppercase tracking-wider text-stone-500">Venta diaria</p>
-            <p className="mt-1 text-3xl font-bold tabular-nums text-stone-900">
-              {fmt(GLOBAL.antes)} <span className="text-stone-300">→</span> {fmt(GLOBAL.durante)}
-            </p>
-            <p className="mt-1 text-sm text-stone-500">unidades por día</p>
-          </div>
-        </div>
-
-        <p className="mt-8 max-w-3xl text-base leading-relaxed text-stone-600">
-          La degustación funcionó. Los tres productos que sí se degustaron crecieron en conjunto
-          <span className="font-semibold text-orange-700"> +{fmt(GLOBAL.crec)}%</span> durante los días de activación,
-          con <span className="font-semibold text-orange-700">{GLOBAL.extra} unidades extra</span> sobre su venta normal.
-        </p>
-      </div>
-    </Slide>
-  );
-}
-
-// ============================================================
-//  SLIDE 2 — POR PRODUCTO
-// ============================================================
-function S2() {
-  const data = PRODUCTOS.map(p => ({ name: p.corto, Antes: p.antes, "Con degustación": p.durante }));
-  return (
-    <Slide n={2} total={4}>
-      <TituloSlide
-        icon={<Package size={16} />}
-        kicker="Por producto"
-        titulo="Classic White lideró el crecimiento"
-        sub="Venta diaria promedio antes y durante la degustación, en unidades."
-      />
-
-      <div className="grid flex-1 gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-3">
-          <div className="h-64 rounded-2xl bg-white p-4 ring-1 ring-stone-200 sm:h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 18, right: 8, left: -18, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E7E5E4" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: "#57534E", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#78716C", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{ background: "#FFFFFF", border: "1px solid #E7E5E4", borderRadius: 10, fontSize: 12 }}
-                  labelStyle={{ color: "#1C1917" }} cursor={{ fill: "#00000006" }}
-                />
-                <Legend wrapperStyle={{ fontSize: 12, color: "#57534E" }} />
-                <Bar dataKey="Antes" fill={GRIS} radius={[5, 5, 0, 0]} maxBarSize={46} />
-                <Bar dataKey="Con degustación" fill={NAR} radius={[5, 5, 0, 0]} maxBarSize={46}>
-                  <LabelList dataKey="Con degustación" position="top" fill="#1C1917" fontSize={11} />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="space-y-3 lg:col-span-2">
-          {PRODUCTOS.map(p => (
-            <div key={p.corto} className="rounded-xl bg-white p-4 ring-1 ring-stone-200">
-              <div className="flex items-start justify-between gap-3">
-                <p className="text-sm font-semibold leading-snug text-stone-900">{p.corto}</p>
-                <Delta v={p.crec} />
-              </div>
-              <div className="mt-2 flex items-center gap-4 text-xs text-stone-500">
-                <span className="tabular-nums">{fmt(p.antes)} → <span className="font-semibold text-stone-700">{fmt(p.durante)}</span> uds/día</span>
-                <span className="tabular-nums text-orange-700">+{p.extra} uds extra</span>
-              </div>
+        <div className="flex gap-4 mb-5">
+          {[
+            { l: "Venta YTD 2026", v: fmtK(YTD.monto26), b: <VarBadge v={YTD.varMonto} /> },
+            { l: "Unidades YTD 2026", v: fmtU(YTD.uds26), b: <VarBadge v={YTD.varUds} /> },
+            { l: "Precio Prom.", v: "$" + YTD.ticket26.toFixed(2), b: <VarBadge v={YTD.varTicket} /> },
+            { l: "Tiendas Activas", v: String(YTD.tiendas), b: <span className="text-[10px] text-orange-500">operativas</span> },
+          ].map((k) => (
+            <div key={k.l} className="bg-white rounded-xl shadow px-5 py-3 text-center border border-orange-200 flex-1">
+              <p className="text-[11px] text-orange-600 mb-1">{k.l}</p>
+              <p className="text-2xl font-bold text-orange-900 mb-1">{k.v}</p>
+              {k.b}
             </div>
           ))}
         </div>
-      </div>
 
-      <div className="mt-5 rounded-xl border-l-4 border-orange-500 bg-orange-50 px-5 py-4">
-        <p className="text-sm leading-relaxed text-stone-700">
-          <span className="font-semibold text-orange-700">Classic White fue el gran ganador:</span> pasó de 10.7 a 16.5 unidades
-          por día y aportó 35 de las 63 unidades extra. Es el producto con el que conviene entrar en la próxima activación.
-        </p>
-      </div>
-      <NotaBase />
-    </Slide>
-  );
-}
-
-// ============================================================
-//  SLIDE 4 — POR TIENDA
-// ============================================================
-function S4() {
-  const max = Math.max(...TIENDAS.map(t => t.vend));
-  return (
-    <Slide n={3} total={4}>
-      <TituloSlide
-        icon={<Store size={16} />}
-        kicker="Por tienda"
-        titulo="7 de 8 tiendas crecieron"
-        sub="San Pedro y Chipinque aportaron más de la mitad de las unidades extra."
-      />
-
-      <div className="flex-1 overflow-hidden rounded-2xl ring-1 ring-stone-200">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="bg-stone-100 text-xs uppercase tracking-wider text-stone-500">
-              <th className="px-4 py-3 text-left font-semibold">Tienda</th>
-              <th className="px-3 py-3 text-left font-semibold">Cluster</th>
-              <th className="px-3 py-3 text-right font-semibold">Antes</th>
-              <th className="px-3 py-3 text-right font-semibold">Con degust.</th>
-              <th className="px-3 py-3 text-right font-semibold">Crecimiento</th>
-              <th className="px-3 py-3 text-right font-semibold">Uds extra</th>
-              <th className="hidden px-4 py-3 text-left font-semibold sm:table-cell">Vendidas</th>
-            </tr>
-          </thead>
-          <tbody>
-            {TIENDAS.map((t, i) => (
-              <tr key={t.nombre} className={`border-t border-stone-200 ${i % 2 ? "bg-stone-50" : ""}`}>
-                <td className="px-4 py-2.5 font-medium text-stone-900">{t.nombre}</td>
-                <td className="px-3 py-2.5 text-stone-500">{t.cluster}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-stone-500">{fmt(t.antes)}</td>
-                <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-stone-900">{fmt(t.durante)}</td>
-                <td className="px-3 py-2.5 text-right"><Delta v={t.crec} /></td>
-                <td className={`px-3 py-2.5 text-right font-semibold tabular-nums ${t.extra >= 0 ? "text-orange-700" : "text-rose-600"}`}>
-                  {t.extra > 0 ? "+" : ""}{t.extra}
-                </td>
-                <td className="hidden px-4 py-2.5 sm:table-cell">
-                  <div className="flex items-center gap-2">
-                    <div className="h-1.5 w-24 overflow-hidden rounded-full bg-stone-200">
-                      <div className="h-full rounded-full bg-orange-500" style={{ width: `${(t.vend / max) * 100}%` }} />
-                    </div>
-                    <span className="tabular-nums text-xs text-stone-500">{t.vend}</span>
-                  </div>
-                </td>
+        <div className="bg-white rounded-xl shadow p-4 border border-orange-200 flex-1">
+          <h3 className="text-sm font-semibold text-orange-700 mb-2">Venta por mes — 2025 vs 2026 (Ene – 15 Ago)</h3>
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="bg-orange-700 text-white">
+                <th className="p-1.5 text-left rounded-tl">Mes</th>
+                <th className="p-1.5 text-center" colSpan={3}>MXN ($)</th>
+                <th className="p-1.5 text-center rounded-tr" colSpan={3}>Unidades</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="mt-5">
-        <div className="rounded-xl border-l-4 border-emerald-500 bg-emerald-50 px-5 py-4">
-          <p className="text-sm leading-relaxed text-stone-700">
-            <span className="font-semibold text-emerald-700">San Pedro y Chipinque</span> destacaron con 17 y 16 unidades
-            extra. Contry y TEC crecieron más de 70% sobre su venta normal.
+              <tr className="bg-orange-600 text-white">
+                <th className="p-1.5"></th>
+                <th className="p-1.5 text-right">2025</th>
+                <th className="p-1.5 text-right">2026</th>
+                <th className="p-1.5 text-center">Var</th>
+                <th className="p-1.5 text-right">2025</th>
+                <th className="p-1.5 text-right">2026</th>
+                <th className="p-1.5 text-center">Var</th>
+              </tr>
+            </thead>
+            <tbody>
+              {VENTAS_MES.map((m, i) => (
+                <tr key={m.mes} className={i % 2 ? "bg-orange-50" : ""}>
+                  <td className="p-1.5 font-medium">{m.mes}</td>
+                  <td className="p-1.5 text-right">{fmtK(m.y2025)}</td>
+                  <td className="p-1.5 text-right font-semibold text-orange-900">{fmtK(m.y2026)}</td>
+                  <td className="p-1.5 text-center"><VarBadge v={m.varM} /></td>
+                  <td className="p-1.5 text-right">{fmtU(m.u2025)}</td>
+                  <td className="p-1.5 text-right font-semibold text-orange-900">{fmtU(m.u2026)}</td>
+                  <td className="p-1.5 text-center"><VarBadge v={m.varU} /></td>
+                </tr>
+              ))}
+              <tr className="bg-orange-100 font-bold border-t-2 border-orange-300">
+                <td className="p-1.5">YTD</td>
+                <td className="p-1.5 text-right">{fmtK(YTD.monto25)}</td>
+                <td className="p-1.5 text-right text-orange-900">{fmtK(YTD.monto26)}</td>
+                <td className="p-1.5 text-center"><VarBadge v={YTD.varMonto} /></td>
+                <td className="p-1.5 text-right">{fmtU(YTD.uds25)}</td>
+                <td className="p-1.5 text-right text-orange-900">{fmtU(YTD.uds26)}</td>
+                <td className="p-1.5 text-center"><VarBadge v={YTD.varUds} /></td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="text-[10px] text-orange-500 mt-3">
+            *Ago = 1–15 ago en ambos años (comparación de misma quincena). Excluye SKUs discontinuados y CEDIS.
           </p>
         </div>
       </div>
-      <NotaBase />
     </Slide>
   );
 }
 
-// ============================================================
-//  SLIDE 5 — POR DÍA + CONCLUSIONES
-// ============================================================
-function S5() {
-  const data = DIAS.map(d => ({ name: `${d.fecha}`, Normal: d.normal, "Con degustación": d.vend, dia: d.dia }));
+/* ── Slide 2 — Tendencia Mensual ────────────────────────────── */
+function Slide2() {
   return (
-    <Slide n={4} total={4}>
-      <TituloSlide
-        icon={<CalendarDays size={16} />}
-        kicker="Por día y conclusiones"
-        titulo="Martes y domingo fueron los días más fuertes"
-        sub="Cada día comparado contra lo que ese mismo día de la semana vende normalmente."
-      />
+    <Slide>
+      <div className="flex flex-col h-full p-6">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <Logo />
+            <h2 className="text-xl font-bold text-orange-900">Venta Mensual — 2025 vs 2026</h2>
+          </div>
+          <span className="text-[10px] text-orange-500">*Ago 2026 parcial (1–15) vs mismos 15 días de 2025</span>
+        </div>
 
-      <div className="grid flex-1 gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-3">
-          <div className="h-56 rounded-2xl bg-white p-4 ring-1 ring-stone-200 sm:h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 18, right: 8, left: -18, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E7E5E4" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: "#57534E", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#78716C", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{ background: "#FFFFFF", border: "1px solid #E7E5E4", borderRadius: 10, fontSize: 12 }}
-                  labelStyle={{ color: "#1C1917" }} cursor={{ fill: "#00000006" }}
-                />
-                <Legend wrapperStyle={{ fontSize: 12, color: "#57534E" }} />
-                <Bar dataKey="Normal" fill={GRIS} radius={[5, 5, 0, 0]} maxBarSize={34} />
-                <Bar dataKey="Con degustación" fill={NAR} radius={[5, 5, 0, 0]} maxBarSize={34}>
-                  <LabelList dataKey="Con degustación" position="top" fill="#1C1917" fontSize={10} />
-                </Bar>
+        <div className="flex gap-4 flex-1">
+          <div className="flex-1 bg-white rounded-xl shadow p-3 border border-orange-200 flex flex-col">
+            <h3 className="text-xs font-semibold text-orange-700 mb-1">Ingresos por mes (MXN)</h3>
+            <ResponsiveContainer width="100%" height={240}>
+              <BarChart data={VENTAS_MES} barGap={4} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#fed7aa" />
+                <XAxis dataKey="mes" tick={{ fontSize: 11, fill: "#9a3412" }} />
+                <YAxis tickFormatter={fmtK} tick={{ fontSize: 10, fill: "#9a3412" }} />
+                <Tooltip formatter={(v) => fmt(Number(v))} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Bar dataKey="y2025" name="2025" fill="#fdba74" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="y2026" name="2026" fill="#ea580c" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <h3 className="text-xs font-semibold text-orange-700 mt-2 mb-1">Unidades por mes</h3>
+            <ResponsiveContainer width="100%" height={150}>
+              <BarChart data={VENTAS_MES} barGap={4} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#fed7aa" />
+                <XAxis dataKey="mes" tick={{ fontSize: 10, fill: "#9a3412" }} />
+                <YAxis tick={{ fontSize: 10, fill: "#9a3412" }} />
+                <Tooltip formatter={(v) => fmtU(Number(v))} />
+                <Bar dataKey="u2025" name="2025" fill="#fdba74" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="u2026" name="2026" fill="#ea580c" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            {DIAS.map(d => (
-              <div key={d.fecha} className="rounded-lg bg-white px-3 py-2 text-center ring-1 ring-stone-200">
-                <p className="text-[11px] text-stone-500">{d.dia} {d.fecha}</p>
-                <p className={`text-sm font-bold tabular-nums ${d.crec >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{pct(d.crec)}</p>
+          <div className="w-[380px] flex flex-col gap-3">
+            <div className="bg-white rounded-xl shadow p-3 border border-orange-200">
+              <h3 className="text-xs font-semibold text-orange-700 mb-1">Ingresos ($)</h3>
+              <table className="w-full text-[11px]">
+                <thead><tr className="bg-orange-600 text-white">
+                  <th className="p-1 text-left">Mes</th><th className="p-1 text-right">2025</th>
+                  <th className="p-1 text-right">2026</th><th className="p-1 text-center">Var</th>
+                </tr></thead>
+                <tbody>
+                  {VENTAS_MES.map((m, i) => (
+                    <tr key={m.mes} className={i % 2 ? "bg-orange-50" : ""}>
+                      <td className="p-1">{m.mes}</td>
+                      <td className="p-1 text-right">{fmtK(m.y2025)}</td>
+                      <td className="p-1 text-right font-semibold">{fmtK(m.y2026)}</td>
+                      <td className="p-1 text-center"><VarBadge v={m.varM} /></td>
+                    </tr>
+                  ))}
+                  <tr className="bg-orange-100 font-bold border-t-2 border-orange-300">
+                    <td className="p-1">YTD</td>
+                    <td className="p-1 text-right">{fmtK(YTD.monto25)}</td>
+                    <td className="p-1 text-right">{fmtK(YTD.monto26)}</td>
+                    <td className="p-1 text-center"><VarBadge v={YTD.varMonto} /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="bg-white rounded-xl shadow p-3 border border-orange-200">
+              <h3 className="text-xs font-semibold text-orange-700 mb-1">Unidades</h3>
+              <table className="w-full text-[11px]">
+                <thead><tr className="bg-orange-600 text-white">
+                  <th className="p-1 text-left">Mes</th><th className="p-1 text-right">2025</th>
+                  <th className="p-1 text-right">2026</th><th className="p-1 text-center">Var</th>
+                </tr></thead>
+                <tbody>
+                  {VENTAS_MES.map((m, i) => (
+                    <tr key={m.mes} className={i % 2 ? "bg-orange-50" : ""}>
+                      <td className="p-1">{m.mes}</td>
+                      <td className="p-1 text-right">{fmtU(m.u2025)}</td>
+                      <td className="p-1 text-right font-semibold">{fmtU(m.u2026)}</td>
+                      <td className="p-1 text-center"><VarBadge v={m.varU} /></td>
+                    </tr>
+                  ))}
+                  <tr className="bg-orange-100 font-bold border-t-2 border-orange-300">
+                    <td className="p-1">YTD</td>
+                    <td className="p-1 text-right">{fmtU(YTD.uds25)}</td>
+                    <td className="p-1 text-right">{fmtU(YTD.uds26)}</td>
+                    <td className="p-1 text-center"><VarBadge v={YTD.varUds} /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
+          <strong>Lectura:</strong> El año arrancó parejo (Ene −1.4%) pero se deterioró en el segundo semestre: Jun −7.4% y Jul −10.7%, el peor mes.
+          La quincena de agosto (−7.1%) modera la caída sin revertirla. En todos los meses la caída en unidades es mayor que en pesos —
+          el precio promedio (+3.4%) está tapando parte del hueco de volumen.
+        </div>
+      </div>
+    </Slide>
+  );
+}
+
+/* ── Slide 3 — Desempeño por Producto ───────────────────────── */
+function Slide3() {
+  return (
+    <Slide>
+      <div className="flex flex-col h-full p-6">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <Logo />
+            <h2 className="text-xl font-bold text-orange-900">Desempeño por Producto — YTD 2026 vs 2025</h2>
+          </div>
+          <span className="text-[10px] text-orange-500">Ene – 15 Ago 2026</span>
+        </div>
+
+        <div className="flex gap-4 flex-1">
+          <div className="w-[300px] bg-white rounded-xl shadow p-3 border border-orange-200 flex flex-col">
+            <h3 className="text-xs font-semibold text-orange-700 mb-1 flex items-center gap-1">
+              <Package size={13} /> Participación YTD 2026
+            </h3>
+            <ResponsiveContainer width="100%" height={215}>
+              <PieChart>
+                <Pie data={PIE_DATA} dataKey="value" outerRadius={82} labelLine={false}
+                  label={({ percent }) => `${((percent ?? 0) * 100).toFixed(0)}%`}
+                  style={{ fontSize: 10 }}>
+                  {PIE_DATA.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
+                </Pie>
+                <Tooltip formatter={(v) => fmt(Number(v))} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="text-[9px] space-y-0.5 mt-1">
+              {PRODUCTOS.map((p, i) => (
+                <div key={p.corto} className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-sm shrink-0" style={{ background: PIE_COLORS[i % PIE_COLORS.length] }} />
+                  <span className="text-orange-800 truncate">{p.corto}</span>
+                  <span className="ml-auto font-semibold text-orange-900">{p.part}%</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-orange-600 mt-2 pt-2 border-t border-orange-100">
+              Top 3 productos = <strong>51.7%</strong> de la venta
+            </p>
+          </div>
+
+          <div className="flex-1 flex flex-col gap-3">
+            <div className="bg-white rounded-xl shadow p-3 border border-orange-200">
+              <table className="w-full text-[11px]">
+                <thead><tr className="bg-orange-600 text-white">
+                  <th className="p-1.5 text-left">Producto</th>
+                  <th className="p-1.5 text-right">2025</th>
+                  <th className="p-1.5 text-right">2026</th>
+                  <th className="p-1.5 text-center">Var</th>
+                  <th className="p-1.5 text-right">Uds 26</th>
+                  <th className="p-1.5 text-right">Part %</th>
+                  <th className="p-1.5 text-center">Tend</th>
+                </tr></thead>
+                <tbody>
+                  {PRODUCTOS.map((p, i) => (
+                    <tr key={p.corto} className={i % 2 ? "bg-orange-50" : ""}>
+                      <td className="p-1.5 font-medium">{p.corto}</td>
+                      <td className="p-1.5 text-right">{fmtK(p.m25)}</td>
+                      <td className="p-1.5 text-right font-semibold text-orange-900">{fmtK(p.m26)}</td>
+                      <td className="p-1.5 text-center"><VarBadge v={p.var} /></td>
+                      <td className="p-1.5 text-right">{fmtU(p.u26)}</td>
+                      <td className="p-1.5 text-right">{p.part}%</td>
+                      <td className="p-1.5 text-center"><TendBadge t={p.tend} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="bg-white rounded-xl shadow p-3 border border-orange-200 flex-1">
+              <h3 className="text-xs font-semibold text-orange-700 mb-2">La historia del año: formato familiar vs individual</h3>
+              <table className="w-full text-[11px]">
+                <thead><tr className="bg-orange-700 text-white">
+                  <th className="p-1.5 text-left">Formato</th>
+                  <th className="p-1.5 text-right">MXN 2025</th>
+                  <th className="p-1.5 text-right">MXN 2026</th>
+                  <th className="p-1.5 text-center">Var $</th>
+                  <th className="p-1.5 text-center">Var Uds</th>
+                </tr></thead>
+                <tbody>
+                  {FORMATOS.map((f, i) => (
+                    <tr key={f.formato} className={i % 2 ? "bg-orange-50" : ""}>
+                      <td className="p-1.5 font-medium">{f.formato}</td>
+                      <td className="p-1.5 text-right">{fmtK(f.m25)}</td>
+                      <td className="p-1.5 text-right font-semibold text-orange-900">{fmtK(f.m26)}</td>
+                      <td className="p-1.5 text-center"><VarBadge v={f.var} /></td>
+                      <td className="p-1.5 text-center"><VarBadge v={f.varU} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="text-[10px] text-orange-600 mt-2">
+                Toda la caída del año vive en el formato individual. El familiar está plano/positivo.
+                Aislando solo los 25g (sin Rodajitas): −21.8% en pesos, −19.8% en unidades.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
+          <strong>Lectura:</strong> <strong>Chicharrón Natural</strong> es el único SKU que crece (+15.4%) y ya es el #1 con 25.3% de participación.
+          Los tres 125g están planos (−0.8% a +0.1%). El daño está en los individuales: Street Elote 25g −24.1%, Chile Piquín −22.3%,
+          Classic White 25g −21.5% y Cheddar 25g −18.2%. Que los cuatro caigan casi igual apunta a un problema de anaquel, no de demanda.
+        </div>
+      </div>
+    </Slide>
+  );
+}
+
+/* ── Slide 4 — Top Tiendas y Clusters ───────────────────────── */
+function Slide4() {
+  const totalCl = CLUSTERS.reduce((a, c) => a + c.monto, 0);
+  return (
+    <Slide>
+      <div className="flex flex-col h-full p-6">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <Logo />
+            <h2 className="text-xl font-bold text-orange-900">Top Tiendas y Clusters — YTD 2026</h2>
+          </div>
+          <span className="text-[10px] text-orange-500">Ene – 15 Ago 2026 · 65 tiendas activas</span>
+        </div>
+
+        <div className="flex gap-4 flex-1">
+          <div className="flex-1 bg-white rounded-xl shadow p-3 border border-orange-200">
+            <h3 className="text-xs font-semibold text-orange-700 mb-1 flex items-center gap-1">
+              <Store size={13} /> Top 15 Tiendas
+            </h3>
+            <table className="w-full text-[11px]">
+              <thead><tr className="bg-orange-600 text-white">
+                <th className="p-1 text-left">#</th>
+                <th className="p-1 text-left">Tienda</th>
+                <th className="p-1 text-left">Ciudad</th>
+                <th className="p-1 text-center">Cluster</th>
+                <th className="p-1 text-right">Monto</th>
+                <th className="p-1 text-right">Uds</th>
+              </tr></thead>
+              <tbody>
+                {TOP_TIENDAS.map((t, i) => (
+                  <tr key={t.tienda} className={i % 2 ? "bg-orange-50" : ""}>
+                    <td className="p-1 text-orange-600 font-bold">{i + 1}</td>
+                    <td className="p-1 font-medium">{t.tienda}</td>
+                    <td className="p-1 text-gray-600">{t.ciudad}</td>
+                    <td className="p-1 text-center"><ClusterBadge c={t.cluster} /></td>
+                    <td className="p-1 text-right font-semibold text-orange-900">{fmtK(t.monto)}</td>
+                    <td className="p-1 text-right">{fmtU(t.uds)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="text-[10px] text-orange-600 mt-2">
+              Top 15 = <strong>47.5%</strong> de la venta · Top 10 = 36.5%
+            </p>
+          </div>
+
+          <div className="w-[360px] bg-white rounded-xl shadow p-3 border border-orange-200 flex flex-col">
+            <h3 className="text-xs font-semibold text-orange-700 mb-1 flex items-center gap-1">
+              <Target size={13} /> Venta por Cluster
+            </h3>
+            <ResponsiveContainer width="100%" height={165}>
+              <BarChart data={CLUSTERS} layout="vertical" margin={{ top: 0, right: 10, left: 5, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#fed7aa" />
+                <XAxis type="number" tickFormatter={fmtK} tick={{ fontSize: 9, fill: "#9a3412" }} />
+                <YAxis type="category" dataKey="cluster" width={62} tick={{ fontSize: 9, fill: "#9a3412" }} />
+                <Tooltip formatter={(v) => fmt(Number(v))} />
+                <Bar dataKey="monto" fill="#ea580c" radius={[0, 4, 4, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+            <table className="w-full text-[10px] mt-2">
+              <thead><tr className="bg-orange-600 text-white">
+                <th className="p-1 text-left">Cluster</th>
+                <th className="p-1 text-center">Tdas</th>
+                <th className="p-1 text-right">Monto</th>
+                <th className="p-1 text-right">Part %</th>
+              </tr></thead>
+              <tbody>
+                {CLUSTERS.map((c, i) => (
+                  <tr key={c.cluster} className={i % 2 ? "bg-orange-50" : ""}>
+                    <td className="p-1"><ClusterBadge c={c.cluster} /></td>
+                    <td className="p-1 text-center">{c.tiendas}</td>
+                    <td className="p-1 text-right font-semibold">{fmtK(c.monto)}</td>
+                    <td className="p-1 text-right">{c.part}%</td>
+                  </tr>
+                ))}
+                <tr className="bg-orange-100 font-bold border-t-2 border-orange-300">
+                  <td className="p-1">Total</td>
+                  <td className="p-1 text-center">65</td>
+                  <td className="p-1 text-right">{fmtK(totalCl)}</td>
+                  <td className="p-1 text-right">100%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
+          <strong>Lectura:</strong> Monterrey concentra <strong>64%</strong> de la venta nacional y 12 de las top 15 tiendas.
+          El volumen no está solo en las AA: los clusters <strong>A y B</strong> suman 25 tiendas y <strong>42%</strong> de la venta,
+          más que AA + AA Light juntos (32%). Ahí está el pool con más upside para recuperar terreno.
+        </div>
+      </div>
+    </Slide>
+  );
+}
+
+/* ── Slide 5 — Hallazgos y Acciones ─────────────────────────── */
+function Slide5() {
+  return (
+    <Slide>
+      <div className="flex flex-col h-full p-8">
+        <div className="flex items-center gap-3 mb-4">
+          <Logo />
+          <h2 className="text-2xl font-bold text-orange-900">Hallazgos y Acciones</h2>
+        </div>
+
+        <div className="flex gap-4 flex-1">
+          <div className="flex-1 flex flex-col gap-2">
+            <h3 className="text-sm font-semibold text-orange-700">Hallazgos</h3>
+            {HALLAZGOS.map((h, i) => (
+              <div key={i} className="bg-white rounded-lg p-2.5 border border-orange-200 flex gap-2 items-start shadow-sm">
+                <TrendingUp size={14} className="text-orange-600 shrink-0 mt-0.5" />
+                <p className="text-[11px] leading-snug text-orange-900">{h}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="w-[380px] flex flex-col gap-3">
+            <h3 className="text-sm font-semibold text-orange-700">Acciones recomendadas</h3>
+            {ACCIONES.map((a) => (
+              <div key={a.n} className="bg-white rounded-xl p-3 border border-orange-200 shadow-sm flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="w-6 h-6 rounded-full bg-orange-600 text-white text-xs font-bold flex items-center justify-center shrink-0">
+                    {a.n}
+                  </span>
+                  <h4 className="text-xs font-bold text-orange-900">{a.titulo}</h4>
+                </div>
+                <p className="text-[11px] leading-snug text-orange-800">{a.texto}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="space-y-3 lg:col-span-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-600">Conclusiones</p>
-
-          {[
-            { i: <TrendingUp size={16} />, t: "La degustación funcionó", d: `+${fmt(GLOBAL.crec)}% de crecimiento y ${GLOBAL.extra} unidades extra en los productos degustados.` },
-            { i: <Package size={16} />, t: "Classic White es la punta de lanza", d: "Creció +55% y concentró más de la mitad de las unidades extra." },
-            { i: <CalendarDays size={16} />, t: "Martes y domingo rinden más", d: "Ambos crecieron por encima de 60% en su mejor semana. Ahí conviene concentrar las asistencias." },
-            { i: <Store size={16} />, t: "Asegurar abasto antes del evento", d: "Valle Alto y San Nicolás tuvieron poco producto en piso. Es crecimiento disponible para la próxima." },
-          ].map(c => (
-            <div key={c.t} className="rounded-xl bg-white p-4 ring-1 ring-stone-200">
-              <div className="flex items-center gap-2 text-orange-600">{c.i}
-                <p className="text-sm font-semibold text-stone-900">{c.t}</p>
-              </div>
-              <p className="mt-1.5 text-xs leading-relaxed text-stone-500">{c.d}</p>
-            </div>
-          ))}
-        </div>
+        <p className="text-[10px] text-orange-500 mt-3">
+          Reporte generado con datos de sell-out HEB · 4BUDDIES · {CORTE} · Excluye CEDIS y SKUs discontinuados
+        </p>
       </div>
-      <NotaBase />
     </Slide>
   );
 }
 
-// ============================================================
-//  SHELL
-// ============================================================
-const SLIDES = [S1, S2, S4, S5];
+/* ── Carrusel ───────────────────────────────────────────────── */
+const SLIDES = [Slide1, Slide2, Slide3, Slide4, Slide5];
 
 export default function Page() {
-  const [i, setI] = useState(0);
-  const total = SLIDES.length;
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === " ") setI(v => Math.min(v + 1, total - 1));
-      if (e.key === "ArrowLeft") setI(v => Math.max(v - 1, 0));
+      if (e.key === "ArrowRight" || e.key === " ") setCurrent((c) => Math.min(c + 1, SLIDES.length - 1));
+      if (e.key === "ArrowLeft") setCurrent((c) => Math.max(c - 1, 0));
     };
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
-  }, [total]);
+  }, []);
 
-  const Cur = SLIDES[i];
+  const Cur = SLIDES[current];
 
   return (
-    <main className="min-h-screen bg-[#FAF7F2]">
-      <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-stone-200 bg-[#FAF7F2]/95 px-6 backdrop-blur sm:px-10 lg:px-16">
-        <div className="flex items-center gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/4buddies-logo.jpeg" alt="4BUDDIES" className="h-8 w-8 rounded-lg object-cover ring-1 ring-orange-300" />
-          <div className="leading-tight">
-            <p className="text-sm font-semibold text-stone-900">Degustación HEB</p>
-            <p className="text-[11px] text-stone-500">27 jul – 9 ago 2026</p>
+    <div className="min-h-screen flex items-center justify-center bg-orange-950 p-4">
+      <div className="relative w-[1280px] aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-orange-700">
+        <Cur />
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-orange-900/90 backdrop-blur rounded-full px-4 py-1.5 shadow-lg">
+          <button onClick={() => setCurrent((c) => Math.max(c - 1, 0))} disabled={current === 0}
+            className="text-orange-300 hover:text-white disabled:opacity-30 transition">
+            <ChevronLeft size={20} />
+          </button>
+          <div className="flex gap-1.5">
+            {SLIDES.map((_, i) => (
+              <button key={i} onClick={() => setCurrent(i)}
+                className={`w-2 h-2 rounded-full transition ${i === current ? "bg-orange-400 scale-125" : "bg-orange-700"}`} />
+            ))}
           </div>
-        </div>
-
-        <div className="hidden items-center gap-1.5 sm:flex">
-          {SLIDES.map((_, k) => (
-            <button key={k} onClick={() => setI(k)} aria-label={`Slide ${k + 1}`}
-              className={`h-1.5 rounded-full transition-all ${k === i ? "w-7 bg-orange-500" : "w-1.5 bg-stone-300 hover:bg-stone-400"}`} />
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button onClick={() => setI(v => Math.max(v - 1, 0))} disabled={i === 0}
-            className="rounded-lg bg-stone-200 p-2 text-stone-700 transition hover:bg-stone-300 disabled:opacity-25">
-            <ChevronLeft size={17} />
+          <button onClick={() => setCurrent((c) => Math.min(c + 1, SLIDES.length - 1))} disabled={current === SLIDES.length - 1}
+            className="text-orange-300 hover:text-white disabled:opacity-30 transition">
+            <ChevronRight size={20} />
           </button>
-          <span className="min-w-[3rem] text-center text-xs tabular-nums text-stone-500">{i + 1} / {total}</span>
-          <button onClick={() => setI(v => Math.min(v + 1, total - 1))} disabled={i === total - 1}
-            className="rounded-lg bg-stone-200 p-2 text-stone-700 transition hover:bg-stone-300 disabled:opacity-25">
-            <ChevronRight size={17} />
-          </button>
+          <span className="text-[11px] text-orange-300 font-medium ml-1">{current + 1}/{SLIDES.length}</span>
         </div>
-      </header>
-
-      <Cur />
-    </main>
+      </div>
+    </div>
   );
 }
