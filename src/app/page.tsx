@@ -7,100 +7,36 @@ import {
 } from "recharts";
 import {
   ChevronLeft, ChevronRight, ArrowUpRight, ArrowDownRight,
-  TrendingUp, Store, Package, Target,
+  TrendingUp, Store, Package, Target, Tag,
 } from "lucide-react";
+import DATA from "./reporte-data.json";
 
-/* ══════════════════════════════════════════════════════════════
-   DATOS — Sell-Out HEB · corte quincenal al 15-ago-2026
-   Rango YTD: 1 ene – 15 ago (mismo rango ambos años)
-   Excluye CEDIS (2160) y SKUs discontinuados
-   ══════════════════════════════════════════════════════════════ */
-
-const CORTE = "Al 15 Ago 2026";
-
-const YTD = {
-  monto25: 2085306, monto26: 1944006, varMonto: -6.8,
-  uds25: 82881, uds26: 74747, varUds: -9.8,
-  tiendas: 65,
-  ticket25: 25.16, ticket26: 26.01, varTicket: 3.4,
-};
-
-const VENTAS_MES = [
-  { mes: "Ene",  y2025: 282960, y2026: 278968, u2025: 11158, u2026: 10516, varM: -1.4,  varU: -5.8 },
-  { mes: "Feb",  y2025: 269925, y2026: 254380, u2025: 10993, u2026: 9938,  varM: -5.8,  varU: -9.6 },
-  { mes: "Mar",  y2025: 330215, y2026: 276116, u2025: 13380, u2026: 11340, varM: -16.4, varU: -15.2 },
-  { mes: "Abr",  y2025: 275427, y2026: 266481, u2025: 10841, u2026: 10380, varM: -3.2,  varU: -4.3 },
-  { mes: "May",  y2025: 283242, y2026: 280316, u2025: 11794, u2026: 11283, varM: -1.0,  varU: -4.3 },
-  { mes: "Jun",  y2025: 265012, y2026: 245309, u2025: 10535, u2026: 9150,  varM: -7.4,  varU: -13.1 },
-  { mes: "Jul",  y2025: 254151, y2026: 226937, u2025: 9556,  u2026: 7974,  varM: -10.7, varU: -16.6 },
-  { mes: "Ago*", y2025: 124375, y2026: 115499, u2025: 4624,  u2026: 4166,  varM: -7.1,  varU: -9.9 },
-];
-
-const PRODUCTOS = [
-  { corto: "Chicharrón Natural",    m25: 426690, m26: 492231, var: 15.4,  u26: 9877,  part: 25.3, tend: "Crece"   },
-  { corto: "Street Elote 125g",     m25: 301095, m26: 259283, var: -13.9, u26: 8397,  part: 13.3, tend: "Cae"     },
-  { corto: "Rodajitas Spicy Limón", m25: 262038, m26: 253222, var: -3.4,  u26: 12819, part: 13.0, tend: "Estable" },
-  { corto: "Classic White 125g",    m25: 194693, m26: 194877, var: 0.1,   u26: 5497,  part: 10.0, tend: "Estable" },
-  { corto: "Classic White 25g",     m25: 246908, m26: 193931, var: -21.5, u26: 11125, part: 10.0, tend: "Cae"     },
-  { corto: "Cheddar Jalapeño 125g", m25: 188509, m26: 187091, var: -0.8,  u26: 6085,  part: 9.6,  tend: "Estable" },
-  { corto: "Street Elote 25g",      m25: 217469, m26: 165093, var: -24.1, u26: 9555,  part: 8.5,  tend: "Cae"     },
-  { corto: "Cheddar Jalapeño 25g",  m25: 139566, m26: 114121, var: -18.2, u26: 6645,  part: 5.9,  tend: "Cae"     },
-  { corto: "Chile Piquín 25g",      m25: 108339, m26: 84157,  var: -22.3, u26: 4747,  part: 4.3,  tend: "Cae"     },
-];
+/* Datos calculados desde sellout-heb.xlsx; corte completo al 31-ago-2026. */
+const CORTE = "Al 31 Ago 2026";
+const YTD = DATA.ytd;
+const VENTAS_MES = DATA.ventasMes;
+const PRODUCTOS = DATA.productos;
 
 const PIE_DATA = PRODUCTOS.map((p) => ({ name: p.corto, value: p.m26 }));
 const PIE_COLORS = ["#ea580c", "#f97316", "#fb923c", "#fdba74", "#fed7aa", "#c2410c", "#9a3412", "#7c2d12", "#431407"];
 
-// Formato 125g vs 25g — la historia real del año
-const FORMATOS = [
-  { formato: "Familiar 125g + Chicharrón", m25: 1110986, m26: 1133482, var: 2.0,   u25: 29638, u26: 29856, varU: 0.7 },
-  { formato: "Individual 25g / 30g",       m25: 974320,  m26: 810524,  var: -16.8, u25: 53243, u26: 44891, varU: -15.7 },
-];
-
-const TOP_TIENDAS = [
-  { tienda: "MTY VALLE ORIENTE",        ciudad: "Monterrey", cluster: "AA",       monto: 92344, uds: 3434 },
-  { tienda: "MTY CHIPINQUE",            ciudad: "Monterrey", cluster: "AA",       monto: 87918, uds: 3574 },
-  { tienda: "MTY SAN PEDRO",            ciudad: "Monterrey", cluster: "AA",       monto: 85251, uds: 3650 },
-  { tienda: "MTY VALLE ALTO",           ciudad: "Monterrey", cluster: "AA Light", monto: 76869, uds: 3040 },
-  { tienda: "MTY CONTRY",               ciudad: "Monterrey", cluster: "A",        monto: 75907, uds: 3103 },
-  { tienda: "MTY TEC",                  ciudad: "Monterrey", cluster: "A",        monto: 70242, uds: 2712 },
-  { tienda: "MTY SAN NICOLAS",          ciudad: "Monterrey", cluster: "A",        monto: 59055, uds: 2191 },
-  { tienda: "MTY EL URO",               ciudad: "Monterrey", cluster: "AA Light", monto: 57510, uds: 2496 },
-  { tienda: "LEO CERRO GORDO",          ciudad: "León",      cluster: "AA Light", monto: 55542, uds: 2467 },
-  { tienda: "MTY CUMBRES",              ciudad: "Monterrey", cluster: "AA Light", monto: 48591, uds: 1890 },
-  { tienda: "MTY BOSQUES DE LAS LOMAS", ciudad: "Monterrey", cluster: "A",        monto: 47897, uds: 1871 },
-  { tienda: "MTY PUERTA DE HIERRO",     ciudad: "Monterrey", cluster: "A",        monto: 43771, uds: 1639 },
-  { tienda: "MTY SANTA CATARINA",       ciudad: "Monterrey", cluster: "B",        monto: 41778, uds: 1557 },
-  { tienda: "MTY CONCORDIA",            ciudad: "Monterrey", cluster: "B",        monto: 40778, uds: 1560 },
-  { tienda: "SAL SAN PATRICIO",         ciudad: "Saltillo",  cluster: "AA Light", monto: 39003, uds: 1557 },
-];
-
-const CLUSTERS = [
-  { cluster: "A",          tiendas: 10, monto: 412716, uds: 15458, part: 21.2 },
-  { cluster: "B",          tiendas: 15, monto: 408744, uds: 15519, part: 21.0 },
-  { cluster: "AA Light",   tiendas: 8,  monto: 360245, uds: 14234, part: 18.5 },
-  { cluster: "AA",         tiendas: 3,  monto: 265514, uds: 10658, part: 13.7 },
-  { cluster: "C",          tiendas: 10, monto: 236564, uds: 8806,  part: 12.2 },
-  { cluster: "B Bajío",    tiendas: 5,  monto: 88199,  uds: 3237,  part: 4.5  },
-  { cluster: "B Frontera", tiendas: 6,  monto: 78509,  uds: 3078,  part: 4.0  },
-  { cluster: "C Bajío",    tiendas: 4,  monto: 57306,  uds: 2198,  part: 2.9  },
-  { cluster: "EAA",        tiendas: 1,  monto: 18123,  uds: 902,   part: 0.9  },
-  { cluster: "N/D",        tiendas: 3,  monto: 18085,  uds: 657,   part: 0.9  },
-];
+const FORMATOS = DATA.formatos;
+const TOP_TIENDAS = DATA.topTiendas;
+const CLUSTERS = DATA.clusters;
+const PROMO = DATA.promo;
 
 const HALLAZGOS = [
-  "La venta YTD cae −6.8% en pesos ($1.94M vs $2.09M) y −9.8% en unidades. La caída es de volumen, no de precio: el precio promedio subió +3.4% a $26.01 y amortiguó el golpe.",
-  "El problema está concentrado en el formato individual (25g/30g): −16.8% en pesos y −15.7% en unidades. Aislando solo los cuatro SKUs de 25g, la caída es de −21.8% en pesos y −19.8% en unidades: caen entre −18% y −24% cada uno.",
-  "El formato familiar 125g + Chicharrón está plano/positivo (+2.0%). Ahí no hay problema de demanda — el consumidor sigue comprando, solo migró de tamaño.",
-  "Chicharrón Natural es el único SKU que crece (+15.4%) y ya es el #1 del portafolio con 25.3% de la venta. Solo cargaba 20.5% el año pasado.",
-  "La tendencia se deterioró en el segundo semestre: Jun −7.4%, Jul −10.7% en pesos. La quincena de agosto (−7.1%) frena la caída pero no la revierte.",
-  "Monterrey concentra 64% de la venta y los top 15 puntos valen 47.5%. Cluster A y B (25 tiendas) aportan 42% — el volumen no está solo en las AA.",
+  "La venta YTD cae −7.0% en pesos ($2.08M vs $2.24M) y −9.4% en unidades. La caída es de volumen: el precio promedio subió +2.6% a $25.84 y amortiguó parte del impacto.",
+  "El formato individual (25g/30g) concentra el problema: −17.1% en pesos y −15.0% en unidades. Las presentaciones de 25g caen entre −18% y −24%.",
+  "El formato familiar 125g + Chicharrón crece +1.9% y Chicharrón Natural es el único SKU de crecimiento fuerte (+13.5%), con 25.2% de la venta.",
+  "La segunda mitad empeora: junio −7.4%, julio −10.7% y agosto −8.6% en pesos. Agosto cerrado confirma que no fue un efecto de corte parcial.",
+  "Los clusters A y B aportan 42.1% de la venta; el volumen no está solo en tiendas AA. Son el principal pool para recuperar rotación.",
 ];
 
 const ACCIONES = [
-  { n: 1, titulo: "Auditar anaquel del formato 25g", texto: "La caída de −19.3% en unidades del individual es demasiado pareja entre los 4 SKUs para ser demanda. Apunta a espacio, ubicación o quiebres. Revisar planograma y exhibición en los top 15 puntos antes de tocar precio." },
-  { n: 2, titulo: "Empujar Chicharrón Natural", texto: "Es el único que crece (+15.4%) y ya es el #1. Pedir frente adicional y asegurar que no falte en las 65 tiendas: es el motor que hoy sostiene el YTD." },
-  { n: 3, titulo: "Activación en Cluster A y B", texto: "25 tiendas que valen 42% de la venta y no reciben foco promocional. Es el pool con más upside para recuperar los ~$141K que faltan contra 2025." },
+  { n: 1, titulo: "Auditar el anaquel de 25g", texto: "La caída de las presentaciones individuales es consistente. Revisar planograma, frente y exhibición en las top 15 tiendas antes de profundizar descuentos." },
+  { n: 2, titulo: "Escalar Chicharrón Natural", texto: "Es el motor del portafolio (+13.5%) y ya aporta una cuarta parte de la venta. Asegurar disponibilidad y buscar frente adicional en las 65 tiendas." },
+  { n: 3, titulo: "Activar clusters A y B", texto: "25 tiendas aportan 42.1% de la venta. Concentrar activación y seguimiento ahí para recuperar los ~$156K que faltan frente a 2025." },
 ];
 
 /* ── Helpers ────────────────────────────────────────────────── */
@@ -153,7 +89,7 @@ function Slide1() {
           <div>
             <h1 className="text-3xl font-bold text-orange-900">Reporte de Sell-Out</h1>
             <h2 className="text-xl text-orange-700">4BUDDIES × HEB</h2>
-            <p className="text-orange-600 text-sm">YTD 2026 vs 2025 · Enero – 15 Agosto (corte quincenal)</p>
+            <p className="text-orange-600 text-sm">YTD 2026 vs 2025 · Enero – Agosto (meses completos)</p>
           </div>
         </div>
 
@@ -173,7 +109,7 @@ function Slide1() {
         </div>
 
         <div className="bg-white rounded-xl shadow p-4 border border-orange-200 flex-1">
-          <h3 className="text-sm font-semibold text-orange-700 mb-2">Venta por mes — 2025 vs 2026 (Ene – 15 Ago)</h3>
+          <h3 className="text-sm font-semibold text-orange-700 mb-2">Venta por mes — 2025 vs 2026 (Ene – Ago)</h3>
           <table className="w-full text-xs">
             <thead>
               <tr className="bg-orange-700 text-white">
@@ -215,7 +151,7 @@ function Slide1() {
             </tbody>
           </table>
           <p className="text-[10px] text-orange-500 mt-3">
-            *Ago = 1–15 ago en ambos años (comparación de misma quincena). Excluye SKUs discontinuados y CEDIS.
+            Agosto cerrado. Excluye CEDIS y SKUs discontinuados/sin presencia.
           </p>
         </div>
       </div>
@@ -233,7 +169,7 @@ function Slide2() {
             <Logo />
             <h2 className="text-xl font-bold text-orange-900">Venta Mensual — 2025 vs 2026</h2>
           </div>
-          <span className="text-[10px] text-orange-500">*Ago 2026 parcial (1–15) vs mismos 15 días de 2025</span>
+          <span className="text-[10px] text-orange-500">Enero–agosto completos · comparación simétrica</span>
         </div>
 
         <div className="flex gap-4 flex-1">
@@ -318,9 +254,8 @@ function Slide2() {
         </div>
 
         <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
-          <strong>Lectura:</strong> El año arrancó parejo (Ene −1.4%) pero se deterioró en el segundo semestre: Jun −7.4% y Jul −10.7%, el peor mes.
-          La quincena de agosto (−7.1%) modera la caída sin revertirla. En todos los meses la caída en unidades es mayor que en pesos —
-          el precio promedio (+3.4%) está tapando parte del hueco de volumen.
+          <strong>Lectura:</strong> El año arrancó parejo (Ene −1.4%) pero se deterioró desde junio: Jun −7.4%, Jul −10.7% y Ago −8.6%.
+          En todos los meses la caída en unidades es mayor que en pesos: el precio promedio (+2.6%) amortigua parte del hueco de volumen.
         </div>
       </div>
     </Slide>
@@ -337,7 +272,7 @@ function Slide3() {
             <Logo />
             <h2 className="text-xl font-bold text-orange-900">Desempeño por Producto — YTD 2026 vs 2025</h2>
           </div>
-          <span className="text-[10px] text-orange-500">Ene – 15 Ago 2026</span>
+          <span className="text-[10px] text-orange-500">Ene – Ago 2026</span>
         </div>
 
         <div className="flex gap-4 flex-1">
@@ -365,7 +300,7 @@ function Slide3() {
               ))}
             </div>
             <p className="text-[10px] text-orange-600 mt-2 pt-2 border-t border-orange-100">
-              Top 3 productos = <strong>51.7%</strong> de la venta
+              Top 3 productos = <strong>51.5%</strong> de la venta
             </p>
           </div>
 
@@ -421,16 +356,16 @@ function Slide3() {
               </table>
               <p className="text-[10px] text-orange-600 mt-2">
                 Toda la caída del año vive en el formato individual. El familiar está plano/positivo.
-                Aislando solo los 25g (sin Rodajitas): −21.8% en pesos, −19.8% en unidades.
+                Las presentaciones de 25g caen entre −18% y −24% en pesos.
               </p>
             </div>
           </div>
         </div>
 
         <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
-          <strong>Lectura:</strong> <strong>Chicharrón Natural</strong> es el único SKU que crece (+15.4%) y ya es el #1 con 25.3% de participación.
-          Los tres 125g están planos (−0.8% a +0.1%). El daño está en los individuales: Street Elote 25g −24.1%, Chile Piquín −22.3%,
-          Classic White 25g −21.5% y Cheddar 25g −18.2%. Que los cuatro caigan casi igual apunta a un problema de anaquel, no de demanda.
+          <strong>Lectura:</strong> <strong>Chicharrón Natural</strong> es el motor (+13.5%) y ya es el #1 con 25.2% de participación.
+          El daño está en los individuales: Street Elote 25g −24.4%, Classic White 25g −22.1%, Chile Piquín −20.3% y Cheddar 25g −18.2%.
+          Que caigan casi igual apunta a un problema de anaquel/rotación, no de demanda aislada.
         </div>
       </div>
     </Slide>
@@ -448,7 +383,7 @@ function Slide4() {
             <Logo />
             <h2 className="text-xl font-bold text-orange-900">Top Tiendas y Clusters — YTD 2026</h2>
           </div>
-          <span className="text-[10px] text-orange-500">Ene – 15 Ago 2026 · 65 tiendas activas</span>
+          <span className="text-[10px] text-orange-500">Ene – Ago 2026 · 65 tiendas activas</span>
         </div>
 
         <div className="flex gap-4 flex-1">
@@ -479,7 +414,7 @@ function Slide4() {
               </tbody>
             </table>
             <p className="text-[10px] text-orange-600 mt-2">
-              Top 15 = <strong>47.5%</strong> de la venta · Top 10 = 36.5%
+              Top 15 = <strong>48.0%</strong> de la venta
             </p>
           </div>
 
@@ -524,17 +459,49 @@ function Slide4() {
         </div>
 
         <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
-          <strong>Lectura:</strong> Monterrey concentra <strong>64%</strong> de la venta nacional y 12 de las top 15 tiendas.
-          El volumen no está solo en las AA: los clusters <strong>A y B</strong> suman 25 tiendas y <strong>42%</strong> de la venta,
-          más que AA + AA Light juntos (32%). Ahí está el pool con más upside para recuperar terreno.
+          <strong>Lectura:</strong> El volumen no está solo en las AA: los clusters <strong>A y B</strong> suman 25 tiendas y <strong>42.1%</strong> de la venta.
+          Ahí está el pool con más upside para recuperar rotación.
         </div>
       </div>
     </Slide>
   );
 }
 
-/* ── Slide 5 — Hallazgos y Acciones ─────────────────────────── */
+/* ── Slide 5 — Impacto de promoción ─────────────────────────── */
 function Slide5() {
+  const verdictClass = (v: string) => v === "Sí fuerte" ? "bg-green-100 text-green-700" : v === "Sí moderado" ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-700";
+  return (
+    <Slide>
+      <div className="flex flex-col h-full p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3"><Logo /><h2 className="text-xl font-bold text-orange-900">Impacto de Promoción — Mayo 2026</h2></div>
+          <span className="text-[10px] text-orange-500">Vigencia 08 May – 04 Jun · mayo captura ~3.5 semanas</span>
+        </div>
+        <div className="bg-white rounded-xl shadow p-4 border border-orange-200">
+          <div className="flex items-center gap-2 text-sm font-semibold text-orange-700 mb-3"><Tag size={15} /> Desempeño de los SKUs promocionados</div>
+          <table className="w-full text-xs">
+            <thead><tr className="bg-orange-600 text-white">
+              <th className="p-2 text-left">Producto</th><th className="p-2 text-left">Mecánica</th><th className="p-2 text-right">Uds Abr</th><th className="p-2 text-right">Uds May</th><th className="p-2 text-center">Δ vs Abr</th><th className="p-2 text-center">Δ vs May&apos;25</th><th className="p-2 text-right">Precio May</th><th className="p-2 text-center">Veredicto</th>
+            </tr></thead>
+            <tbody>{PROMO.map((p, i) => <tr key={p.producto} className={i % 2 ? "bg-orange-50" : ""}>
+              <td className="p-2 font-semibold text-orange-900">{p.producto}</td><td className="p-2"><span className="rounded bg-orange-100 px-2 py-1 text-orange-800">{p.mecanica}</span></td><td className="p-2 text-right">{fmtU(p.udsAbr)}</td><td className="p-2 text-right font-semibold">{fmtU(p.udsMay)}</td><td className="p-2 text-center"><VarBadge v={p.dUds} /></td><td className="p-2 text-center"><VarBadge v={p.dVs25} /></td><td className="p-2 text-right">{fmt(p.precioMay)}</td><td className="p-2 text-center"><span className={`rounded-full px-2 py-1 text-[10px] font-bold ${verdictClass(p.veredicto)}`}>{p.veredicto}</span></td>
+            </tr>)}</tbody>
+          </table>
+        </div>
+        <div className="grid grid-cols-3 gap-4 mt-4 flex-1">
+          {PROMO.map((p) => <div key={p.producto} className="rounded-xl border border-orange-200 bg-white p-4 shadow">
+            <p className="text-xs font-bold text-orange-900">{p.producto}</p><p className="mt-2 text-3xl font-bold text-orange-700">{p.dUds >= 0 ? "+" : ""}{p.dUds}%</p><p className="text-xs text-orange-600">unidades mayo vs abril</p>
+            <p className="mt-4 text-[11px] leading-relaxed text-orange-900">Precio promedio: {fmt(p.precioAbr)} → {fmt(p.precioMay)} ({p.dPrecio}%). Frente a may&apos;25: {p.dVs25 >= 0 ? "+" : ""}{p.dVs25}% uds.</p>
+          </div>)}
+        </div>
+        <div className="mt-4 rounded-lg border border-orange-200 bg-white/80 p-2 text-[11px] text-orange-800"><strong>Conclusión:</strong> La rebaja de Classic White 125g fue la ganadora: +18.0% en volumen y +22.1% vs mayo 2025. Rodajitas tuvo efecto positivo moderado; el 2x$34 de Classic White 25g mejoró el mes, pero no revirtió su caída interanual.</div>
+      </div>
+    </Slide>
+  );
+}
+
+/* ── Slide 6 — Hallazgos y Acciones ─────────────────────────── */
+function Slide6() {
   return (
     <Slide>
       <div className="flex flex-col h-full p-8">
@@ -579,7 +546,7 @@ function Slide5() {
 }
 
 /* ── Carrusel ───────────────────────────────────────────────── */
-const SLIDES = [Slide1, Slide2, Slide3, Slide4, Slide5];
+const SLIDES = [Slide1, Slide2, Slide3, Slide4, Slide5, Slide6];
 
 export default function Page() {
   const [current, setCurrent] = useState(0);

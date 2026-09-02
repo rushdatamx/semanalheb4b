@@ -1,0 +1,410 @@
+{
+  "corte": "Al 31 Aug 2026",
+  "rango": "Enero–Ago 2026",
+  "ytd": {
+    "monto25": 2236028,
+    "monto26": 2080039,
+    "varMonto": -7.0,
+    "uds25": 88809,
+    "uds26": 80491,
+    "varUds": -9.4,
+    "tiendas": 65,
+    "ticket25": 25.18,
+    "ticket26": 25.84,
+    "varTicket": 2.6
+  },
+  "ventasMes": [
+    {
+      "mes": "Ene",
+      "y2025": 282960,
+      "y2026": 278968,
+      "u2025": 11158,
+      "u2026": 10516,
+      "varM": -1.4,
+      "varU": -5.8
+    },
+    {
+      "mes": "Feb",
+      "y2025": 269925,
+      "y2026": 254380,
+      "u2025": 10993,
+      "u2026": 9938,
+      "varM": -5.8,
+      "varU": -9.6
+    },
+    {
+      "mes": "Mar",
+      "y2025": 330215,
+      "y2026": 276116,
+      "u2025": 13380,
+      "u2026": 11340,
+      "varM": -16.4,
+      "varU": -15.2
+    },
+    {
+      "mes": "Abr",
+      "y2025": 275427,
+      "y2026": 266481,
+      "u2025": 10841,
+      "u2026": 10380,
+      "varM": -3.2,
+      "varU": -4.3
+    },
+    {
+      "mes": "May",
+      "y2025": 283242,
+      "y2026": 280316,
+      "u2025": 11794,
+      "u2026": 11283,
+      "varM": -1.0,
+      "varU": -4.3
+    },
+    {
+      "mes": "Jun",
+      "y2025": 265012,
+      "y2026": 245309,
+      "u2025": 10535,
+      "u2026": 9150,
+      "varM": -7.4,
+      "varU": -13.1
+    },
+    {
+      "mes": "Jul",
+      "y2025": 254151,
+      "y2026": 226937,
+      "u2025": 9556,
+      "u2026": 7974,
+      "varM": -10.7,
+      "varU": -16.6
+    },
+    {
+      "mes": "Ago",
+      "y2025": 275097,
+      "y2026": 251533,
+      "u2025": 10552,
+      "u2026": 9910,
+      "varM": -8.6,
+      "varU": -6.1
+    }
+  ],
+  "productos": [
+    {
+      "corto": "Chicharrón Natural",
+      "m25": 462148,
+      "m26": 524425,
+      "var": 13.5,
+      "u26": 10523,
+      "part": 25.2,
+      "tend": "Crece"
+    },
+    {
+      "corto": "Street Elote 125g",
+      "m25": 319211,
+      "m26": 277164,
+      "var": -13.2,
+      "u26": 8971,
+      "part": 13.3,
+      "tend": "Cae"
+    },
+    {
+      "corto": "Rodajitas Spicy Limón",
+      "m25": 282591,
+      "m26": 270134,
+      "var": -4.4,
+      "u26": 13630,
+      "part": 13.0,
+      "tend": "Estable"
+    },
+    {
+      "corto": "Classic White 125g",
+      "m25": 208412,
+      "m26": 211358,
+      "var": 1.4,
+      "u26": 5955,
+      "part": 10.2,
+      "tend": "Estable"
+    },
+    {
+      "corto": "Classic White 25g",
+      "m25": 264892,
+      "m26": 206241,
+      "var": -22.1,
+      "u26": 11996,
+      "part": 9.9,
+      "tend": "Cae"
+    },
+    {
+      "corto": "Cheddar Jalapeño 125g",
+      "m25": 200552,
+      "m26": 199964,
+      "var": -0.3,
+      "u26": 6506,
+      "part": 9.6,
+      "tend": "Estable"
+    },
+    {
+      "corto": "Street Elote 25g",
+      "m25": 231840,
+      "m26": 175342,
+      "var": -24.4,
+      "u26": 10294,
+      "part": 8.4,
+      "tend": "Cae"
+    },
+    {
+      "corto": "Cheddar Jalapeño 25g",
+      "m25": 150044,
+      "m26": 122728,
+      "var": -18.2,
+      "u26": 7258,
+      "part": 5.9,
+      "tend": "Cae"
+    },
+    {
+      "corto": "Chile Piquín 25g",
+      "m25": 116338,
+      "m26": 92683,
+      "var": -20.3,
+      "u26": 5358,
+      "part": 4.5,
+      "tend": "Cae"
+    }
+  ],
+  "topTiendas": [
+    {
+      "tienda": "HEB MTY VALLE ORIENTE",
+      "ciudad": "MONTERREY",
+      "cluster": "AA",
+      "monto": 98170,
+      "uds": 3673
+    },
+    {
+      "tienda": "HEB MTY CHIPINQUE",
+      "ciudad": "MONTERREY",
+      "cluster": "AA",
+      "monto": 95087,
+      "uds": 3899
+    },
+    {
+      "tienda": "HEB MTY SAN PEDRO",
+      "ciudad": "MONTERREY",
+      "cluster": "AA",
+      "monto": 91533,
+      "uds": 3943
+    },
+    {
+      "tienda": "HEB MTY VALLE ALTO",
+      "ciudad": "MONTERREY",
+      "cluster": "AA Light",
+      "monto": 82234,
+      "uds": 3271
+    },
+    {
+      "tienda": "HEB MTY CONTRY",
+      "ciudad": "MONTERREY",
+      "cluster": "A",
+      "monto": 79937,
+      "uds": 3284
+    },
+    {
+      "tienda": "HEB MTY TEC",
+      "ciudad": "MONTERREY",
+      "cluster": "A",
+      "monto": 75905,
+      "uds": 2956
+    },
+    {
+      "tienda": "HEB MTY SAN NICOLAS",
+      "ciudad": "MONTERREY",
+      "cluster": "A",
+      "monto": 62730,
+      "uds": 2351
+    },
+    {
+      "tienda": "HEB MTY EL URO",
+      "ciudad": "MONTERREY",
+      "cluster": "AA Light",
+      "monto": 62261,
+      "uds": 2709
+    },
+    {
+      "tienda": "HEB LEO CERRO GORDO",
+      "ciudad": "LEON",
+      "cluster": "AA Light",
+      "monto": 59795,
+      "uds": 2643
+    },
+    {
+      "tienda": "HEB MTY BOSQUES DE LAS LOMAS",
+      "ciudad": "MONTERREY",
+      "cluster": "A",
+      "monto": 52172,
+      "uds": 2070
+    },
+    {
+      "tienda": "HEB MTY CUMBRES",
+      "ciudad": "MONTERREY",
+      "cluster": "AA Light",
+      "monto": 50609,
+      "uds": 1971
+    },
+    {
+      "tienda": "HEB MTY PUERTA DE HIERRO",
+      "ciudad": "MONTERREY",
+      "cluster": "A",
+      "monto": 46195,
+      "uds": 1722
+    },
+    {
+      "tienda": "HEB MTY SANTA CATARINA",
+      "ciudad": "MONTERREY",
+      "cluster": "B",
+      "monto": 45034,
+      "uds": 1702
+    },
+    {
+      "tienda": "HEB MTY CONCORDIA",
+      "ciudad": "MONTERREY",
+      "cluster": "B",
+      "monto": 43192,
+      "uds": 1645
+    },
+    {
+      "tienda": "HEB SAL SAN PATRICIO",
+      "ciudad": "SALTILLO",
+      "cluster": "AA Light",
+      "monto": 41755,
+      "uds": 1683
+    }
+  ],
+  "clusters": [
+    {
+      "cluster": "A",
+      "tiendas": 10,
+      "monto": 440980,
+      "uds": 16623,
+      "part": 21.2
+    },
+    {
+      "cluster": "B",
+      "tiendas": 15,
+      "monto": 435764,
+      "uds": 16662,
+      "part": 20.9
+    },
+    {
+      "cluster": "AA Light",
+      "tiendas": 8,
+      "monto": 385344,
+      "uds": 15268,
+      "part": 18.5
+    },
+    {
+      "cluster": "AA",
+      "tiendas": 3,
+      "monto": 284790,
+      "uds": 11515,
+      "part": 13.7
+    },
+    {
+      "cluster": "C",
+      "tiendas": 10,
+      "monto": 253448,
+      "uds": 9504,
+      "part": 12.2
+    },
+    {
+      "cluster": "B Bajío",
+      "tiendas": 5,
+      "monto": 94221,
+      "uds": 3450,
+      "part": 4.5
+    },
+    {
+      "cluster": "B Frontera",
+      "tiendas": 6,
+      "monto": 83277,
+      "uds": 3319,
+      "part": 4.0
+    },
+    {
+      "cluster": "C Bajío",
+      "tiendas": 4,
+      "monto": 61173,
+      "uds": 2356,
+      "part": 2.9
+    },
+    {
+      "cluster": "EAA",
+      "tiendas": 1,
+      "monto": 20847,
+      "uds": 1063,
+      "part": 1.0
+    },
+    {
+      "cluster": "N/D",
+      "tiendas": 3,
+      "monto": 20195,
+      "uds": 731,
+      "part": 1.0
+    }
+  ],
+  "promo": [
+    {
+      "producto": "Rodajitas Spicy Limón",
+      "mecanica": "Rebajado a $19.90",
+      "udsAbr": 1874,
+      "udsMay": 2006,
+      "dUds": 7.0,
+      "precioAbr": 19.32,
+      "precioMay": 18.78,
+      "dPrecio": -2.8,
+      "dVs25": 1.3,
+      "veredicto": "Sí moderado"
+    },
+    {
+      "producto": "Classic White 25g",
+      "mecanica": "2x$34",
+      "udsAbr": 1528,
+      "udsMay": 1642,
+      "dUds": 7.5,
+      "precioAbr": 17.31,
+      "precioMay": 16.93,
+      "dPrecio": -2.2,
+      "dVs25": -18.7,
+      "veredicto": "Sí moderado"
+    },
+    {
+      "producto": "Classic White 125g",
+      "mecanica": "Rebajado a $35",
+      "udsAbr": 722,
+      "udsMay": 852,
+      "dUds": 18.0,
+      "precioAbr": 35.98,
+      "precioMay": 33.21,
+      "dPrecio": -7.7,
+      "dVs25": 22.1,
+      "veredicto": "Sí fuerte"
+    }
+  ],
+  "formatos": [
+    {
+      "formato": "Familiar 125g + Chicharrón",
+      "m25": 1190323,
+      "m26": 1212911,
+      "var": 1.9,
+      "u25": 31702,
+      "u26": 31955,
+      "varU": 0.8
+    },
+    {
+      "formato": "Individual 25g / 30g",
+      "m25": 1045705,
+      "m26": 867128,
+      "var": -17.1,
+      "u25": 57107,
+      "u26": 48536,
+      "varU": -15.0
+    }
+  ]
+}
