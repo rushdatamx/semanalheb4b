@@ -1,17 +1,18 @@
 {
-  "corte": "Al 31 Aug 2026",
-  "rango": "Enero–Ago 2026",
+  "corte": "Al 30 Sep 2026",
+  "fechaMaxFuente": "30 Sep 2026",
+  "rango": "Enero–Sep 2026",
   "ytd": {
-    "monto25": 2236028,
-    "monto26": 2080039,
-    "varMonto": -7.0,
-    "uds25": 88809,
-    "uds26": 80491,
-    "varUds": -9.4,
+    "monto25": 2514050,
+    "monto26": 2314881,
+    "varMonto": -7.9,
+    "uds25": 100293,
+    "uds26": 90254,
+    "varUds": -10.0,
     "tiendas": 65,
-    "ticket25": 25.18,
-    "ticket26": 25.84,
-    "varTicket": 2.6
+    "ticket25": 25.07,
+    "ticket26": 25.65,
+    "varTicket": 2.3
   },
   "ventasMes": [
     {
@@ -85,88 +86,97 @@
       "u2026": 9910,
       "varM": -8.6,
       "varU": -6.1
+    },
+    {
+      "mes": "Sep",
+      "y2025": 278023,
+      "y2026": 234842,
+      "u2025": 11484,
+      "u2026": 9763,
+      "varM": -15.5,
+      "varU": -15.0
     }
   ],
   "productos": [
     {
       "corto": "Chicharrón Natural",
-      "m25": 462148,
-      "m26": 524425,
-      "var": 13.5,
-      "u26": 10523,
-      "part": 25.2,
+      "m25": 524066,
+      "m26": 581900,
+      "var": 11.0,
+      "u26": 11681,
+      "part": 25.1,
       "tend": "Crece"
     },
     {
       "corto": "Street Elote 125g",
-      "m25": 319211,
-      "m26": 277164,
-      "var": -13.2,
-      "u26": 8971,
+      "m25": 354232,
+      "m26": 307777,
+      "var": -13.1,
+      "u26": 9969,
       "part": 13.3,
       "tend": "Cae"
     },
     {
       "corto": "Rodajitas Spicy Limón",
-      "m25": 282591,
-      "m26": 270134,
-      "var": -4.4,
-      "u26": 13630,
+      "m25": 318088,
+      "m26": 299963,
+      "var": -5.7,
+      "u26": 15092,
       "part": 13.0,
-      "tend": "Estable"
+      "tend": "Cae"
     },
     {
       "corto": "Classic White 125g",
-      "m25": 208412,
-      "m26": 211358,
-      "var": 1.4,
-      "u26": 5955,
-      "part": 10.2,
+      "m25": 233570,
+      "m26": 238431,
+      "var": 2.1,
+      "u26": 6710,
+      "part": 10.3,
       "tend": "Estable"
     },
     {
       "corto": "Classic White 25g",
-      "m25": 264892,
-      "m26": 206241,
-      "var": -22.1,
-      "u26": 11996,
-      "part": 9.9,
+      "m25": 300404,
+      "m26": 226928,
+      "var": -24.5,
+      "u26": 13415,
+      "part": 9.8,
       "tend": "Cae"
     },
     {
       "corto": "Cheddar Jalapeño 125g",
-      "m25": 200552,
-      "m26": 199964,
-      "var": -0.3,
-      "u26": 6506,
+      "m25": 223358,
+      "m26": 222276,
+      "var": -0.5,
+      "u26": 7238,
       "part": 9.6,
       "tend": "Estable"
     },
     {
       "corto": "Street Elote 25g",
-      "m25": 231840,
-      "m26": 175342,
-      "var": -24.4,
-      "u26": 10294,
+      "m25": 260260,
+      "m26": 193779,
+      "var": -25.5,
+      "u26": 11548,
       "part": 8.4,
       "tend": "Cae"
     },
     {
       "corto": "Cheddar Jalapeño 25g",
-      "m25": 150044,
-      "m26": 122728,
-      "var": -18.2,
-      "u26": 7258,
+      "m25": 169425,
+      "m26": 135752,
+      "var": -19.9,
+      "u26": 8180,
       "part": 5.9,
       "tend": "Cae"
     },
     {
       "corto": "Chile Piquín 25g",
-      "m25": 116338,
-      "m26": 92683,
-      "var": -20.3,
-      "u26": 5358,
-      "part": 4.5,
+      "m25": 130647,
+      "m26": 108075,
+      "var": -17.3,
+      "u26": 6421,
+      "part": 4.7,
       "tend": "Cae"
     }
   ],
@@ -175,177 +185,177 @@
       "tienda": "HEB MTY VALLE ORIENTE",
       "ciudad": "MONTERREY",
       "cluster": "AA",
-      "monto": 98170,
-      "uds": 3673
+      "monto": 106354,
+      "uds": 4029
     },
     {
       "tienda": "HEB MTY CHIPINQUE",
       "ciudad": "MONTERREY",
       "cluster": "AA",
-      "monto": 95087,
-      "uds": 3899
+      "monto": 105835,
+      "uds": 4365
     },
     {
       "tienda": "HEB MTY SAN PEDRO",
       "ciudad": "MONTERREY",
       "cluster": "AA",
-      "monto": 91533,
-      "uds": 3943
+      "monto": 103436,
+      "uds": 4498
     },
     {
       "tienda": "HEB MTY VALLE ALTO",
       "ciudad": "MONTERREY",
       "cluster": "AA Light",
-      "monto": 82234,
-      "uds": 3271
+      "monto": 90486,
+      "uds": 3628
     },
     {
       "tienda": "HEB MTY CONTRY",
       "ciudad": "MONTERREY",
       "cluster": "A",
-      "monto": 79937,
-      "uds": 3284
+      "monto": 88324,
+      "uds": 3638
     },
     {
       "tienda": "HEB MTY TEC",
       "ciudad": "MONTERREY",
       "cluster": "A",
-      "monto": 75905,
-      "uds": 2956
-    },
-    {
-      "tienda": "HEB MTY SAN NICOLAS",
-      "ciudad": "MONTERREY",
-      "cluster": "A",
-      "monto": 62730,
-      "uds": 2351
+      "monto": 84731,
+      "uds": 3319
     },
     {
       "tienda": "HEB MTY EL URO",
       "ciudad": "MONTERREY",
       "cluster": "AA Light",
-      "monto": 62261,
-      "uds": 2709
+      "monto": 70824,
+      "uds": 3125
+    },
+    {
+      "tienda": "HEB MTY SAN NICOLAS",
+      "ciudad": "MONTERREY",
+      "cluster": "A",
+      "monto": 70435,
+      "uds": 2665
     },
     {
       "tienda": "HEB LEO CERRO GORDO",
       "ciudad": "LEON",
       "cluster": "AA Light",
-      "monto": 59795,
-      "uds": 2643
+      "monto": 65814,
+      "uds": 2898
     },
     {
       "tienda": "HEB MTY BOSQUES DE LAS LOMAS",
       "ciudad": "MONTERREY",
       "cluster": "A",
-      "monto": 52172,
-      "uds": 2070
+      "monto": 59673,
+      "uds": 2381
     },
     {
       "tienda": "HEB MTY CUMBRES",
       "ciudad": "MONTERREY",
       "cluster": "AA Light",
-      "monto": 50609,
-      "uds": 1971
+      "monto": 54363,
+      "uds": 2095
     },
     {
       "tienda": "HEB MTY PUERTA DE HIERRO",
       "ciudad": "MONTERREY",
       "cluster": "A",
-      "monto": 46195,
-      "uds": 1722
+      "monto": 50857,
+      "uds": 1881
     },
     {
       "tienda": "HEB MTY SANTA CATARINA",
       "ciudad": "MONTERREY",
       "cluster": "B",
-      "monto": 45034,
-      "uds": 1702
+      "monto": 50228,
+      "uds": 1929
     },
     {
       "tienda": "HEB MTY CONCORDIA",
       "ciudad": "MONTERREY",
       "cluster": "B",
-      "monto": 43192,
-      "uds": 1645
+      "monto": 46891,
+      "uds": 1767
     },
     {
       "tienda": "HEB SAL SAN PATRICIO",
       "ciudad": "SALTILLO",
       "cluster": "AA Light",
-      "monto": 41755,
-      "uds": 1683
+      "monto": 46264,
+      "uds": 1902
     }
   ],
   "clusters": [
     {
       "cluster": "A",
       "tiendas": 10,
-      "monto": 440980,
-      "uds": 16623,
-      "part": 21.2
+      "monto": 493321,
+      "uds": 18643,
+      "part": 21.3
     },
     {
       "cluster": "B",
       "tiendas": 15,
-      "monto": 435764,
-      "uds": 16662,
-      "part": 20.9
+      "monto": 481860,
+      "uds": 18595,
+      "part": 20.8
     },
     {
       "cluster": "AA Light",
       "tiendas": 8,
-      "monto": 385344,
-      "uds": 15268,
+      "monto": 427765,
+      "uds": 17056,
       "part": 18.5
     },
     {
       "cluster": "AA",
       "tiendas": 3,
-      "monto": 284790,
-      "uds": 11515,
-      "part": 13.7
+      "monto": 315624,
+      "uds": 12892,
+      "part": 13.6
     },
     {
       "cluster": "C",
       "tiendas": 10,
-      "monto": 253448,
-      "uds": 9504,
-      "part": 12.2
+      "monto": 284907,
+      "uds": 10793,
+      "part": 12.3
     },
     {
       "cluster": "B Bajío",
       "tiendas": 5,
-      "monto": 94221,
-      "uds": 3450,
-      "part": 4.5
+      "monto": 106753,
+      "uds": 3928,
+      "part": 4.6
     },
     {
       "cluster": "B Frontera",
       "tiendas": 6,
-      "monto": 83277,
-      "uds": 3319,
-      "part": 4.0
+      "monto": 90972,
+      "uds": 3702,
+      "part": 3.9
     },
     {
       "cluster": "C Bajío",
       "tiendas": 4,
-      "monto": 61173,
-      "uds": 2356,
+      "monto": 67942,
+      "uds": 2648,
       "part": 2.9
-    },
-    {
-      "cluster": "EAA",
-      "tiendas": 1,
-      "monto": 20847,
-      "uds": 1063,
-      "part": 1.0
     },
     {
       "cluster": "N/D",
       "tiendas": 3,
-      "monto": 20195,
-      "uds": 731,
+      "monto": 23530,
+      "uds": 851,
+      "part": 1.0
+    },
+    {
+      "cluster": "EAA",
+      "tiendas": 1,
+      "monto": 22207,
+      "uds": 1146,
       "part": 1.0
     }
   ],
@@ -360,6 +370,8 @@
       "precioMay": 18.78,
       "dPrecio": -2.8,
       "dVs25": 1.3,
+      "tiendasAbr": 59,
+      "tiendasMay": 57,
       "veredicto": "Sí moderado"
     },
     {
@@ -372,6 +384,8 @@
       "precioMay": 16.93,
       "dPrecio": -2.2,
       "dVs25": -18.7,
+      "tiendasAbr": 63,
+      "tiendasMay": 61,
       "veredicto": "Sí moderado"
     },
     {
@@ -384,27 +398,29 @@
       "precioMay": 33.21,
       "dPrecio": -7.7,
       "dVs25": 22.1,
+      "tiendasAbr": 55,
+      "tiendasMay": 55,
       "veredicto": "Sí fuerte"
     }
   ],
   "formatos": [
     {
       "formato": "Familiar 125g + Chicharrón",
-      "m25": 1190323,
-      "m26": 1212911,
-      "var": 1.9,
-      "u25": 31702,
-      "u26": 31955,
-      "varU": 0.8
+      "m25": 1335226,
+      "m26": 1350383,
+      "var": 1.1,
+      "u25": 35498,
+      "u26": 35598,
+      "varU": 0.3
     },
     {
       "formato": "Individual 25g / 30g",
-      "m25": 1045705,
-      "m26": 867128,
-      "var": -17.1,
-      "u25": 57107,
-      "u26": 48536,
-      "varU": -15.0
+      "m25": 1178824,
+      "m26": 964498,
+      "var": -18.2,
+      "u25": 64795,
+      "u26": 54656,
+      "varU": -15.6
     }
   ]
 }

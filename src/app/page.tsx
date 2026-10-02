@@ -11,8 +11,9 @@ import {
 } from "lucide-react";
 import DATA from "./reporte-data.json";
 
-/* Datos calculados desde sellout-heb.xlsx; corte completo al 31-ago-2026. */
-const CORTE = "Al 31 Ago 2026";
+/* Datos calculados desde sellout-heb.xlsx; corte dinámico al último mes disponible. */
+const CORTE = DATA.corte;
+const RANGO = DATA.rango;
 const YTD = DATA.ytd;
 const VENTAS_MES = DATA.ventasMes;
 const PRODUCTOS = DATA.productos;
@@ -26,17 +27,17 @@ const CLUSTERS = DATA.clusters;
 const PROMO = DATA.promo;
 
 const HALLAZGOS = [
-  "La venta YTD cae −7.0% en pesos ($2.08M vs $2.24M) y −9.4% en unidades. La caída es de volumen: el precio promedio subió +2.6% a $25.84 y amortiguó parte del impacto.",
-  "El formato individual (25g/30g) concentra el problema: −17.1% en pesos y −15.0% en unidades. Las presentaciones de 25g caen entre −18% y −24%.",
-  "El formato familiar 125g + Chicharrón crece +1.9% y Chicharrón Natural es el único SKU de crecimiento fuerte (+13.5%), con 25.2% de la venta.",
-  "La segunda mitad empeora: junio −7.4%, julio −10.7% y agosto −8.6% en pesos. Agosto cerrado confirma que no fue un efecto de corte parcial.",
+  "La venta YTD cae −7.9% en pesos ($2.31M vs $2.51M) y −10.0% en unidades. El precio promedio sube +2.3% a $25.65 y amortigua parte del hueco de volumen.",
+  "El formato individual (25g/30g) concentra el problema: −18.2% en pesos y −15.6% en unidades. El formato familiar crece +1.1% en pesos.",
+  "Chicharrón Natural es el motor: +11.0% vs 2025 y 25.1% de participación YTD. Classic White 125g se mantiene estable (+2.1%).",
+  "La caída mensual tocó su peor punto en marzo (−16.4% en pesos) y volvió a acelerarse en septiembre (−15.5%).",
   "Los clusters A y B aportan 42.1% de la venta; el volumen no está solo en tiendas AA. Son el principal pool para recuperar rotación.",
 ];
 
 const ACCIONES = [
   { n: 1, titulo: "Auditar el anaquel de 25g", texto: "La caída de las presentaciones individuales es consistente. Revisar planograma, frente y exhibición en las top 15 tiendas antes de profundizar descuentos." },
-  { n: 2, titulo: "Escalar Chicharrón Natural", texto: "Es el motor del portafolio (+13.5%) y ya aporta una cuarta parte de la venta. Asegurar disponibilidad y buscar frente adicional en las 65 tiendas." },
-  { n: 3, titulo: "Activar clusters A y B", texto: "25 tiendas aportan 42.1% de la venta. Concentrar activación y seguimiento ahí para recuperar los ~$156K que faltan frente a 2025." },
+  { n: 2, titulo: "Escalar Chicharrón Natural", texto: "Es el motor del portafolio (+11.0%) y aporta 25.1% de la venta. Asegurar disponibilidad y buscar frente adicional en las 65 tiendas activas." },
+  { n: 3, titulo: "Activar clusters A y B", texto: "25 tiendas aportan 42.1% de la venta. Concentrar activación y seguimiento ahí para recuperar los ~$199K que faltan frente a 2025." },
 ];
 
 /* ── Helpers ────────────────────────────────────────────────── */
@@ -89,7 +90,7 @@ function Slide1() {
           <div>
             <h1 className="text-3xl font-bold text-orange-900">Reporte de Sell-Out</h1>
             <h2 className="text-xl text-orange-700">4BUDDIES × HEB</h2>
-            <p className="text-orange-600 text-sm">YTD 2026 vs 2025 · Enero – Agosto (meses completos)</p>
+            <p className="text-orange-600 text-sm">YTD 2026 vs 2025 · {RANGO.replace(" 2026", "")}</p>
           </div>
         </div>
 
@@ -109,7 +110,7 @@ function Slide1() {
         </div>
 
         <div className="bg-white rounded-xl shadow p-4 border border-orange-200 flex-1">
-          <h3 className="text-sm font-semibold text-orange-700 mb-2">Venta por mes — 2025 vs 2026 (Ene – Ago)</h3>
+          <h3 className="text-sm font-semibold text-orange-700 mb-2">Venta por mes — 2025 vs 2026 (Ene – May)</h3>
           <table className="w-full text-xs">
             <thead>
               <tr className="bg-orange-700 text-white">
@@ -151,7 +152,7 @@ function Slide1() {
             </tbody>
           </table>
           <p className="text-[10px] text-orange-500 mt-3">
-            Agosto cerrado. Excluye CEDIS y SKUs discontinuados/sin presencia.
+            Corte {RANGO}. Excluye CEDIS y SKUs discontinuados/sin presencia.
           </p>
         </div>
       </div>
@@ -169,7 +170,7 @@ function Slide2() {
             <Logo />
             <h2 className="text-xl font-bold text-orange-900">Venta Mensual — 2025 vs 2026</h2>
           </div>
-          <span className="text-[10px] text-orange-500">Enero–agosto completos · comparación simétrica</span>
+          <span className="text-[10px] text-orange-500">{RANGO} · comparación simétrica</span>
         </div>
 
         <div className="flex gap-4 flex-1">
@@ -254,8 +255,8 @@ function Slide2() {
         </div>
 
         <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
-          <strong>Lectura:</strong> El año arrancó parejo (Ene −1.4%) pero se deterioró desde junio: Jun −7.4%, Jul −10.7% y Ago −8.6%.
-          En todos los meses la caída en unidades es mayor que en pesos: el precio promedio (+2.6%) amortigua parte del hueco de volumen.
+          <strong>Lectura:</strong> Marzo fue el bache más fuerte (−16.4% en pesos); septiembre volvió a acelerar la caída (−15.5%).
+          En todos los meses la caída en unidades es mayor que en pesos; el precio promedio (+2.3%) amortigua parte del hueco de volumen.
         </div>
       </div>
     </Slide>
@@ -272,7 +273,7 @@ function Slide3() {
             <Logo />
             <h2 className="text-xl font-bold text-orange-900">Desempeño por Producto — YTD 2026 vs 2025</h2>
           </div>
-          <span className="text-[10px] text-orange-500">Ene – Ago 2026</span>
+          <span className="text-[10px] text-orange-500">{RANGO}</span>
         </div>
 
         <div className="flex gap-4 flex-1">
@@ -300,7 +301,7 @@ function Slide3() {
               ))}
             </div>
             <p className="text-[10px] text-orange-600 mt-2 pt-2 border-t border-orange-100">
-              Top 3 productos = <strong>51.5%</strong> de la venta
+              Top 3 productos = <strong>51.4%</strong> de la venta
             </p>
           </div>
 
@@ -355,16 +356,16 @@ function Slide3() {
                 </tbody>
               </table>
               <p className="text-[10px] text-orange-600 mt-2">
-                Toda la caída del año vive en el formato individual. El familiar está plano/positivo.
-                Las presentaciones de 25g caen entre −18% y −24% en pesos.
+                La caída se concentra en el formato individual. El familiar crece en pesos.
+                Las presentaciones de 25g caen entre −17% y −26% en pesos.
               </p>
             </div>
           </div>
         </div>
 
         <div className="mt-3 bg-white/80 rounded-lg p-2 text-[11px] text-orange-800 border border-orange-200">
-          <strong>Lectura:</strong> <strong>Chicharrón Natural</strong> es el motor (+13.5%) y ya es el #1 con 25.2% de participación.
-          El daño está en los individuales: Street Elote 25g −24.4%, Classic White 25g −22.1%, Chile Piquín −20.3% y Cheddar 25g −18.2%.
+          <strong>Lectura:</strong> <strong>Chicharrón Natural</strong> es el motor (+11.0%) y ya es el #1 con 25.1% de participación.
+          El daño está en los individuales: Street Elote 25g −25.5%, Classic White 25g −24.5% y Cheddar 25g −19.9%.
           Que caigan casi igual apunta a un problema de anaquel/rotación, no de demanda aislada.
         </div>
       </div>
@@ -383,7 +384,7 @@ function Slide4() {
             <Logo />
             <h2 className="text-xl font-bold text-orange-900">Top Tiendas y Clusters — YTD 2026</h2>
           </div>
-          <span className="text-[10px] text-orange-500">Ene – Ago 2026 · 65 tiendas activas</span>
+          <span className="text-[10px] text-orange-500">{RANGO} · {YTD.tiendas} tiendas activas</span>
         </div>
 
         <div className="flex gap-4 flex-1">
@@ -414,7 +415,7 @@ function Slide4() {
               </tbody>
             </table>
             <p className="text-[10px] text-orange-600 mt-2">
-              Top 15 = <strong>48.0%</strong> de la venta
+              Top 15 = <strong>47.3%</strong> de la venta
             </p>
           </div>
 
